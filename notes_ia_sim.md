@@ -3,6 +3,9 @@
 # Ideas para Proyecto IA_Sim
 
 ### Definir Problematica a simular:
+
+**La idea general es crear una simulacion minimalista de mercado donde se pueda modelar cadenas de suministro, logistica, competencia, oferta y demanda de productos, asi como el comportamiento de los agentes que participan en el mercado.**
+
 ## Agente Empresas
 + Dado un numero $N$ de empresas las cuales comercializan un mismo producto final, se busca simular el comportamiento de estas empresas en base al dinamismo del mercado, la competencia y la demanda del producto.
 
