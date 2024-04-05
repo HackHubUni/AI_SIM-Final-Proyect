@@ -1,6 +1,5 @@
 import queue
 import time as t
-
 class Env:
     def __init__(self,city):
         self.time =  t.time()
@@ -47,7 +46,7 @@ class EnvionmentEmp:
             t.sleep(1)
             if not self.requestarrival.empty():
                 request =self.requestarrival.get()
-                emp.
+                
                     
 
 

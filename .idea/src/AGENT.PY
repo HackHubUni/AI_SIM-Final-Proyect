@@ -1,13 +1,13 @@
 from agentpy import Agent, Belief, Desire, Intention, Plan
-from agentprotocol import Agent as ag
-class MonoEmpAgent(Agent, ag):
+from protocol.agentprotocol import Agent as ag
+class EmpAgent(Agent, ag):
     def __init__(self, name, beliefs, desires, intentions, plans, enviorement):
         super().__init__(name, beliefs, desires, intentions, plans, enviorement)
         
     
 
     def brf(self):
-        
+
         pass
 
 
@@ -25,7 +25,7 @@ class MonoEmpAgent(Agent, ag):
         ...
 
 # Crear una instancia del agente
-agent = MyAgent()
+agent = EmpAgent()
 
 # Ejecutar el agente
 agent.run()

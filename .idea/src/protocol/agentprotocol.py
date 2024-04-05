@@ -16,3 +16,6 @@ class Agent(abc.Protocol):
     
         ...
 
+class MyEmp(Agent):
+    def hola():
+        pass
