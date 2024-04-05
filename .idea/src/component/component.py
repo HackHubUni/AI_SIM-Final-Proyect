@@ -19,6 +19,9 @@ class Believes:
         return belief in self.believes
     
 
+class Belief:
+    
+
 class Desires:
     # conjunto de objetivos que el agente quiere alcanzar
     def __init__(self):
