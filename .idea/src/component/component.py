@@ -1,3 +1,4 @@
+from collections import abc
 class Believes:
     # conjunto de la info del agente sobre el ambiente
     def __init__(self):
@@ -18,9 +19,26 @@ class Believes:
     def contains(self, belief):
         return belief in self.believes
     
+class Belief(abc.Protocol):
+    def __init__(self, name,best):
+        self.types = name
+        self. best = best
 
-class Belief:
-    
+class BestBelief(Belief):
+    def __init__(self, name,best):
+        super.__init__(name,best)
+         #name:producto
+         # best:lista de los mejores proveedores de un determinado producto
+
+class WordAparenceBelief(Belief):
+    def __init__(self, name,best):
+        super.__init__(name,best)
+        # name: es el tipo a analizar ebn la ciudad ya sea productor monoproducto 
+        # best es la lista de instancuias existebntes de este tipo
+
+
+
+        
 
 class Desires:
     # conjunto de objetivos que el agente quiere alcanzar
@@ -61,3 +79,4 @@ class Intentions:
     
     def contains(self, intention):
         return intention in self.intentions
+    

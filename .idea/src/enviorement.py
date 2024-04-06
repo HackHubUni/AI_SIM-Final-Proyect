@@ -4,6 +4,7 @@ class Env:
     def __init__(self,city):
         self.time =  t.time()
         self.Producer = set()
+        self.Product = set()
         self.Product_Producer = {}
         self.city = city
 
@@ -33,7 +34,7 @@ class EnviorementEmp:
         #devuelve el costo por almacenaje del producto esto lo tiene cada producto
         pass
 
-   
+     
     
 class ShopRequest:
     def __init__(self,product, amount, time):
@@ -45,6 +46,6 @@ class ShopRequest:
         return(print("{Product}, cant = {amount}, time = {t}", self.product,self.amount,self.amount))
     
 
-class EnviorementShop()
+class EnviorementShop():
     
     
