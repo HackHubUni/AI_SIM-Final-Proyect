@@ -48,6 +48,6 @@ class ShopRequest:
         return(print("{Product}, cant = {amount}, time = {t}", self.product,self.amount,self.amount))
     
 
-class EnviorementShop():
+#class EnviorementShop():
     
     

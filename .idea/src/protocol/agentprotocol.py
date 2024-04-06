@@ -15,6 +15,3 @@ class Agent(abc.Protocol):
         pass
     
         ...
-
-class MyEmp(Agent):
-    
