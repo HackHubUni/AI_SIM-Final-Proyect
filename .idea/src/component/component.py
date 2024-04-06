@@ -36,8 +36,11 @@ class WordAparenceBelief(Belief):
         # name: es el tipo a analizar ebn la ciudad ya sea productor monoproducto 
         # best es la lista de instancuias existebntes de este tipo
 
-
-
+class ShopBelief(Belief):
+    def __init__(self, name,best):
+        super.__init__(name,best)
+        # name: el nombre de la tienda a analizar
+        # best el costo de transportacion de cada tienda
         
 
 class Desires:
@@ -60,6 +63,12 @@ class Desires:
     def contains(self, desire):
         return desire in self.desires
 
+class Desire():
+    def __init__(self, product,shop,price) :
+        self.product= product
+        self.shop = shop
+        self.price = price
+
 class Intentions:
     # conjunto de planes que el agente ha decidido seguir
     def __init__(self):
@@ -80,3 +89,8 @@ class Intentions:
     def contains(self, intention):
         return intention in self.intentions
     
+
+class Intention():
+    def __init__(self, desire:Desire, producer_cost) :
+        self.desire = desire
+        self.producer_cost = producer_cost

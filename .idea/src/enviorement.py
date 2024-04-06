@@ -5,6 +5,7 @@ class Env:
         self.time =  t.time()
         self.Producer = set()
         self.Product = set()
+        self.Shop = set()
         self.Product_Producer = {}
         self.city = city
 
@@ -37,8 +38,9 @@ class EnviorementEmp:
      
     
 class ShopRequest:
-    def __init__(self,product, amount, time):
-        self.product = product
+    def __init__(self,product:list, amount:list, time, shop):
+        self.Shop = shop
+        self.product = product # lista de productos, price
         self.request_time = time
         self.amount = amount
 
