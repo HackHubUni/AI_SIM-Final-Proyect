@@ -23,6 +23,7 @@ class EnviorementEmp:
         self.R = 0 # ingreso de solicitudes satisfechas ganacia 
         self.P = 0 # ingreso de solicitudes no satisfechas perdida
         self.Replacent_Cost =set() # guarda el costo de llegar de los proveedores ala empresa producer,cost
+        self.Balance = 0 # balance de la empresa
         
         
 
@@ -38,8 +39,19 @@ class EnviorementEmp:
     def update_product(self,product,amount):# update de stock comprando el producto
         pass
 
-     
+class EnviorementShop:
+    def __init__(self,env:Env,) :
+        self.env = env
+        self.time = t.time()
+        self.number_of_arrival = 0
+        self.number_of_arrival = 0
+        self.arrival_time = {}
+        self.departure_time = {}
+        self.number_of_clients = 0
+
     
+        
+
 class ShopRequest:
     def __init__(self,product:list, amount:list, time, shop):
         self.Shop = shop

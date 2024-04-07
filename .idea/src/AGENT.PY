@@ -4,13 +4,14 @@ import time as t
 from enviorement import*
 from component.component import *
 from protocol.producer import Producer
-class EmpAgent(Agent, ag):
+class EmpAgent( ag):
     def __init__(self, name, beliefs:Believes, desires:Desires, intentions:Intentions, plans, enviorement, empenv:EnviorementEmp,min_stock:int):
         self.env = empenv
         self.Believes= beliefs
         self.Desires = desires
         self.Intentions = intentions
         self.min_stock = min_stock
+        
         
     #metodos sin implementar
     def update_product(product):
@@ -59,7 +60,7 @@ class EmpAgent(Agent, ag):
         #se encargara de buscar las opciones de los productos en el ambiente
         self.Desires.clear()
         for request in range(5):
-            if not self.env.need.empty():
+            if not self.env.requestarrival.empty():
                 shop_request = self.env.requestarrival.get()
                 if len(shop_request.product) >1:
                     count = 0
@@ -97,6 +98,10 @@ class EmpAgent(Agent, ag):
             self.Intentions.add(Intention(desire,cost,need))       
                             
     def execute(self):
+        self.brf()
+        self.options()
+        self.filter()
+        delivery = []
         #ejecutar las intenciones
         for intention in self.Intentions:
             if intention.desire.price * intention.desire.amount > intention.producer_cost:
@@ -110,14 +115,26 @@ class EmpAgent(Agent, ag):
                     self.env.stock[intention.desire.product.name] = a
                 else:
                     self.stock = intention.desire.product.produce(self.stock)
-        return ShopDelivery(intention.desire.product,intention.desire.amount,t.time(),intention.desire.shop)
+                self.env.Balance -=intention.producer_cost
+                self.Intentions.remove(intention)
+                
+            delivery.append(ShopDelivery(intention.desire.product,t.time(),intention.desire.shop))
+        return delivery
 
 
-
-    #EVENTO DE SOLICITUD ( CUANDO LA TIENDA M PIDE)
+    '''#EVENTO DE SOLICITUD revisar las solicites cada cierto tiempo
     def check_request(self):
         while True:
             t.sleep(1)
-            if not self.env.requestarrival.empty():
-                request =self.env.requestarrival.get()
-                self.execute(request)
+            self.execute()'''
+                
+
+
+class ShopAgent(ag):
+    def __init__(self, name, beliefs:Believes, desires:Desires, intentions:Intentions, plans, enviorement, empenv,min_stock:int):
+        self.env = empenv
+        self.Believes= beliefs
+        self.Desires = desires
+        self.Intentions = intentions
+        self.min_stock = min_stock
+    
