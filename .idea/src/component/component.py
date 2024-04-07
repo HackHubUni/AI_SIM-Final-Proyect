@@ -1,4 +1,5 @@
 from collections import abc
+from protocol.productprotocol import *
 class Believes:
     # conjunto de la info del agente sobre el ambiente
     def __init__(self):
@@ -43,12 +44,18 @@ class ShopBelief(Belief):
         # best el costo de transportacion de cada tienda
         
 
+class Desire():
+    def __init__(self, product:Product,shop,price,amount) :
+        self.product= product
+        self.shop = shop
+        self.price = price
+        self.amount = amount
 class Desires:
     # conjunto de objetivos que el agente quiere alcanzar
     def __init__(self):
         self.desires = set()
     
-    def add(self, desire):
+    def add(self, desire:Desire):
         self.desires.add(desire)
     
     def remove(self, desire):
@@ -63,18 +70,17 @@ class Desires:
     def contains(self, desire):
         return desire in self.desires
 
-class Desire():
-    def __init__(self, product,shop,price) :
-        self.product= product
-        self.shop = shop
-        self.price = price
-
+class Intention():
+    def __init__(self, desire:Desire, producer_cost, need_product) :
+        self.desire = desire
+        self.producer_cost = producer_cost
+        self.need_product = need_product# lista de producrtos necesarios para satisfacer el deseo
 class Intentions:
     # conjunto de planes que el agente ha decidido seguir
     def __init__(self):
         self.intentions = set()
     
-    def add(self, intention):
+    def add(self, intention:Intention):
         self.intentions.add(intention)
     
     def remove(self, intention):
@@ -90,7 +96,3 @@ class Intentions:
         return intention in self.intentions
     
 
-class Intention():
-    def __init__(self, desire:Desire, producer_cost) :
-        self.desire = desire
-        self.producer_cost = producer_cost

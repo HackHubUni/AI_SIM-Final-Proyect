@@ -22,6 +22,7 @@ class EnviorementEmp:
         self.need = queue.Queue()
         self.R = 0 # ingreso de solicitudes satisfechas ganacia 
         self.P = 0 # ingreso de solicitudes no satisfechas perdida
+        self.Replacent_Cost =set() # guarda el costo de llegar de los proveedores ala empresa producer,cost
         
         
 
@@ -29,7 +30,7 @@ class EnviorementEmp:
         return self.env.time
     def replacent_cost(self,product, amount): #Costo de reemplazo R
         #devuelve el costo de reemplazo de un producto buscando la mejor opcion mirando 
-        #el costo de reemplazo de los productos en el ambiente y el precio de tranportacion
+        #el costo de reemplazo de los productos en el ambiente y el precio de transportacion
         pass
     def  storage_cost(self,env,product, amount):#Costo de almacenaje H
         #devuelve el costo por almacenaje del producto esto lo tiene cada producto

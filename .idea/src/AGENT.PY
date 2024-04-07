@@ -3,21 +3,28 @@ from protocol.agentprotocol import Agent as ag
 import time as t
 from enviorement import EnviorementEmp
 from component.component import *
-
+from protocol.producer import Producer
 class EmpAgent(Agent, ag):
-    def __init__(self, name, beliefs:Believes, desires:Desires, intentions, plans, enviorement, empenv:EnviorementEmp):
+    def __init__(self, name, beliefs:Believes, desires:Desires, intentions:Intentions, plans, enviorement, empenv:EnviorementEmp,min_stock:int):
         self.env = empenv
         self.Believes= beliefs
         self.Desires = desires
+        self.Intentions = intentions
+        self.min_stock = min_stock
         
     #metodos sin implementar
     def update_product(product):
         #se encargara en guaradr el mejor productor para un deteermionado producto
         pass
-    def update_shop(shop):
+    def update_shop(shop) -> float:
         #se encargara en guaradr el costo de llegar a una tienda en cuanto a transporte
         pass
-
+    def update_stock(self,product):# llenar el stock en lo que se le pide
+        for i in self.Desires:
+                                if isinstance(i,BestBelief) and i.product == need_product[0].product:#tomar el mejor productor
+                                    for replacent in self.env.Replacent_Cost:
+                                        if replacent[0] == need_product[0]:
+                                            cost  = replacent[1]# costo de transporte
 
 
     def brf(self):
@@ -61,8 +68,42 @@ class EmpAgent(Agent, ag):
 
     def filter(self):# desicion de que productos va aprodducir y que tiendas va a visitar ( prductos que no le representes perdidas)
        # analizando stock y costo de reemplazo,transporte y todo
-        pass
-        
+
+        for desire in self.Desires:
+            cost = 0
+            need = []
+            if isinstance(desire.product,ProcessedProduct):
+                for need_product in desire.product.ingredients:
+                    if need_product[0] not in self.env.env.Product:
+                        raise Exception("No se puede producir el producto, no se encuentra en el ambiente")
+                            
+                    if need_product[0] is self.env.stock:
+                        if  need_product[1] > self.env.stock[need_product[0]]:
+                            # si no esta en el stock hay q comprarlo hayq sumar el costo d eso
+                            need.append(need_product[0],need_product[1] - self.env.stock[need_product[0]]+self.min_stock)
+                            cost += self.update_stock(need_product[0])
+            else:
+                if desire.product not in self.env.env.Product:
+                    raise Exception("No se puede producir el producto, no se encuentra en el ambiente")
+                elif not desire.product is self.env.stock:
+                    cost+= self.update_stock(desire.product)
+                    need.append(desire.product,desire.amount+self.min_stock)               
+                elif desire.amount > self.env.stock[desire.product]:
+                    cost+= self.update_stock(desire.product)
+                    need.append(desire.product,desire.amount-self.env.stock[desire.product] +self.min_stock)
+            self.Intentions.add(Intention(desire,cost,need))       
+                            
+    def execute(self):
+        #ejecutar las intenciones
+        for intention in self.Intentions:
+            if intention.desire.price * intention.desire.amount > intention.producer_cost:
+                self.
+                if len(intention.needs_product)>0:
+                    for need in intention.needs_product:
+                        
+
+
+                intention.desire.product.produce()     
 
 
 
