@@ -35,6 +35,8 @@ class EnviorementEmp:
     def  storage_cost(self,env,product, amount):#Costo de almacenaje H
         #devuelve el costo por almacenaje del producto esto lo tiene cada producto
         pass
+    def update_product(self,product,amount):# update de stock comprando el producto
+        pass
 
      
     
@@ -47,7 +49,16 @@ class ShopRequest:
 
     def print(self):
         return(print("{Product}, cant = {amount}, time = {t}", self.product,self.amount,self.amount))
-    
+
+class ShopDelivery:
+    def __init__(self,product:list, amount:list, time, shop):
+        self.Shop = shop
+        self.product = product # lista de productos
+        self.request_time = time
+        self.amount = amount
+
+    def print(self):
+        return(print("{Product}, cant = {amount}, time = {t}", self.product,self.amount,self.amount))  
 
 #class EnviorementShop():
     

@@ -1,7 +1,7 @@
 from agentpy import Agent, Belief, Desire, Intention, Plan
 from protocol.agentprotocol import Agent as ag
 import time as t
-from enviorement import EnviorementEmp
+from enviorement import*
 from component.component import *
 from protocol.producer import Producer
 class EmpAgent(Agent, ag):
@@ -20,12 +20,14 @@ class EmpAgent(Agent, ag):
         #se encargara en guaradr el costo de llegar a una tienda en cuanto a transporte
         pass
     def update_stock(self,product):# llenar el stock en lo que se le pide
+
         for i in self.Desires:
                                 if isinstance(i,BestBelief) and i.product == need_product[0].product:#tomar el mejor productor
                                     for replacent in self.env.Replacent_Cost:
                                         if replacent[0] == need_product[0]:
                                             cost  = replacent[1]# costo de transporte
-
+    def transport_shop(shop):# costo de transporte hasta la tienda
+        pass
 
     def brf(self):
         change = 0
@@ -91,19 +93,24 @@ class EmpAgent(Agent, ag):
                 elif desire.amount > self.env.stock[desire.product]:
                     cost+= self.update_stock(desire.product)
                     need.append(desire.product,desire.amount-self.env.stock[desire.product] +self.min_stock)
+            cost+=self.transport_shop(desire.shop)
             self.Intentions.add(Intention(desire,cost,need))       
                             
     def execute(self):
         #ejecutar las intenciones
         for intention in self.Intentions:
             if intention.desire.price * intention.desire.amount > intention.producer_cost:
-                self.
-                if len(intention.needs_product)>0:
+                self.env.R +=1
+                if not  len(intention.needs_product)is None:
                     for need in intention.needs_product:
-                        
-
-
-                intention.desire.product.produce()     
+                        self.env.update_product(need[0],[need[1]])
+                if isinstance(intention.desire.product, BaseProduct):
+                    a = self.env.stock[intention.desire.product.name]
+                    a = a-intention.desire.amount
+                    self.env.stock[intention.desire.product.name] = a
+                else:
+                    self.stock = intention.desire.product.produce(self.stock)
+        return ShopDelivery(intention.desire.product,intention.desire.amount,t.time(),intention.desire.shop)
 
 
 
@@ -114,10 +121,3 @@ class EmpAgent(Agent, ag):
             if not self.env.requestarrival.empty():
                 request =self.env.requestarrival.get()
                 self.execute(request)
-
-
-# Crear una instancia del agente
-agent = EmpAgent()
-
-# Ejecutar el agente
-agent.run()

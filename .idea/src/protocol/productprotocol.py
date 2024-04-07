@@ -10,6 +10,7 @@ class Product(abc.Protocol):
         pass    
     def proper_humidity(self, humidity):
         pass
+    
 
 class BaseProduct(Product):
     def __init__(self, name, quality, gross_price, ideal_temperature,ideal_humidity, time_to_produce):
@@ -33,6 +34,8 @@ class BaseProduct(Product):
         if not self.ideal_humidity - humidity < 2:
             self.quality -= 1
 
+    
+
 
    
 class ProcessedProduct(BaseProduct, Product):
@@ -52,16 +55,18 @@ class ProcessedProduct(BaseProduct, Product):
         if not self.ideal_humidity - humidity < 2:
             self.quality -= 1
 
-    def produce(self, ingredients):
+    def produce(self, ingredients:dict):
         count = 0
         qualities = 0
         for ingredient in self.ingredients:
-            for i in ingredients:
-                if ingredient[0].name == i[0].name:
+            for k,v in ingredients:
+                if ingredient[0].name == k.name:
                     count += 1
-                    if i[1] < ingredient[1]:
+                    if v < ingredient[1]:
                         return False
-                    qualities += i[0].quality
+                    qualities += k.quality
+                    v-= ingredient[1]
+        
         if count == len(self.ingredients):
             self.quality =  qualities/count  
             self.create = True
