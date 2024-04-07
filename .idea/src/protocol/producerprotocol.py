@@ -36,7 +36,7 @@ class BaseProduct(Product):
 class ProcessedProduct(BaseProduct, Product):
     def __init__(self, name, quality, gross_price, time_to_produce, ideal_temperature, ideal_humidity,ingredients):
         super().__init__(name, quality, gross_price, ideal_temperature, ideal_humidity, time_to_produce)
-        self.ingredients = ingredients
+        self.ingredients = ingredients#(Product, int)
 
     def price(self):
         return self.quality * self.gross_price
@@ -48,6 +48,10 @@ class ProcessedProduct(BaseProduct, Product):
     def proper_humidity(self, humidity):
         if not self.ideal_humidity - humidity < 2:
             self.quality -= 1
+
+    def produce(self, ingredients):
+        for ingredient in self.ingredients:
+            if ingredient
 
 
     
