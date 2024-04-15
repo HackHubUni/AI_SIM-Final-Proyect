@@ -1,6 +1,14 @@
 # Proyecto Final de las asignaturas Inteligencia Artificial y Simulación 
 ## Tema: Cadenas de suministro.
 
+
+
+## Integrantes:
+- Carla S. Pérez Varela
+- Francisco V. Suárez Bellón
+- Leismael Sosa
+- Lázaro David Alba
+
 # Índice 
 
 -[Introducción](#Introducción)
@@ -236,7 +244,7 @@ cuanto es un estimado de la cantidad de perdidas de ventas por los cambios brusc
 
 
 
-# AI:
+### AI:
 
 En el campo de la inteligencia artificial, tenemos varios problemas los cuales le damos solución (sin entrar a nombrar el algoritmo a elegir dado que es probable que pueda cambiar antes de la entrega):
 - Búsqueda : a través de ella como puede encontrar del camino y transportista óptimo, para el transporte de carga
