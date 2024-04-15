@@ -4,8 +4,11 @@
 # Índice 
 
 -[Introducción](#Introducción)
--[Definición del problema](#definición-del-problema)
+-[Definición del problema y objetivos](#definición-del-problema)
 -[Nuestras definiciones internas](#como-abordaremos-el-problema)
+-[Temas académicos a cumplir](#temas-a-cumplir)
+
+
 
 
 ## Introducción
@@ -38,7 +41,7 @@ un cambio repentino del gusto de los consumidores como puede ser una campaña ag
 como la pérdida temporal de la confianza en un local o la firma por algún evento como puede ser que hayan ratas en un establecimiento
 o un escándalo de proporciones épicas sobre la marca comercial. Ante esto queremos dar resultados sobre dado una cadena inicial,
 su comportamiento ante un grupo de eventos esperados con cierta probabilidad, que tanto puede afectar económicamente la empresa
-si dicha cadena através de la retroalimentación puede ajustarse para ser menos vulnerable a estos, que cantidad de clientes potenciales 
+si dicha cadena a través de la retroalimentación puede ajustarse para ser menos vulnerable a estos, que cantidad de clientes potenciales 
 perder, cuanto stock puede ser necesario para dichos eventos, como podemos establecer parámetros para hacer los picos de oferta y
 demanda más suaves.
 
@@ -180,12 +183,80 @@ Nuestro enfoque es en primeramente simular una población de individuos donde ca
 
 - ¿Cuál es su tiempo de vida? - El tiempo de vida de este en la simulación. Esto no quiere decir
  "muerte", sino que simplemente sale de la ciudad (se va de viaje o algo así).
- Entre otras variables de las que se hablará más detenidamente en el documento específico de los
- clientes.
- Estas características de los clientes influirá en su decisión de a que empresa le va a comprar que
+ 
+  
+ Estas características de los clientes influirá en su decisión de a qué empresa le va a comprar que
  producto. Esto a su vez influye en el número de ventas que tendrá cada empresa (y cada producto de
  ellas) lo que a su vez influirá en las decisiones que tomará la empresa a la hora de mantener o modificar
  su cadena de suministros.
+
+
+
+### Mapa
+Para este apartado tendremos en cuenta los siguientes factores:
+ - Establecer la relación de distancia entre las distintas empresas, con base en su distancia mínima.
+ - Establecer la relación de distancia entre un consumidor y las tiendas, con base en su distancia mínima..
+
+El mapa será un grafo dirigido ponderado que describiremos como 2:
+- El grafo que tiene como vértices las empresas y los arcos como la distancia mínima entre estas.
+- El grafo bi-partito que lo relaciona a cada consumidor con una o más tiendas.
+
+
+Nota: Para el caso de las empresas logísticas calcular su precio, este será a través de la distancia minima entre dos empresas.
+con base en sus creencias intrínsecas denotará un precio y el tiempo a recorrer, esto permite abstraer.
+que dos distribuidores utilizar distintas rutas entre dos empresas o tengan distintos precios para iguales trayectos en iguales condiciones.
+
+
+
+
+## Temas a cumplir:
+
+### Simulación: 
+
+#### Ambiente:
+
+Se tendrá como ambiente un conjunto de empresas y de consumidores, añadido de variables aleatorias, que 
+simularán los eventos aleatorios como aumento o disminución de la población de consumidores o un sector de estos en específico.
+La desaparición repentina o cambio de un arco entre dos empresas, simulando que puede existir que se corte la comunicación directa entre estos
+o que aumente o disminuye el valor de dicho arco, simulando que se está reparando la carretera o que se ha construido un tramo más corto.
+
+#### Agentes:
+Los agentes los cuales con base en las creencias que están en las definiciones anteriores tomarán una serie de decisiones ante eventos aleatorios serán:
+- Las empresas.
+- Los consumidores.
+
+
+#### Condición de parada de la simulación:
+Dado que nos centraremos en la exposición de este en eventos donde se aumenta drásticamente las demandas 
+el caso de parada es cuando la desviación estandar de clientes no satisfechos encuentra una meseta en un número X osea no decrece más y pasadas 100 repeticiones extras para asegurar que no se está en un punto de ensilladura.
+Esto es dado que nuestro objetivo es conocer que durante un concierto con una cantidad estimada X de aglomeración extra
+cuanto es un estimado de la cantidad de perdidas de ventas por los cambios bruscos en la demanda.
+
+
+
+
+
+# AI:
+
+En el campo de la inteligencia artificial, tenemos varios problemas los cuales le damos solución (sin entrar a nombrar el algoritmo a elegir dado que es probable que pueda cambiar antes de la entrega):
+- Búsqueda : a través de ella como puede encontrar del camino y transportista óptimo, para el transporte de carga
+como satisfacer las necesidades de suministro dado una demanda de una empresa X.
+- Procesamiento del Lenguaje Natural: La utilización de LLM para ingresar el estado inicial de la simulación, como los resultados finales de esta,
+dado que queremos que los datos sean comprensibles para alguien que tome decisiones en una empresa y no sea hábil en conocimientos de computación y de análisis estadístico
+- Conocimiento ontológico: Dado que el conjunto de conocimientos intrínsecos de los agentes está dado por relaciones por ejemplo para determinar
+la lealtad en una misma empresa está determinada por otras entidades ontológicas como la demanda, la credibilidad del cliente, comportamientos internos de esta.
+- Modelos Ocultos de Markov: Para determinar la veracidad o no sobre lo que dice un agente a otro, por ejemplo sobre la frescura real de un alimento.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
