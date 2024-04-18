@@ -1,64 +1,7 @@
 from queue import Queue
-class Belief:
-    def __init__(self, proposition, value ):
-        ##self.params = params
-        self.proposition = proposition
-        self.value = value
-    
-    def __repr__(self):
-        return f"Belief({self.proposition}: {self.value})"
-
-class Set_of_Beliefs:
-    def __init__(self):
-        self.beliefs = set()
-    
-    def add(self, belief:Belief):
-        self.beliefs.add(belief)
-    
-    def remove(self, belief):
-        self.beliefs.remove(belief)
-    
-    def clear(self):
-        self.beliefs.clear()
-    
-    def get_all(self):
-        return self.beliefs
-    
-    def contains(self, belief):
-        return belief in self.beliefs
-    
-    def __repr__(self):
-        return f"Set_of_Beliefs({self.beliefs})"
-    
-class Action:
-    def __init__(self, action, params = None):
-        self.action = action
-        self.params = params
-
-    def execute(self,beliefs_group: Set_of_Beliefs):
-        pass
-    
-    def __repr__(self):
-        return f"Action({self.action} {self.params})"
- 
-class Action_Add(Action):
-    def __init__(self, action, params = None):
-        super().__init__(action,params)
-       
-    def execute(self,beliefs_group: Set_of_Beliefs):
-        ##print(f"Adding {self.amount} {self.product} to stock")
-        print(f"Adding belief: {self.action} {self.params}")
-        beliefs_group.add(self.params)
-
-
-class Rule:
-    def __init__(self, antecedents: list[Belief], consequent : list[Action]):
-        self.antecedents = antecedents
-        self.consequent = consequent
-    
-    def __repr__(self):
-        return f"Rule({self.antecedents} -> {self.consequent})"
-
+from belief import Belief , Set_of_Beliefs
+from so_action import Action 
+from so_rule import Rule
 
 class ExpertSystem:
     def __init__(self):

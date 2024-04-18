@@ -1,6 +1,6 @@
 import unittest
-from sistemaexperto import *
-
+from so_sistemaexperto import *
+from so_action import Action_Add
 
 class TestExpertSystem(unittest.TestCase):
     def setUp(self):
