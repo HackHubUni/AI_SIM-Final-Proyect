@@ -1,20 +1,20 @@
-from random import random
-import math
-# Distribución de Poisson con media de 5 minutos
-lambda_poisson = 1 / 5
+def infer_belief(self, rule):
+        # Check if the rule's antecedents are already in the belief base
+        antecedents = rule.antecedents
+        beliefs_met = False
+        for antecedent in antecedents:
+            if not any(belief.proposition == antecedent and belief.value == True for belief in self.belief_base):
+                beliefs_met = True
+                break
 
-# Generar 10 tiempos de arribo
-tiempos_arribo = []
-for i in range(10):
-    # Número aleatorio entre 0 y 1
-    u = random()
-
-    # Función inversa de la distribución de Poisson
-    tiempo_arribo = -math.log(u) / lambda_poisson
-
-    tiempos_arribo.append(tiempo_arribo)
-
-print(tiempos_arribo)
+        if beliefs_met:
+            # Apply the rule if all antecedents are met
+            consequent = rule.consequent
+            existing_belief = next((belief for belief in self.belief_base if belief.proposition == consequent), None)
+            if existing_belief:
+                existing_belief.value = True
+            else:
+                self.add_belief(Belief(consequent, True))
 
 
 from random import random

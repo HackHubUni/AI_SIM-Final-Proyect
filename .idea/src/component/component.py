@@ -76,6 +76,7 @@ class Intention():
         self.producer_cost = producer_cost
         self.need_product = need_product# lista de producrtos necesarios para satisfacer el deseo
         
+        
 class Intentions:
     # conjunto de planes que el agente ha decidido seguir
     def __init__(self):

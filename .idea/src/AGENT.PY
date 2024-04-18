@@ -137,4 +137,7 @@ class ShopAgent(ag):
         self.Desires = desires
         self.Intentions = intentions
         self.min_stock = min_stock
+
+    def brf(self):
+        
     
