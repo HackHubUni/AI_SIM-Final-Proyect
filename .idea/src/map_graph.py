@@ -13,7 +13,7 @@ class CompanyConnections:
     def add_connection(self, company: Agent, distance: float) -> bool:
         """This method returns True if it's possible to add the company as a new connection.
         Returns False if the company is already in the connections"""
-        if company in self.connections:
+        if self.is_company_connected(company):
             return False
         if distance <= 0:
             raise Exception(
