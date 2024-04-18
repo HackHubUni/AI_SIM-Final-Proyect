@@ -4,15 +4,22 @@ import time as t
 from enviorement import*
 from component.component import *
 from protocol.producer import Producer
+from terminadas.so_sistemaexperto import ExpertSystem
+from terminadas.belief import Set_of_Beliefs
 class EmpAgent( ag):
-    def __init__(self, name, beliefs:Believes, desires:Desires, intentions:Intentions, plans, enviorement, empenv:EnviorementEmp,min_stock:int):
+    def __init__(self, name, beliefs:Set_of_Beliefs, desires:Desires, intentions:Intentions,
+                  empenv:EnviorementEmp,min_stock:int,time_production,# iemp añadido de produccion en la empresa
+                 SO:ExpertSystem, number_of_orders:int):
+        
+        self.name = name
+        self.time_production = time_production
         self.env = empenv
-        self.Believes= beliefs
+        self.Beliefs= beliefs
         self.Desires = desires
         self.Intentions = intentions
         self.min_stock = min_stock
-        
-        
+        self.SO = SO
+        self.number_of_orders = number_of_orders
     #metodos sin implementar
     def update_product(product):
         #se encargara en guaradr el mejor productor para un deteermionado producto
@@ -31,7 +38,9 @@ class EmpAgent( ag):
         pass
 
     def brf(self):
-        change = 0
+
+        self.SO.run(self.Beliefs)
+        '''change = 0
         for belief in self.Believes:
             if isinstance(belief,WordAparenceBelief):
                 if belief.types == "Producer":
@@ -53,17 +62,17 @@ class EmpAgent( ag):
             for product in self.env.env.Product:
                 self.update_product(product)
             for shop in self.env.env.Shop:
-                self.update_shop(shop)
+                self.update_shop(shop)'''
         
 
     def options(self):
         #se encargara de buscar las opciones de los productos en el ambiente
         self.Desires.clear()
-        for request in range(5):
+        for request in range(self.number_of_orders):
             if not self.env.requestarrival.empty():
                 shop_request = self.env.requestarrival.get()
-                if len(shop_request.product) >1:
-                    count = 0
+                if len(shop_request.product) >0:
+                    count = 0#contador de el producto por el q voy
                     for p in shop_request.product:
                         self.Desires.add(Desire(p,shop_request.Shop,shop_request.amount[count]))
                         count+=1
@@ -130,7 +139,7 @@ class EmpAgent( ag):
                 
 
 
-class ShopAgent(ag):
+'''class ShopAgent(ag):
     def __init__(self, name, beliefs:Believes, desires:Desires, intentions:Intentions, plans, enviorement, empenv,min_stock:int):
         self.env = empenv
         self.Believes= beliefs
@@ -138,6 +147,6 @@ class ShopAgent(ag):
         self.Intentions = intentions
         self.min_stock = min_stock
 
-    def brf(self):
+    def brf(self):'''
         
     

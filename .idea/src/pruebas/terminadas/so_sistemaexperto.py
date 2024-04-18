@@ -64,7 +64,11 @@ class ExpertSystem:
         while  not self.action_queue.empty():
             self.execute_next_action(beliefs_group) 
              
+    def run(self,beliefs_group: Set_of_Beliefs):
+       for belief in beliefs_group.get_all():
+            if type(belief) == Rule:
+                self.infer_belief(belief, beliefs_group) 
 
-        
+
 
 

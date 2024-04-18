@@ -1,6 +1,6 @@
 from collections import abc
 from protocol.productprotocol import *
-class Believes:
+'''class Believes:
     # conjunto de la info del agente sobre el ambiente
     def __init__(self):
         self.believes = set()
@@ -42,7 +42,7 @@ class ShopBelief(Belief):
         super.__init__(name,best)
         # name: el nombre de la tienda a analizar
         # best el costo de transportacion de cada tienda
-        
+        '''
 
 class Desire():
     def __init__(self, product:Product,shop,price,amount) :

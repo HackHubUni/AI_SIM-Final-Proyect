@@ -3,29 +3,32 @@ import time as t
 class Env:
     def __init__(self,city):
         self.time =  t.time()
-        self.Producer = set()
-        self.Product = set()
-        self.Shop = set()
-        self.Product_Producer = {}
-        self.city = city
+        self.Producers = set()# lista de productores en la simulacion( empresas monoproductoras o productores)
+        self.Products = set()#lista de productos en la simulacion
+        self.Shops = set()# lista de tiendas creadas en la simulacion
+        self.city = city# ciudades de la simulacion
+        self = self.Companies = set()# lista de empresas en la simulacion
+
+        self.Product_Producer = {}# QUE ERA ESTOOOOOOOOOO
+        
 
 
 class EnviorementEmp:
     def __init__(self, env:Env, stock):
-        self.env = env
-        self.requestarrival= queue.Queue()
-       
+        self.env = env #referencia al enviorement general
+        self.requestarrival= queue.Queue() # cola de solicitudes de productos
+       #stock de la empresa
         if stock is None:
             self.stock = {}
         else:
             self.stock = stock
-        self.need = queue.Queue()
         self.R = 0 # ingreso de solicitudes satisfechas ganacia 
         self.P = 0 # ingreso de solicitudes no satisfechas perdida
-        self.Replacent_Cost =set() # guarda el costo de llegar de los proveedores ala empresa producer,cost
+        self.Replacent_Cost =set() # MODIFICAR guarda el costo de llegar de los proveedores ala empresa producer,cost
         self.Balance = 0 # balance de la empresa
         
         
+        self.need = queue.Queue()#productos que necesita la empresa NO SE SI ESTA EN USO
 
     def time(self):
         return self.env.time
@@ -61,6 +64,9 @@ class ShopRequest:
 
     def print(self):
         return(print("{Product}, cant = {amount}, time = {t}", self.product,self.amount,self.amount))
+
+
+
 
 class ShopDelivery:
     def __init__(self,product:list, amount:list, time, shop):

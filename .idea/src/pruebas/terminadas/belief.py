@@ -1,6 +1,6 @@
 
 class Belief():
-    def __init__(self, proposition, value ):
+    def __init__(self, proposition, value:bool ):
         ##self.params = params
         self.proposition = proposition
         self.value = value
@@ -21,7 +21,7 @@ class Set_of_Beliefs:
     def __init__(self):
         self.beliefs = set()
     
-    def add(self, belief:Belief):
+    def add(self, belief):
         self.beliefs.add(belief)
     
     def remove(self, belief):
