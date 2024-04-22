@@ -5,4 +5,9 @@ class SimEnvironment:
     def __init__(
         self,
     ) -> None:
-        pass
+        self.time: int = 0
+        """The current time of the simulation"""
+
+    def get_time(self) -> int:
+        """Get the current time of the simulation"""
+        return self.time
