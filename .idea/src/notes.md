@@ -8,6 +8,7 @@
         - [ ] temperatura en el tiempo transcurrido
    - [ ] Propiedades:
      - Temperatura ideal 
+     - Humedad ideal
      - Rango de temperatura
      
      
