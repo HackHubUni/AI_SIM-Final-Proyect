@@ -20,6 +20,9 @@ class NutritiveProperties:
         return [self.fat, self.carbohydrates, self.proteins]
 
     def how_similar(self, other_nutritive: Self) -> float:
+        """This method returns a float that represents how similar are the nutritive properties.
+        The closer to 1 the result of this function, the more similar the nutritive properties will be
+        """
         my_vector: list[float] = self.get_nutrition_as_vector()
         other_vector: list[float] = other_nutritive.get_nutrition_as_vector()
         return vector_similarity(my_vector, other_vector)
