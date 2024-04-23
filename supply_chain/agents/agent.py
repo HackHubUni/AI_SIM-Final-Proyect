@@ -126,12 +126,12 @@ class ProducerAgent(Agent):
         self.events = []
         for i in self.Intentions:
             if i.action == "sell":
-                Event("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product])
+                Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product])
             elif i.action == "no-sell":
-                Event("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf)
+                Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf)
             else:
                 print("Invalid action")
-            self.events.append(Event)
+            
 
                     
                     
