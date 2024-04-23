@@ -72,7 +72,6 @@ class Desire:
     def __init__(self, order:Order):
         self.order = order
 
-    
 class Intention:
     """
     Represents an intention in the supply chain.
@@ -88,6 +87,51 @@ class Intention:
 class ProducerAgent(Agent):
     """
     Represents a producer agent in the supply chain.
+    """
+
+    def __init__(self, name, beliefs:Set_of_Beliefs,
+                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+        self.name = name
+        self.stock = stock
+        self.product_price = product_price
+
+        self.orders:queue.Queue[Order] = queue.Queue()
+        self.Beliefs = beliefs
+        self.Desires:list[Desire] = []
+        self.Intentions:list[Intention] = []
+        self.SE = SE
+        self.Plans = []
+
+    def brf(self):
+
+        while not self.orders.empty():
+            order = self.orders.get()
+            belief = Belief(order)
+            self.Beliefs.add(belief)
+
+    def options(self):
+    
+        while not self.orders.empty():
+            order = self.orders.get()
+            desire = Desire(order)
+            self.Desires.append(desire)
+
+    def filter(self):
+        for i in self.Desires:
+            self.Intentions =self.SE.get_action(self.Beliefs, i)
+        
+    def execute(self):
+        for i in self.Intentions:
+            if i.action == "sell":
+                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
+            elif i.action == "no-sell":
+                self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            else:
+                print("Invalid action")
+        
+class ShipperAgent(Agent):
+    """
+    Represents a shipper agent in the supply chain.
     """
 
     def __init__(self, name, orders:queue.Queue, beliefs:Set_of_Beliefs,
@@ -121,17 +165,14 @@ class ProducerAgent(Agent):
         for i in self.Desires:
             self.Intentions =self.SE.get_action(self.Beliefs, i)
         
-
     def execute(self):
-        self.events = []
         for i in self.Intentions:
             if i.action == "sell":
-                Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product])
+                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
             elif i.action == "no-sell":
-                Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf)
+                self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
             else:
-                print("Invalid action")
-            
+                print("Invalid action")         
 
                     
                     
