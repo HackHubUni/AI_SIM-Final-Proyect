@@ -1,4 +1,4 @@
-class Event:
+class Func:
     def __init__(self, event_type, event_time, event_location, event_description,price):
         self.event_type = event_type
         self.event_time = event_time

@@ -2,7 +2,7 @@ from collections import abc
 from SE.belief import *
 from SE.so_sistemaexperto import *
 import queue
-from event import Event
+from func import Func
 import time
 import math
 from products.product import Product
@@ -13,25 +13,6 @@ class Origin:
         self.shipper = shipper
         self.manuefacturer = manuefacturer
         self.shop = shop
-
-class Agent(abc.Protocol):
-    def brf(self):
-        # partir de una entrada perceptual y el cjto de creencias actuales determina un nuevo cjto de creencias
-        pass
-    
-    def options(self):
-        pass
-
-
-    def filter(self):
-        pass
-
-    def execute(self):
-        pass
-
-    
-
-
 class Message:
             """
             Represents a message for communication between agents.
@@ -47,6 +28,29 @@ class Message:
                 Converts the message into a belief.
                 """
                 return self.content
+            
+class Agent(abc.Protocol):
+    def brf(self):
+        # partir de una entrada perceptual y el cjto de creencias actuales determina un nuevo cjto de creencias
+        pass
+    
+    def options(self):
+        pass
+
+
+    def filter(self):
+        pass
+
+    def execute(self):
+        pass
+
+    def tell(info:Message):
+        # TODO: Carla must type the info variable because every body in the repo
+        # should know how to pass info to the agent
+        pass
+
+    
+
             
 class Order():
     """
@@ -127,7 +131,7 @@ class ProducerAgent(Agent):
                 Event("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf)
             else:
                 print("Invalid action")
-            events.append(Event)
+            self.events.append(Event)
 
                     
                     
