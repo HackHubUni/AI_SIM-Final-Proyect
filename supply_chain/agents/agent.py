@@ -128,19 +128,22 @@ class ProducerAgent(Agent):
                 self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
             else:
                 print("Invalid action")
-        
-class ShipperAgent(Agent):
+
+    def tell(self,info: Message):
+        self.SE.process_message(self.Beliefs, info)  
+
+
     """
     Represents a shipper agent in the supply chain.
     """
 
-    def __init__(self, name, orders:queue.Queue, beliefs:Set_of_Beliefs,
+    def __init__(self, name, beliefs:Set_of_Beliefs,
                  SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
         self.name = name
         self.stock = stock
         self.product_price = product_price
 
-        self.orders = orders
+        self.orders:queue.Queue[Order] = queue.Queue()
         self.Beliefs = beliefs
         self.Desires:list[Desire] = []
         self.Intentions:list[Intention] = []
@@ -166,13 +169,7 @@ class ShipperAgent(Agent):
             self.Intentions =self.SE.get_action(self.Beliefs, i)
         
     def execute(self):
-        for i in self.Intentions:
-            if i.action == "sell":
-                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
-            elif i.action == "no-sell":
-                self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
-            else:
-                print("Invalid action")         
+        pass     
 
                     
                     
