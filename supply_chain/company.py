@@ -1,10 +1,7 @@
-from abc import ABC, abstractmethod,abstractproperty
+from abc import ABC, abstractmethod, abstractproperty
 from supply_chain.sim_environment import SimEnvironment
 from enum import Enum
-try:
-from agents.agent import ProducerAgent,Agent
-except:
-    pass
+
 
 class TypeCompany(Enum):
     Matrix = 1
@@ -28,7 +25,7 @@ class Company(ABC):
 
     @property
     @abstractmethod
-    def tag(self)->TypeCompany:
+    def tag(self) -> TypeCompany:
         """
         Devuelve el tag del tipo de compañia que es
         :return:
@@ -36,37 +33,33 @@ class Company(ABC):
         pass
 
 
-
-
 class CompanyWrapped(Company):
 
-    def __init__(self,name: str, environment: SimEnvironment,agent:Agent):
-        super().__init__(name,environment)
-        self.agent:Agent=agent
+    def __init__(self, name: str, environment: SimEnvironment, agent: Agent):
+        super().__init__(name, environment)
+        self.agent: Agent = agent
 
 
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
-    def __init__(self, name: str, environment: SimEnvironment,agent:Agent):
-        if not isinstance(agent,ProducerAgent):
-            raise Exception(f'The base company need a ProducerAgent not a {type(agent)}')
-        super().__init__(name,environment,agent)
 
+    def __init__(self, name: str, environment: SimEnvironment, agent: Agent):
+        if not isinstance(agent, ProducerAgent):
+            raise Exception(
+                f"The base company need a ProducerAgent not a {type(agent)}"
+            )
+        super().__init__(name, environment, agent)
 
-        self.plans=self.agent.get_plans()
-
-
+        self.plans = self.agent.get_plans()
 
     @property
     def tag(self):
         return TypeCompany.BaseProducer
 
 
-
-
 class LogisticCompany(CompanyWrapped):
     """
     Class for the logistic Company
     """
-    pass
 
+    pass
