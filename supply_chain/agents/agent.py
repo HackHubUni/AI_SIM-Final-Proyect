@@ -2,10 +2,10 @@ from collections import abc
 from SE.belief import *
 from SE.so_sistemaexperto import *
 import queue
-from func import Func
+from func import Func, Func_restock
 import time
 import math
-from products.product import Product
+from products.product import Product 
 
 class Origin:
     def __init__(self, producer,shipper,manuefacturer,shop):
@@ -48,8 +48,9 @@ class Agent(abc.Protocol):
         # TODO: Carla must type the info variable because every body in the repo
         # should know how to pass info to the agent
         pass
-
-    
+        
+    def get_plans(self):
+        return self.Plans
 
             
 class Order():
@@ -102,7 +103,7 @@ class ProducerAgent(Agent):
         self.Desires:list[Desire] = []
         self.Intentions:list[Intention] = []
         self.SE = SE
-        self.Plans = []
+        self.Plans:list[Func] = []
 
     def brf(self):
         self.SE.run(self.Beliefs)
@@ -253,9 +254,115 @@ class ManufacturerAgent(Agent):
             elif i.action == "no-produce":
                 self.Plans.append(Func("no-produce", time.time(), self.name, i.order,i.order.quantity*math.inf))
             elif i.action == "restock":
-                for k,v in i.amount.items():
-                    self.Plans.append(Func_restock("restock", time.time(), self.name, i.order,v))
+                #falta por implementar
+                pass
+            else:
                 print("Invalid action")
 
     def tell(self,info: Message):
         self.SE.process_message(self.Beliefs, info)
+
+class WarehouseAgent(Agent):
+    """
+    Represents a warehouse agent in the supply chain.
+    """
+
+    def __init__(self, name, beliefs:Set_of_Beliefs,
+                 SE:ExpertSystem, stock:dict[str, int]):
+        self.name = name
+        self.stock = stock
+
+        self.orders:queue.Queue[Order] = queue.Queue()
+        self.Beliefs = beliefs
+        self.Desires:list[Desire] = []
+        self.Intentions:list[Intention] = []
+        self.SE = SE
+        self.Plans = []
+
+    def brf(self):
+        self.SE.run(self.Beliefs)
+
+    def options(self):
+    
+        while not self.orders.empty():
+            order = self.orders.get()
+            desire = Desire(order)
+            self.Desires.append(desire)
+
+    def filter(self):
+        for i in self.Desires:
+            self.Intentions =self.SE.get_action(self.Beliefs, i)
+        
+    def execute(self):
+        self.brf()
+        self.options()
+        self.filter()
+        for i in self.Intentions:
+            if i.action == "store":
+                self.Plans.append(Func("store", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
+            elif i.action == "no-store":
+                self.Plans.append(Func("no-store", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            elif i.action == "restock":
+                #falta por implementar
+                pass
+            elif i.action == "send":
+                #falta por implementar
+                pass
+
+            else:
+                print("Invalid action")
+
+    def tell(self,info: Message):
+        self.SE.process_message(self.Beliefs, info)
+
+class ShopAgent(Agent):
+    """
+    Represents a shop agent in the supply chain.
+    """
+
+    def __init__(self, name, beliefs:Set_of_Beliefs,
+                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+        self.name = name
+        self.stock = stock
+        self.product_price = product_price
+
+        self.orders:queue.Queue[Order] = queue.Queue()
+        self.Beliefs = beliefs
+        self.Desires:list[Desire] = []
+        self.Intentions:list[Intention] = []
+        self.SE = SE
+        self.Plans = []
+
+    def brf(self):
+        self.SE.run(self.Beliefs)
+
+    def options(self):
+    
+        while not self.orders.empty():
+            order = self.orders.get()
+            desire = Desire(order)
+            self.Desires.append(desire)
+
+    def filter(self):
+        for i in self.Desires:
+            self.Intentions =self.SE.get_action(self.Beliefs, i)
+        
+    def execute(self):
+        self.brf()
+        self.options()
+        self.filter()
+        for i in self.Intentions:
+            if i.action == "sell":
+                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
+            elif i.action == "no-sell":
+                self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            elif i.action == "restock":
+                #falta por implementar
+                pass
+            else:
+                print("Invalid action")
+
+    def tell(self,info: Message):
+        self.SE.process_message(self.Beliefs, info)
+
+class Client
