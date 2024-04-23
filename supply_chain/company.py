@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from supply_chain.sim_environment import SimEnvironment
 from enum import Enum
+from supply_chain.agents.agent import Agent
 
 
 class TypeCompany(Enum):
