@@ -1,5 +1,5 @@
 from typing import *
-from utils import *
+from supply_chain.utils import *
 
 
 class NutritiveProperties:
