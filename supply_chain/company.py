@@ -53,7 +53,7 @@ class BaseProducer(CompanyWrapped):
         super().__init__(name,environment,agent)
 
 
-        self.plans=self.agent
+        self.plans=self.agent.get_plans()
 
 
 
