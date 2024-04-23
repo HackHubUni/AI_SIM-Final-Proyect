@@ -24,12 +24,12 @@ class SearchNode:
     def update_parent(self, parent):
         self.parent = parent
 
-    def expand_node(self, problem: SearchProblem) -> list:
+    def expand_node(self, problem: SearchProblem) -> list[Self]:
         """
         This method returns a list with the nodes corresponding to the
         reachable states from this node"""
         actions = problem.get_actions(self.state)
-        child_nodes = []
+        child_nodes: list[SearchNode] = []
         for action in actions:
             cost = problem.action_cost(self.state, action) + self.path_cost
             node = SearchNode(

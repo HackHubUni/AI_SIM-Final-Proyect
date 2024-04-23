@@ -4,7 +4,7 @@ from supply_chain.sim_ai.search_problem.frontier import *
 
 
 class PriorityFrontier(Frontier):
-    def __init__(self, priority_function: Callable[[SearchNode], int]) -> None:
+    def __init__(self, priority_function: Callable[[SearchNode], float]) -> None:
         self.priority_function = priority_function
         self.frontier = PriorityQueue()
 
