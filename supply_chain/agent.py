@@ -17,3 +17,4 @@ class Agent(ABC):
         # TODO: Carla must type the info variable because every body in the repo
         # should know how to pass info to the agent
         pass
+    
