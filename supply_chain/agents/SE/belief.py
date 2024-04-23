@@ -1,12 +1,13 @@
 
 class Belief():
-    def __init__(self, proposition, value:bool ):
+    def __init__(self, proposition:str, params, value:bool ):
         ##self.params = params
         self.proposition = proposition
+        self.params = params
         self.value = value
     
     def __repr__(self):
-        return f"Belief({self.proposition}: {self.value})"
+        return f"Belief({self.proposition}({self.params}): {self.value})"
 
 
 # agregar los otros tipos de belief

@@ -1,5 +1,5 @@
-from terminadas.belief import Belief
-from terminadas.so_action import Action
+from belief import Belief
+from so_action import Action
 
 
 class Rule:

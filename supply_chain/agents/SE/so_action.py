@@ -1,4 +1,4 @@
-from terminadas.belief import Set_of_Beliefs
+from belief import Set_of_Beliefs
 
 class Action:
     def __init__(self, action, params = None):
