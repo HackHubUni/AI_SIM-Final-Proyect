@@ -20,7 +20,7 @@ class CompanyWrapped(Company):
         self.balance = inicial_balance
         self.register = Registry()
 
-   #TODO:Carla aca tienes el ambiente
+    # TODO:Carla aca tienes el ambiente
     @property
     def get_environment(self):
         """
@@ -28,7 +28,7 @@ class CompanyWrapped(Company):
         """
         return self.environment
 
-   #TODO:Carla aca tienes como saber el tiempo actual
+    # TODO:Carla aca tienes como saber el tiempo actual
     @property
     def get_time(self):
         """
@@ -40,16 +40,17 @@ class CompanyWrapped(Company):
 
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
+
     def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
                  initial_balance: float):
         super().__init__(name, environment, agent, env, initial_balance)
-
+        self._stock_by_product: dict[str, list[Product]] = {}
         self._stock: dict[Product, int] = {}
         self._product_price: dict[Product, float] = {}
 
         # TODO: Tengo que añadir la funcion de dar el precio
 
-    #TODO:Carla aca tienes para saber cual es el stock de productos osea producto:cant
+    # TODO:Carla aca tienes para saber cual es el stock de productos osea producto:cant
     @property
     def get_stock(self):
         return self._stock
@@ -58,7 +59,6 @@ class BaseProducer(CompanyWrapped):
     def tag(self):
         return TypeCompany.BaseProducer
 
-
     def restock(self):
         """
         Se llama a esta función para reabastecerse de productos bajo cierta lógica
@@ -66,15 +66,43 @@ class BaseProducer(CompanyWrapped):
         """
         pass
 
+    def _add_sell_record(self,
+                         product_name: str,
+                         quality_for_a_product: list[float],
+                         normal_price: float,
+                         price_sold: float,
+                         amount_asked: int,
+                         amount_sold: int,
+                         matrix_name: str,
+                         from_company_name: str,
+                         from_company_tag: TypeCompany,
+                         to_company_name: str,
+                         to_company_tag: TypeCompany,
+                         price_to_this_company_buy_that: float
+                         ):
 
-
-    def _add_sell_record(self, time: int, amount_asked: int, amount_sold: int):
-        self.register.add_sell_record(time, amount_asked, amount_sold)
+        self.register.add_sell_record(
+            #Tiempo en que se hace la venta
+            time=self.get_time,
+            #Producto a vender
+            product_name=product_name,
+            quality_for_a_product=quality_for_a_product,
+            normal_price=normal_price,
+            price_sold=price_sold,
+            price_to_this_company_buy_that=price_to_this_company_buy_that,
+            amount_asked=amount_asked,
+            amount_sold=amount_sold,
+            matrix_name=matrix_name,
+            from_company_name=from_company_name,
+            from_company_tag=from_company_tag,
+            to_company_name=to_company_name,
+            to_company_tag=to_company_tag
+        )
 
     def _add_stock_record(self, time: int, amount: int):
         self.register.add_stock_record(time, amount)
 
-    #TODO:Carla aca tienes para conocer el precio de un producto
+    # TODO:Carla aca tienes para conocer el precio de un producto
     def get_product_price(self, product: Product) -> float:
         """
         Retorna por cada producto el precio de estos
@@ -85,8 +113,9 @@ class BaseProducer(CompanyWrapped):
             return float('inf')
         return self._product_price[product]
 
-    #TODO:Carla aca tienes para Si no vas a vender mandas como que es infinito el precio de venta
-    def sell(self, order:Order, gain_money: float):
+    # TODO:Carla aca tienes para Si no vas a vender mandas como que es infinito el precio de venta
+
+    def sell(self, order: Order, gain_money: float):
         """
             Refleja la venta de un producto
         :param count_:
@@ -94,13 +123,14 @@ class BaseProducer(CompanyWrapped):
         :param gain_money:
         :return:
         """
-        count_: int=order.quantity
-        product: Product=order.product
+        count_: int = order.quantity
+        product: Product = order.product
+
         if not product in self._stock:
             raise Exception(f'The product {product} don´t exists')
         self._stock[product] -= count_
         # TODO: Actualizar el registro de venta de un articulo
-
+        self._add_sell_record()
         if self._stock[product] == 0:
             # Eliminar el precio del producto
             del self._product_price[product]
@@ -109,13 +139,8 @@ class BaseProducer(CompanyWrapped):
         total_money = gain_money - self.get_product_price(product) * count_
         self.balance += total_money
 
-
-
-    def deliver(self,order:Order):
+    def deliver(self, order: Order):
         pass
-
-
-
 
 
 class SecondaryCompany(BaseProducer):
@@ -128,15 +153,17 @@ class SecondaryCompany(BaseProducer):
         super().__init__(name, environment, agent, env)
 
         self._process_product_price: dict[Product, float] = {}
-    #TODO:Carla aca tienes el dic de producto con el precio que se procesan porfa
+
+    # TODO:Carla aca tienes el dic de producto con el precio que se procesan porfa
     @property
-    def process_products_price(self)->dict[Product,float]:
+    def process_products_price(self) -> dict[Product, float]:
         """
         Devuelve el diccionario que tiene por producto que se procesa su precio de venta por procesar
         :return:
         """
         return self._process_product_price
-    #TODO:Aca tienes  el precio de procesar un elemento
+
+    # TODO:Aca tienes  el precio de procesar un elemento
     def get_price_process_product(self, product: Product):
         """
         Devuelve el precio del producto
@@ -147,7 +174,7 @@ class SecondaryCompany(BaseProducer):
             raise Exception(f"El producto: {product.name} no se encuentra entre los productos a procesar")
         return self._process_product_price[product]
 
-   #TODO:Carla aca es para que llames cuando se vende un servicio de manufactura osea que
+    # TODO:Carla aca es para que llames cuando se vende un servicio de manufactura osea que
     # le di las papas y le empresa me hizo el puré
     def sell_process_product(self, order: Order, sell_price: float):
         """
@@ -158,7 +185,6 @@ class SecondaryCompany(BaseProducer):
         :return:
         """
         pass
-
 
     def restock(self):
         """
@@ -188,8 +214,7 @@ class WarehouseCompany(CompanyWrapped):
     def stock(self):
         pass
 
-
-    def in_storage_product(self,order:Order):
+    def in_storage_product(self, order: Order):
         """
         Cuando se entra a guardar un producto
         :param order:
@@ -197,13 +222,13 @@ class WarehouseCompany(CompanyWrapped):
         """
         pass
 
-
     # TODO: Crear el send recibe un Order
-    def out_storage_product(self,order:Order):
+    def out_storage_product(self, order: Order):
         """
         Cuando se saca un producto del almacen
         :return:
         """
+
 
 class LogisticCompany(CompanyWrapped):
     """
