@@ -12,6 +12,15 @@ class SimEvent:
         """The priority that helps the simulator to choose an order of execution
         between events in the same time"""
 
+    def __lt__(self, other):
+        if not isinstance(other, SimEvent):
+            return False
+        if self.time < other.time:
+            return True
+        if self.time == other.time:
+            return self.priority < other.priority
+        return False
+
     @abstractmethod
     def execute(environment: SimEnvironment):
         pass
