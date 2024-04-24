@@ -5,14 +5,16 @@ import queue
 from func import Func, Func_restock
 import time
 import math
-from products.product import Product 
 
-class Origin:
-    def __init__(self, producer,shipper,manuefacturer,shop):
-        self.producer = producer
-        self.shipper = shipper
-        self.manuefacturer = manuefacturer
-        self.shop = shop
+try:
+    from supply_chain.products.product import Product
+    from supply_chain.agents.order import Order
+
+except :
+    from products.product import Product
+
+
+
 class Message:
             """
             Represents a message for communication between agents.
@@ -49,22 +51,12 @@ class Agent(abc.Protocol):
         # should know how to pass info to the agent
         pass
         
-    def get_plans(self):
+    def get_plans(self)->list[Func]:
         return self.Plans
 
             
-class Order():
-    """
-    Represent a order agent in the supply chain.
-    """
-    
-    def __init__(self, product:Product, quantity:int, origin:Origin, request_date, delivery_date):
-        self.product = product
-        self.quantity = quantity
-        self.origin = origin
-        self.request_date = request_date
-        self.delivery_date = delivery_date
- 
+
+
 class Desire:
     """
     Represent a desire in the supply chain.
@@ -92,7 +84,7 @@ class ProducerAgent(Agent):
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs, env,
-                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+                 SE:ExpertSystem, stock:dict[Product, int],product_price:dict[Product, float]):
         self.name = name
         self.stock = stock
         self.product_price = product_price
@@ -365,4 +357,5 @@ class ShopAgent(Agent):
     def tell(self,info: Message):
         self.SE.process_message(self.Beliefs, info)
 
-class Client
+class Client:
+    pass
