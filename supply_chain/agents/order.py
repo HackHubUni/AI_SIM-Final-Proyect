@@ -19,5 +19,6 @@ class Order():
         self.request_date:int = request_date
         "Tiempo en que se hizo la petición"
         self.delivery_date = delivery_date
+        "Tiempo de despacho"
 
 

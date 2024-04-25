@@ -1,9 +1,11 @@
+import copy
+
 try:
     from supply_chain.agents.order import Order
     from supply_chain.sim_environment import SimEnvironment
 
     from supply_chain.Company.registrers.registers import *
-    from supply_chain.company_protocol import Company, TypeCompany
+    from supply_chain.company import Company, TypeCompany
 except:
 
     from agent import Agent
@@ -38,22 +40,42 @@ class CompanyWrapped(Company):
         return self.environment.get_time()
 
 
+class LogisticCompany(CompanyWrapped):
+    """
+    Class for the logistic Company
+    """
+
+    @property
+    def tag(self):
+        return TypeCompany.Logistic
+
+
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
     def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
                  initial_balance: float):
         super().__init__(name, environment, agent, env, initial_balance)
-        self._stock_by_product: dict[str, list[Product]] = {}
-        self._stock: dict[Product, int] = {}
-        self._product_price: dict[Product, float] = {}
+        self._stock: dict[str, list[Product]] = {}
+        # Por cada producto tengo la lista de las instancias de estos
 
-        # TODO: Tengo que añadir la funcion de dar el precio
+        self._product_price: dict[str, float] = {}
+        """
+        nombre del producto: precio
+        """
 
-    # TODO:Carla aca tienes para saber cual es el stock de productos osea producto:cant
+    # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
     @property
-    def get_stock(self):
-        return self._stock
+    def get_stock(self) -> dict[str, int]:
+        """
+         nombre de producto: lista de los productos en stock son instancias de Product
+        :return:
+        """
+        dic = {}
+        for key in self._stock.keys():
+            dic[key] = len(self._stock[key])
+
+        return dic
 
     @property
     def tag(self):
@@ -68,7 +90,7 @@ class BaseProducer(CompanyWrapped):
 
     def _add_sell_record(self,
                          product_name: str,
-                         quality_for_a_product: list[float],
+                         list_products_records: list[ProductRecords],
                          normal_price: float,
                          price_sold: float,
                          amount_asked: int,
@@ -77,19 +99,16 @@ class BaseProducer(CompanyWrapped):
                          from_company_name: str,
                          from_company_tag: TypeCompany,
                          to_company_name: str,
-                         to_company_tag: TypeCompany,
-                         price_to_this_company_buy_that: float
+                         to_company_tag: TypeCompany
                          ):
 
         self.register.add_sell_record(
-            #Tiempo en que se hace la venta
+            # Tiempo en que se hace la venta
             time=self.get_time,
-            #Producto a vender
             product_name=product_name,
-            quality_for_a_product=quality_for_a_product,
+            list_products_records=list_products_records,
             normal_price=normal_price,
             price_sold=price_sold,
-            price_to_this_company_buy_that=price_to_this_company_buy_that,
             amount_asked=amount_asked,
             amount_sold=amount_sold,
             matrix_name=matrix_name,
@@ -99,45 +118,62 @@ class BaseProducer(CompanyWrapped):
             to_company_tag=to_company_tag
         )
 
-    def _add_stock_record(self, time: int, amount: int):
-        self.register.add_stock_record(time, amount)
-
     # TODO:Carla aca tienes para conocer el precio de un producto
-    def get_product_price(self, product: Product) -> float:
+    def get_product_price(self, product_name: str) -> float:
         """
         Retorna por cada producto el precio de estos
-        :param product:
-        :return:
+        :param product_name: nombre del producto
+        :return:float precio de venta del producto
         """
-        if product not in self._stock:
+        if product_name not in self._stock:
             return float('inf')
-        return self._product_price[product]
+        return self._product_price[product_name]
+
+    def _delete_product_stock(self, product_name: str, count: int) -> list[Product]:
+        """
+        Es para tener la logica de como  se quita producto del stock en una cant dada
+        :param product_name:
+        :param count:
+        :return: lista de productos a devolver para la venta
+        """
+        if product_name not in self._stock:
+            raise Exception(f"The product {product_name} in the company {self.name} type {self.tag} don´t exists")
+
+        # Chequear que la cant de producto que se tiene en stock es suficiente
+        count_in_stock: int = self.get_stock[product_name]
+        if count_in_stock < count:
+            raise Exception(
+                f"Don t have {count} of the product {product_name} only have {count_in_stock} in the company {self.name} type {self.tag}")
+        lis = self._stock[product_name]
+        temp = copy.deepcopy(lis)
+        # elimina los n primeros elementos de la lista
+        self._stock[product_name] = lis[count:]
+
+        return temp[0:count]
 
     # TODO:Carla aca tienes para Si no vas a vender mandas como que es infinito el precio de venta
 
-    def sell(self, order: Order, gain_money: float):
+    def sell(self, product_name: str,
+             price_sold: float,
+             amount_asked: int,
+             amount_sold: int,
+             matrix_name: str,
+             to_company: Company,
+             logistic_company: LogisticCompany
+             ):
         """
-            Refleja la venta de un producto
-        :param count_:
-        :param product:
-        :param gain_money:
+        Llamar para realizar la venta del producto
+        :param product_name:str nombre del producto a vender
+        :param price_sold:float precio de venta del lote de productos
+        :param amount_asked:int cantidad que pidió comprar
+        :param amount_sold:int cantidad que se le vendió
+        :param matrix_name:str nombre de la empresa matriz que gestionó la compra
+        :param to_company:Company compañía a la que hay que enviarle
+        :param logistic_company:LogisticCompany company logística  que debe realizar el envío
         :return:
         """
-        count_: int = order.quantity
-        product: Product = order.product
+        self._delete_product_stock(product_name, amount_sold)
 
-        if not product in self._stock:
-            raise Exception(f'The product {product} don´t exists')
-        self._stock[product] -= count_
-        # TODO: Actualizar el registro de venta de un articulo
-        self._add_sell_record()
-        if self._stock[product] == 0:
-            # Eliminar el precio del producto
-            del self._product_price[product]
-            # Eliminar el producto del stock
-            del self._stock[product]
-        total_money = gain_money - self.get_product_price(product) * count_
-        self.balance += total_money
 
     def deliver(self, order: Order):
         pass
@@ -228,13 +264,3 @@ class WarehouseCompany(CompanyWrapped):
         Cuando se saca un producto del almacen
         :return:
         """
-
-
-class LogisticCompany(CompanyWrapped):
-    """
-    Class for the logistic Company
-    """
-
-    @property
-    def tag(self):
-        return TypeCompany.Logistic

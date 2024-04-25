@@ -1,4 +1,4 @@
-class ProductRegister:
+class ProductRecords:
     def __init__(self, name: str, quality_now: float, price_produce: float):
         self.name: str = name
         self.quality_now: float = quality_now

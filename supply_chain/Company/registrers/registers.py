@@ -1,4 +1,4 @@
-from supply_chain.Company.registrers.product_history import ProductRegister
+from supply_chain.Company.registrers.product_history import ProductRecords
 
 try:
     from supply_chain.company import TypeCompany
@@ -24,7 +24,7 @@ class Registry:
     def add_sell_record(self,
                         time: int,
                         product_name: str,
-                        list_products_registers=list[ProductRegister],
+                        list_products_records:list[ProductRecords],
                         normal_price: float,
                         price_sold: float,
                         amount_asked: int,
@@ -38,7 +38,7 @@ class Registry:
         """Create a SellRecord and stores it in the sell_registry"""
         record = SellRecord(time,
                             product_name=product_name,
-                            list_products_registers=list_products_registers,
+                            list_products_record=list_products_records,
                             normal_price=normal_price,
                             price_sold=price_sold,
                             amount_asked=amount_asked,
@@ -93,7 +93,7 @@ class SellRecord(Record):
 
     def __init__(self, time: int,
                  product_name: str,
-                 list_products_registers:list[ProductRegister],
+                 list_products_record:list[ProductRecords],
                  normal_price: float,
                  price_sold: float,
                  amount_asked: int,
@@ -106,7 +106,7 @@ class SellRecord(Record):
         """
         The name of the product
         """
-        self.list_products_registers=list_products_registers
+        self.list_products_record=list_products_record
 
         self.amount_asked: int = amount_asked
         """The units that the client asked to buy"""
