@@ -57,10 +57,6 @@ La lógica que se debe ejecutar en el método `Start()` de la tienda es la sigui
 
 #### Empresa matriz
 
-La empresa matriz tiene 2 objetivos fundamentales:
-1. Satisfacer una petición de suministro de una tienda
-2. Redistribuir productos que no se pudieron ubicar. Estos productos que no se pueden ubicar son los productos que un transportista trata de enviar a una ubicación pero que no puede agregarlos completos a un almacén
-
 Su lógica es la siguiente:
 - A la hora de la empresa matriz cumplir con el objetivo de suministrar cierta cantidad de unidades de un producto a una tienda ella tiene un conjunto de posibles acciones a realizar y con estas acciones debe crear una planificación, es decir, decidir la secuencia de pasos a realizar para cumplir el objetivo:
   <!-- TODO: Volver a analizar esto y analizar lo de la estimación de tiempo de envío y producción-->
@@ -76,4 +72,24 @@ Su lógica es la siguiente:
 
 #### Empresa proveedora
 
+Las acciones de esta empresa son las siguientes:
+1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
+2. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
 
+#### Empresa transportista
+
+Las acciones de esta empresa son las siguientes:
+1. Decir cuanto cobra por enviar cierta cantidad de unidades de un producto de un punto de origen del mapa a un punto de destino.
+2. Realizar el envío de cierta cantidad de unidades de un punto del mapa a otro. A la hora de realizar esta acción se le tiene que descontar un dinero a la empresa matriz.
+
+#### Empresa manufacturera
+<!-- TODO: Revisar esto completo -->
+Las acciones de esta empresa
+1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
+2. Dar información sobre los productos que puede crear
+3. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
+4. Producir cierta cantidad de unidades de un producto a una empresa, esto es, se descuenta a la empresa el costo de la producción de estas unidades, luego se envían los productos creados a un punto en el mapa (proporcionado por la empresa matriz) por medio de un distribuidor.
+
+#### Empresa Almacén
+
+Las acciones de 
