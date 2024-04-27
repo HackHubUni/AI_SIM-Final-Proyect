@@ -24,7 +24,7 @@ class Registry:
     def add_sell_record(self,
                         time: int,
                         product_name: str,
-                        list_products_records:list[ProductRecords],
+                        list_products_records: list[ProductRecords],
                         normal_price: float,
                         price_sold: float,
                         amount_asked: int,
@@ -93,7 +93,7 @@ class SellRecord(Record):
 
     def __init__(self, time: int,
                  product_name: str,
-                 list_products_record:list[ProductRecords],
+                 list_products_record: list[ProductRecords],
                  normal_price: float,
                  price_sold: float,
                  amount_asked: int,
@@ -106,7 +106,7 @@ class SellRecord(Record):
         """
         The name of the product
         """
-        self.list_products_record=list_products_record
+        self.list_products_record = list_products_record
 
         self.amount_asked: int = amount_asked
         """The units that the client asked to buy"""
