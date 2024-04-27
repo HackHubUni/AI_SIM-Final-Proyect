@@ -22,23 +22,8 @@ class SimEvent:
         return False
 
     @abstractmethod
-    def execute(environment: SimEnvironment):
+    def execute(self, environment: SimEnvironment):
         pass
 
 
 
-#class CompanyRestockSimEvent(SimEvent):
-#
-#    def __init__(self, time: int, priority: int,execute:Callable[[],Self]) -> None:
-#        self._execute:Callable[[],Self]=execute
-#
-#        super().__init__(time,priority)
-#
-#
-#    def execute(environment: SimEnvironment):
-#        self._execute()
-#
-#
-#
-#
-#

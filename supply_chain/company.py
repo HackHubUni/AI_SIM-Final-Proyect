@@ -1,7 +1,10 @@
+from typing import Callable
+
 from supply_chain.sim_environment import SimEnvironment
 from abc import ABC, abstractmethod, abstractproperty
-from abc import ABC, abstractmethod, abstractproperty
 from enum import Enum
+
+
 class TypeCompany(Enum):
     Matrix = 1
     BaseProducer = 2
@@ -10,14 +13,15 @@ class TypeCompany(Enum):
     Warehouse = 5
     Store = 6
 
+
 class Company(ABC):
     """Base class for all the companies in the supply chain"""
 
-    def __init__(self, name: str, environment: SimEnvironment) -> None:
+    def __init__(self, name: str, get_time: Callable[[], int]) -> None:
         super().__init__()
         self.name: str = name
         """The name of the company"""
-        self.environment: SimEnvironment = environment
+        self.get_time: Callable = get_time
         """The reference to the environment of the simulation"""
         # TODO: Paco, remember that companies offer services. Think in how to model this
 

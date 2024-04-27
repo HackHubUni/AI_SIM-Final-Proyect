@@ -1,3 +1,6 @@
+import copy
+
+from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
 from supply_chain.products.product import Product
 from typing import Callable, Dict, List
 from abc import ABC, abstractmethod, abstractproperty
@@ -30,12 +33,12 @@ class BaseCompanyStock(CompanyStock):
                  supply_distribution: Dict[str, Callable[[], int]],
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
-                 environment: SimEnvironment
+                 get_time: Callable[[], int]
                  ):
 
-        self.env = environment
+        self.get_time: Callable[[], int] = get_time
         """
-        El env de la simulación
+        función que brinda el tiempo actual
         """
 
         self.products_max_stock: dict[str, int] = products_max_stock
@@ -193,7 +196,9 @@ class BaseCompanyStock(CompanyStock):
 
     def _next_restock(self):
         # TODO: llamar lanzar el evento
-        time_next_restock = self.time_restock_distribution()
+        next_restock = self.time_restock_distribution()
+        time_next_restock = self.get_time() + next_restock
+        event = CompanyRestockSimEvent(time_next_restock, 0, self.restock)
 
     def restock(self):
         """
@@ -215,3 +220,28 @@ class BaseCompanyStock(CompanyStock):
         # Lanzar el evento de reabastecer en el próximo tiempo
 
         self._next_restock()
+
+
+
+
+    def get_products_by_name(self, product_name: str, count: int)->list[Product]:
+        """
+              Es para tener la logica de como  se quita producto del stock en una cant dada
+              :param product_name:
+              :param count:
+              :return: lista de productos a devolver para la venta
+              """
+        if product_name not in self._stock:
+            raise Exception(f"The product {product_name} don´t exists")
+
+        # Chequear que la cant de producto que se tiene en stock es suficiente
+        count_in_stock: int = len(self._stock[product_name])
+        if count_in_stock < count:
+            raise Exception(
+                f"Don t have {count} of the product {product_name} only have {count_in_stock}")
+        lis = self._stock[product_name]
+        temp = copy.deepcopy(lis)
+        # elimina los n primeros elementos de la lista
+        self._stock[product_name] = lis[count:]
+
+        return temp[0:count]

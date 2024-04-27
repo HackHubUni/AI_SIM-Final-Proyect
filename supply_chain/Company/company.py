@@ -1,4 +1,5 @@
 import copy
+from typing import Callable
 
 from supply_chain.Company.company_helper import CompanyStock, BaseCompanyStock
 
@@ -16,11 +17,10 @@ except:
 
 class CompanyWrapped(Company):
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: CompanyStock
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: CompanyStock
                  ):
-        super().__init__(name, environment)
+        super().__init__(name, get_time)
         self.agent: Agent = agent
-        self.environment: SimEnvironment = environment
         self.register = Registry()
         self.stock_manager = stock_manager
 
@@ -29,13 +29,7 @@ class CompanyWrapped(Company):
         Call the start function
         """
 
-    # TODO:Carla aca tienes el ambiente
-    @property
-    def get_environment(self):
-        """
-        :return: El env de la simulación
-        """
-        return self.environment
+
 
     # TODO:Carla aca tienes como saber el tiempo actual
     @property
@@ -44,7 +38,7 @@ class CompanyWrapped(Company):
         Retorna el tiempo actual en que se está
         :return:
         """
-        return self.environment.get_time()
+        return self.get_time()
 
     def start(self):
         pass
@@ -63,8 +57,8 @@ class LogisticCompany(CompanyWrapped):
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: BaseCompanyStock):
-        super().__init__(name, environment, agent, stock_manager)
+    def __init__(self, name: str,get_time: Callable[[], int], agent: Agent, stock_manager: BaseCompanyStock):
+        super().__init__(name, get_time, agent, stock_manager)
 
     def start(self):
         """
@@ -74,17 +68,6 @@ class BaseProducer(CompanyWrapped):
         self.stock_manager.restock()
 
     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
-    @property
-    def get_stock(self) -> dict[str, int]:
-        """
-         nombre de producto: lista de los productos en stock son instancias de Product
-        :return:
-        """
-        dic = {}
-        for key in self._stock.keys():
-            dic[key] = len(self._stock[key])
-
-        return dic
 
     @property
     def tag(self):
@@ -186,8 +169,8 @@ class SecondaryCompany(BaseProducer):
     def tag(self):
         return TypeCompany.SecondaryProvider
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment):
-        super().__init__(name, environment, agent, env)
+    def __init__(self, name: str,get_time: Callable[[], int], agent: Agent):
+        super().__init__(name, get_time, agent)
 
         self._process_product_price: dict[Product, float] = {}
 
@@ -236,11 +219,10 @@ class SecondaryCompany(BaseProducer):
 
 class WarehouseCompany(CompanyWrapped):
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,
                  inicial_balance: float):
-        super().__init__(name, environment)
+        super().__init__(name,get_time )
         self.agent: Agent = agent
-        self.environment: SimEnvironment = env
         self.balance = inicial_balance
         self.register = Registry()
 
