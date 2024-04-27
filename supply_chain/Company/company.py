@@ -1,7 +1,8 @@
 import copy
 from typing import Callable
 
-from supply_chain.Company.company_helper import CompanyStockBase, BaseCompanyStock
+from supply_chain.Company.Sell_order import SellOrder
+from supply_chain.Company.company_helper import CompanyStockBase, BaseCompanyStock, ManufacturingStock
 
 try:
     from supply_chain.agents.order import Order
@@ -101,15 +102,9 @@ class BaseProducer(CompanyWrapped):
             to_company_tag=to_company_tag
         )
 
-    def sell(self, product_name: str,
-             price_sold: float,
-             amount_asked: int,
-             amount_sold: int,
-             normal_price_per_unit:float,
-             matrix_name: str,
-             to_company: Company,
-             logistic_company: LogisticCompany
+    def sell(self,sellOrder:SellOrder
              ):
+
         """
         Llamar para realizar la venta del producto
         :param product_name:str nombre del producto a vender
@@ -121,23 +116,24 @@ class BaseProducer(CompanyWrapped):
         :param logistic_company:LogisticCompany company logística  que debe realizar el envío
         :return:
         """
-        count_in_stock: int = self.stock_manager.get_count_product_in_stock(product_name)
 
-        assert amount_sold <= count_in_stock,f"Se trata de vender {amount_sold} unidades del producto {product_name} cuando hay stock {count_in_stock} en la empresa {self.name} "
+        count_in_stock: int = self.stock_manager.get_count_product_in_stock(sellOrder.product_name)
+
+        assert sellOrder.amount_sold <= count_in_stock,f"Se trata de vender {sellOrder.amount_sold} unidades del producto {product_name} cuando hay stock {count_in_stock} en la empresa {self.name} "
         # Se verifica que nunca se venda una cant que no hay en el stock
-        amount_sold = amount_sold if amount_sold <= count_in_stock else count_in_stock
+        amount_sold = sellOrder.amount_sold if sellOrder.amount_sold <= count_in_stock else count_in_stock
         #Actualizar estadísticas
 
         self.register.add_sell_record(time=self.get_time,
-                                      product_name=product_name,
-                                      price_sold=price_sold,
-                                      matrix_name=matrix_name,
-                                      amount_asked=amount_asked,
+                                      product_name=sellOrder.product_name,
+                                      price_sold=sellOrder.price_sold,
+                                      matrix_name=sellOrder.matrix_name,
+                                      amount_asked=sellOrder.amount_asked,
                                       from_company_name=self.name,
                                       from_company_tag=self.tag,
-                                      to_company_name=to_company.name,
-                                      to_company_tag=to_company.tag,
-                                      normal_price=normal_price_per_unit,
+                                      to_company_name=sellOrder.to_company.name,
+                                      to_company_tag=sellOrder.to_company.tag,
+                                      normal_price=sellOrder.normal_price_per_unit,
                                       amount_sold=amount_sold,
                                       list_products_records=
 
@@ -146,7 +142,7 @@ class BaseProducer(CompanyWrapped):
                                       )
 
 
-        return_list=self.stock_manager.get_products_by_name(product_name,amount_sold)
+        return_list=self.stock_manager.get_products_by_name(sellOrder.product_name,amount_sold)
 
     def deliver(self, order: Order):
         pass
@@ -158,30 +154,31 @@ class SecondaryCompany(BaseProducer):
     def tag(self):
         return TypeCompany.SecondaryProvider
 
-    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,stock_manager:):
-        super().__init__(name, get_time, agent)
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,stock_manager:ManufacturingStock):
+        super().__init__(name, get_time, agent,stock_manager)
+        self.stock_manager=stock_manager
 
-        self._process_product_price: dict[Product, float] = {}
 
     # TODO:Carla aca tienes el dic de producto con el precio que se procesan porfa
     @property
-    def process_products_price(self) -> dict[Product, float]:
+    def process_products_price(self) -> dict[str, float]:
         """
         Devuelve el diccionario que tiene por producto que se procesa su precio de venta por procesar
         :return:
         """
-        return self._process_product_price
+        return self.stock_manager.price_produce_product_per_unit
 
     # TODO:Aca tienes  el precio de procesar un elemento
-    def get_price_process_product(self, product: Product):
+    def get_price_process_product(self, product_name:str):
         """
         Devuelve el precio del producto
-        :param product:
+        :param product_name:
         :return:
         """
-        if not product in self._process_product_price:
-            raise Exception(f"El producto: {product.name} no se encuentra entre los productos a procesar")
-        return self._process_product_price[product]
+        try:
+            return  self.stock_manager.get_product_price_per_unit(product_name)
+        except Exception as e:
+            raise Exception(f"En la empresa {self.name} se tiene el error {str(e)}")
 
     # TODO:Carla aca es para que llames cuando se vende un servicio de manufactura osea que
     # le di las papas y le empresa me hizo el puré
@@ -193,17 +190,8 @@ class SecondaryCompany(BaseProducer):
         :param sell_price: precio al que se vendió el total de la orden
         :return:
         """
-        pass
 
-    def restock(self):
-        """
-        LLama a reabastecer un producto y una cantidad en específico
-        :param product:
-        :param count:
-        :return:
-        """
-        # Todo:Implementar restock este es el que llama carla pq tiene que hacer restock no es el que tengo que hacer para que sea magicamente
-        pass
+
 
 
 class WarehouseCompany(CompanyWrapped):

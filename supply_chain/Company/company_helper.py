@@ -5,6 +5,7 @@ from supply_chain.products.product import Product
 from typing import Callable, Dict, List
 from abc import ABC, abstractmethod, abstractproperty
 
+from supply_chain.products.recipe import Recipe
 from supply_chain.sim_environment import SimEnvironment
 
 
@@ -292,6 +293,7 @@ class ManufacturingStock(BaseCompanyStock):
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
                  get_time: Callable[[], int],
+                 recipe_dic: dict[str, Recipe],
                  price_produce_product_per_unit: dict[str, float]
                  ):
         super().__init__(
@@ -304,8 +306,15 @@ class ManufacturingStock(BaseCompanyStock):
             get_time
         )
 
-        self.price_produce_product_per_unit: dict[str, float] = price_produce_product_per_unit
+        self.recipe_dic:dict[str,Recipe]=recipe_dic
+        """
+        Dict de nombre del producto y su receta
+        """
 
+        self.price_produce_product_per_unit: dict[str, float] = price_produce_product_per_unit
+        """
+        Dict de nombre del producto más precio por elaborarlo
+        """
     @property
     def get_produce_products(self) -> list[str]:
         """
@@ -313,12 +322,12 @@ class ManufacturingStock(BaseCompanyStock):
 
         :return:list[str]
         """
-        return list (self.price_produce_product_per_unit.keys())
+        return list(self.price_produce_product_per_unit.keys())
 
     def get_price_produce_product_per_unit(self, product_name: str):
         """
-        Devuelve el precio de producir un producto dandole los ingredientes
-        devuelve -1 si no está el producto
+        Devuelve el precio de producir un producto dándole
+        los ingredientes devuelve -1 si no está el producto
         :param product_name: nombre del producto
         :return:float precio de producir el producto
         """
