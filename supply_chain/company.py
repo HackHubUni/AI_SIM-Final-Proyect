@@ -29,3 +29,11 @@ class Company(ABC):
         :return:
         """
         pass
+
+    @abstractmethod
+    def start(self):
+        """
+        Esta función es para inicializar las acciones de la empresa
+        :return:
+        """
+        pass

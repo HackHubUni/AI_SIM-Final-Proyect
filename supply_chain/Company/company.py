@@ -22,6 +22,11 @@ class CompanyWrapped(Company):
         self.balance = inicial_balance
         self.register = Registry()
 
+        self.start()
+        """
+        Call the start function
+        """
+
     # TODO:Carla aca tienes el ambiente
     @property
     def get_environment(self):
@@ -39,6 +44,9 @@ class CompanyWrapped(Company):
         """
         return self.environment.get_time()
 
+    def start(self):
+        pass
+
 
 class LogisticCompany(CompanyWrapped):
     """
@@ -54,7 +62,7 @@ class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
     def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
-                 initial_balance: float):
+                 initial_balance: float, lis_sales_products_name: list[str]):
         super().__init__(name, environment, agent, env, initial_balance)
         self._stock: dict[str, list[Product]] = {}
         # Por cada producto tengo la lista de las instancias de estos
@@ -63,6 +71,17 @@ class BaseProducer(CompanyWrapped):
         """
         nombre del producto: precio
         """
+        self.lis_sales_products_name: list[str]
+
+    def _restock(self):
+
+        """
+        Reabastecimiento mágico que va a tener ,a empresa
+        """
+
+
+    def start(self):
+        self._restock()
 
     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
     @property
@@ -173,7 +192,6 @@ class BaseProducer(CompanyWrapped):
         :return:
         """
         self._delete_product_stock(product_name, amount_sold)
-
 
     def deliver(self, order: Order):
         pass
