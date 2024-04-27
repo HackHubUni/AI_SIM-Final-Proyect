@@ -14,7 +14,7 @@ class Recipe:
 
     def get_ingredients(self) -> list[Ingredient]:
         """Returns the list of ingredients of the product"""
-        return self.ingredients
+        return list(self.ingredients)
 
     def create(self, ingredients: list[Product]) -> Product:
         """This method creates the product given the ingredients.
