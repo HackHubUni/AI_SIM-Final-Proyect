@@ -34,6 +34,7 @@ class BaseCompanyStock(CompanyStockBase):
                  supply_distribution: Dict[str, Callable[[], int]],
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
+                 quality_distribution: dict[str, Callable[[], float]],
                  get_time: Callable[[], int]
                  ):
 
@@ -41,7 +42,10 @@ class BaseCompanyStock(CompanyStockBase):
         """
         función que brinda el tiempo actual
         """
-
+        self. quality_distribution: dict[str, Callable[[], float]]=quality_distribution
+        """
+        
+        """
         self.products_max_stock: dict[str, int] = products_max_stock
         """
         Cant maxima de productos en stock
@@ -306,7 +310,7 @@ class ManufacturingStock(BaseCompanyStock):
             get_time
         )
 
-        self.recipe_dic:dict[str,Recipe]=recipe_dic
+        self.recipe_dic: dict[str, Recipe] = recipe_dic
         """
         Dict de nombre del producto y su receta
         """
@@ -315,6 +319,7 @@ class ManufacturingStock(BaseCompanyStock):
         """
         Dict de nombre del producto más precio por elaborarlo
         """
+
     @property
     def get_produce_products(self) -> list[str]:
         """

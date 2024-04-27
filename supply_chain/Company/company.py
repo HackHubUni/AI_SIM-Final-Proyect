@@ -114,7 +114,7 @@ class BaseProducer(CompanyWrapped):
         :param matrix_name:str nombre de la empresa matriz que gestionó la compra
         :param to_company:Company compañía a la que hay que enviarle
         :param logistic_company:LogisticCompany company logística  que debe realizar el envío
-        :return:
+        :return: Lanza un evento
         """
 
         count_in_stock: int = self.stock_manager.get_count_product_in_stock(sellOrder.product_name)
@@ -140,9 +140,13 @@ class BaseProducer(CompanyWrapped):
 
 
                                       )
-
+        #TODO:Completar para saber donde lanzo el evento
 
         return_list=self.stock_manager.get_products_by_name(sellOrder.product_name,amount_sold)
+
+
+    def get_product_price(self,product_name:str)->float:
+        return self.stock_manager.get_product_price_per_unit(product_name)
 
     def deliver(self, order: Order):
         pass

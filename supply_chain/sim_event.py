@@ -23,7 +23,7 @@ class SimEvent:
         return False
 
     @abstractmethod
-    def execute(self, environment: SimEnvironment) -> list[Self]:
+    def execute(self, environment: SimEnvironment):
         pass
 
 
