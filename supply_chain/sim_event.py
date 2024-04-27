@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import *
 from sim_environment import SimEnvironment
 
 
@@ -22,7 +23,7 @@ class SimEvent:
         return False
 
     @abstractmethod
-    def execute(self, environment: SimEnvironment):
+    def execute(self, environment: SimEnvironment) -> list[Self]:
         pass
 
 
