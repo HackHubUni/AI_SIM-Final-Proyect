@@ -53,9 +53,9 @@ La lógica que se debe ejecutar en el método `Start()` de la tienda es la sigui
     - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de unidades de un producto (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo del producto). De forma precisa:
       - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades.
 
-### Descripción de la lógica de cada empresa
+## Descripción de la lógica de cada empresa
 
-#### Empresa matriz
+### Empresa matriz
 
 Su lógica es la siguiente:
 - A la hora de la empresa matriz cumplir con el objetivo de suministrar cierta cantidad de unidades de un producto a una tienda ella tiene un conjunto de posibles acciones a realizar y con estas acciones debe crear una planificación, es decir, decidir la secuencia de pasos a realizar para cumplir el objetivo:
@@ -70,13 +70,13 @@ Su lógica es la siguiente:
   - **Enviar** cierta cantidad de unidades del almacén a un punto del mapa por medio de un transportista.
   - **Mandar** al manufactor a crear cierta cantidad de productos y enviarla a cierto punto del mapa con un transportista. <!-- Analizar este punto pues es necesario que se hayan enviado los productos base al manufactor -->
 
-#### Empresa proveedora
+### Empresa proveedora
 
 Las acciones de esta empresa son las siguientes:
 1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
 2. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
 
-#### Empresa transportista
+### Empresa transportista
 
 Las acciones de esta empresa son las siguientes:
 1. Decir cuanto cobra por enviar cierta cantidad de unidades de un producto de un punto de origen del mapa a un punto de destino.
@@ -90,6 +90,14 @@ Las acciones de esta empresa
 3. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
 4. Producir cierta cantidad de unidades de un producto a una empresa, esto es, se descuenta a la empresa el costo de la producción de estas unidades, luego se envían los productos creados a un punto en el mapa (proporcionado por la empresa matriz) por medio de un distribuidor.
 
-#### Empresa Almacén
+### Empresa Almacén
 
-Las acciones de 
+Las acciones de ..
+
+## Agentes
+
+Los agentes de nuestra simulación siguen la arquitectura BDI (Belief, Desires, Intentions).
+El conocimiento de nuestros agentes, es decir, lo que creen cierto del mundo se guarda dentro de los Belief del agente, así como el conjunto de reglas que rigen su comportamiento, es decir, las reglas que le permiten deducir nuevo conocimiento o realizar nuevas acciones.
+Los deseos de nuestros agentes son los objetivos que deben cumplir en un momento dado, y para cumplirlos ellos .......
+
+

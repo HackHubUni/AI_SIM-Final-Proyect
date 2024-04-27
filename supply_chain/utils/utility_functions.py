@@ -8,6 +8,43 @@ def percentage_normalization(values: list[float]) -> list[float]:
     return list(value / total_sum for value in values)
 
 
+def sum_points(p1: tuple[float, float], p2: tuple[float, float]) -> tuple[float, float]:
+    """This function sums 2 points"""
+    return (p1[0] + p2[0], p1[1] + p2[1])
+
+
+def mul_point_by_escalar(p1: tuple[float, float], scalar: float) -> tuple[float, float]:
+    """This function multiplies a point with a scalar"""
+    return (p1[0] * scalar, p1[1] * scalar)
+
+
+def distance_between_points(p1: tuple[float, float], p2: tuple[float, float]) -> float:
+    """Return the distance between points"""
+    return norm([p1[0] - p2[0], p1[1] - p2[1]])
+
+
+def point_inside_circle(
+    point: tuple[float, float], center: tuple[float, float], radius: float
+) -> bool:
+    """Returns True if the point is inside the circle"""
+    return distance_between_points(point, center) < radius
+
+
+def boundary_inside_circle(
+    bottom_left_point_boundary: tuple[float, float],
+    upper_right_point_boundary: tuple[float, float],
+    circle_center: tuple[float, float],
+    radius: float,
+) -> bool:
+    """Returns True if the whole boundary is inside the circle"""
+    p1 = bottom_left_point_boundary
+    p2 = upper_right_point_boundary
+    p3 = p1[0], p2[1]
+    p4 = p2[0], p1[1]
+    points = [p1, p2, p3, p4]
+    return any(point_inside_circle(point, circle_center, radius) for point in points)
+
+
 def norm(vector: list[float]) -> float:
     """Returns the norm of the vector"""
     product = list(one**2 for one in vector)
