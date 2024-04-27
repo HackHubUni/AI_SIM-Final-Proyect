@@ -15,3 +15,4 @@ class SimEvent:
     @abstractmethod
     def execute(environment: SimEnvironment):
         pass
+

@@ -6,13 +6,14 @@ from func import Func, Func_restock
 import time
 import math
 from products.product import Product 
+from supply_chain.agent import Agent as ag
 
 class Origin:
-    def __init__(self, producer,shipper,manuefacturer,shop):
+    def __init__(self, producer,shipper,manuefacturer,Matriz):
         self.producer = producer
         self.shipper = shipper
         self.manuefacturer = manuefacturer
-        self.shop = shop
+        self.Matriz = Matriz
 class Message:
             """
             Represents a message for communication between agents.
@@ -29,7 +30,9 @@ class Message:
                 """
                 return self.content
             
-class Agent(abc.Protocol):
+class Agent(ag):
+
+    
     def brf(self):
         # partir de una entrada perceptual y el cjto de creencias actuales determina un nuevo cjto de creencias
         pass
@@ -44,14 +47,15 @@ class Agent(abc.Protocol):
     def execute(self):
         pass
 
-    def tell(self,info:Message):
+    def tell(self,info):
         # TODO: Carla must type the info variable because every body in the repo
         # should know how to pass info to the agent
         pass
-        
+
     def get_plans(self):
         return self.Plans
-
+    def get_stock(self):
+        return self.stock
             
 class Order():
     """
@@ -81,7 +85,7 @@ class Intention:
     def __init__(self, action, order:Order, product_amount:{(Product,int)} = 0):
         self.action = action
         self.order = order
-        self.amount = product_amount
+        self.amount = prod uct_amount
 
 
 
@@ -92,7 +96,7 @@ class ProducerAgent(Agent):
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs, env,
-                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+                 SE:ExpertSystem, stock:dict[Product, float],product_price:dict[Product, float]):
         self.name = name
         self.stock = stock
         self.product_price = product_price
@@ -125,14 +129,20 @@ class ProducerAgent(Agent):
         self.filter()
         for i in self.Intentions:
             if i.action == "sell":
-                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
-            elif i.action == "no-sell":
+                self.Plans.append(Func("sell", time.time(), self.name, i.order,))
+            elif i.action == "no-sell ":
                 self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
             else:
                 print("Invalid action")
 
-    def tell(self,info: Message):
-        self.SE.process_message(self.Beliefs, info)  
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
+
 
 
     """
@@ -172,18 +182,16 @@ class ProducerAgent(Agent):
         
     def execute(self):
         pass     
-
-                    
+  
 class ShipperAgent(Agent):
     """
     Represents a shipper agent in the supply chain.
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs,
-                 SE:ExpertSystem, price_per_km:int, speed:int):
+                 SE:ExpertSystem, price_per_km:float):
         self.name = name
         self.price_per_km = price_per_km
-        self.speed = speed  
 
         self.orders:queue.Queue[Order] = queue.Queue()
         self.Beliefs = beliefs
@@ -207,18 +215,30 @@ class ShipperAgent(Agent):
         
     def execute(self):
         #aca necesito la implementacion de A*
+        for i in self.Intentions:
+            if i.action == "deliver":
+                self.Plans.append(Func("deliver", time.time(), self.name, i.order,i.order.quantity*self.price_per_km))
+            elif i.action == "no-deliver":
+                self.Plans.append(Func("no-deliver", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            else:
+                print("Invalid action")
         pass                    
 
-    def tell(self,info: Message):
-        self.SE.process_message(self.Beliefs, info)
-            
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
+           
 class ManufacturerAgent(Agent):
     """
     Represents a manufacturer agent in the supply chain.
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs,
-                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+                 SE:ExpertSystem, stock:dict[Product, float],product_price:dict[Product, float]):
         self.name = name
         self.stock = stock
         self.product_price = product_price
@@ -256,11 +276,21 @@ class ManufacturerAgent(Agent):
             elif i.action == "restock":
                 #falta por implementar
                 pass
+            if i.action == "sell":
+                self.Plans.append(Func("sell", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
+            elif i.action == "no-sell ":
+                self.Plans.append(Func("no-sell", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            
             else:
                 print("Invalid action")
 
-    def tell(self,info: Message):
-        self.SE.process_message(self.Beliefs, info)
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
 
 class WarehouseAgent(Agent):
     """
@@ -268,7 +298,7 @@ class WarehouseAgent(Agent):
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs,
-                 SE:ExpertSystem, stock:dict[str, int]):
+                 SE:ExpertSystem, stock:dict[Product, float]):
         self.name = name
         self.stock = stock
 
@@ -302,9 +332,6 @@ class WarehouseAgent(Agent):
                 self.Plans.append(Func("store", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
             elif i.action == "no-store":
                 self.Plans.append(Func("no-store", time.time(), self.name, i.order,i.order.quantity*math.inf))
-            elif i.action == "restock":
-                #falta por implementar
-                pass
             elif i.action == "send":
                 #falta por implementar
                 pass
@@ -312,8 +339,13 @@ class WarehouseAgent(Agent):
             else:
                 print("Invalid action")
 
-    def tell(self,info: Message):
-        self.SE.process_message(self.Beliefs, info)
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
 
 class ShopAgent(Agent):
     """
@@ -321,7 +353,7 @@ class ShopAgent(Agent):
     """
 
     def __init__(self, name, beliefs:Set_of_Beliefs,
-                 SE:ExpertSystem, stock:dict[str, int],product_price:dict[str, int]):
+                 SE:ExpertSystem, stock:dict[Product, float],product_price:dict[Product, float]):
         self.name = name
         self.stock = stock
         self.product_price = product_price
@@ -362,7 +394,70 @@ class ShopAgent(Agent):
             else:
                 print("Invalid action")
 
-    def tell(self,info: Message):
-        self.SE.process_message(self.Beliefs, info)
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
 
-class Client
+
+
+
+
+
+
+
+
+class ClientAgent(Agent):
+    """
+    Represents a client agent in the supply chain.
+    """
+
+    def __init__(self, name, beliefs:Set_of_Beliefs,
+                 SE:ExpertSystem, stock:dict[Product, float],product_price:dict[Product, float]):
+        self.name = name
+        self.stock = stock
+        self.product_price = product_price
+
+        self.orders:queue.Queue[Order] = queue.Queue()
+        self.Beliefs = beliefs
+        self.Desires:list[Desire] = []
+        self.Intentions:list[Intention] = []
+        self.SE = SE
+        self.Plans = []
+
+    def brf(self):
+        self.SE.run(self.Beliefs)
+
+    def options(self):
+    
+        while not self.orders.empty():
+            order = self.orders.get()
+            desire = Desire(order)
+            self.Desires.append(desire)
+
+    def filter(self):
+        for i in self.Desires:
+            self.Intentions =self.SE.get_action(self.Beliefs, i)
+        
+    def execute(self):
+        self.brf()
+        self.options()
+        self.filter()
+        for i in self.Intentions:
+            if i.action == "buy":
+                self.Plans.append(Func("buy", time.time(), self.name, i.order,i.order.quantity*self.product_price[i.order.product]))
+            elif i.action == "no-buy":
+                self.Plans.append(Func("no-buy", time.time(), self.name, i.order,i.order.quantity*math.inf))
+            else:
+                print("Invalid action")
+
+    def tell(self,info):
+        if type(info) == Message:
+            self.SE.process_message(self.Beliefs, info)  
+        elif type(info)==Order:
+            self.orders.put(info)
+        else:
+            print("type no esperado en tell")
