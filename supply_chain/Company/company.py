@@ -1,5 +1,7 @@
 import copy
 
+from supply_chain.Company.company_helper import CompanyStock, BaseCompanyStock
+
 try:
     from supply_chain.agents.order import Order
     from supply_chain.sim_environment import SimEnvironment
@@ -14,13 +16,13 @@ except:
 
 class CompanyWrapped(Company):
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
-                 inicial_balance: float):
+    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: CompanyStock
+                 ):
         super().__init__(name, environment)
         self.agent: Agent = agent
-        self.environment: SimEnvironment = env
-        self.balance = inicial_balance
+        self.environment: SimEnvironment = environment
         self.register = Registry()
+        self.stock_manager = stock_manager
 
         self.start()
         """
@@ -61,27 +63,15 @@ class LogisticCompany(CompanyWrapped):
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
-                 initial_balance: float, lis_sales_products_name: list[str]):
-        super().__init__(name, environment, agent, env, initial_balance)
-        self._stock: dict[str, list[Product]] = {}
-        # Por cada producto tengo la lista de las instancias de estos
-
-        self._product_price: dict[str, float] = {}
-        """
-        nombre del producto: precio
-        """
-        self.lis_sales_products_name: list[str]
-
-    def _restock(self):
-
-        """
-        Reabastecimiento mágico que va a tener ,a empresa
-        """
-
+    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: BaseCompanyStock):
+        super().__init__(name, environment, agent, stock_manager)
 
     def start(self):
-        self._restock()
+        """
+        Inicializa la clase
+        :return:
+        """
+        self.stock_manager.restock()
 
     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
     @property
@@ -99,13 +89,6 @@ class BaseProducer(CompanyWrapped):
     @property
     def tag(self):
         return TypeCompany.BaseProducer
-
-    def restock(self):
-        """
-        Se llama a esta función para reabastecerse de productos bajo cierta lógica
-        :return:
-        """
-        pass
 
     def _add_sell_record(self,
                          product_name: str,

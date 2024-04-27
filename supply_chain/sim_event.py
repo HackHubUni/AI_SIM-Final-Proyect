@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from sim_environment import SimEnvironment
 
 
-class SimEvent(ABC):
+class SimEvent:
     """This is the base class for all the events in the simulation"""
 
     def __init__(self, time: int, priority: int) -> None:
@@ -22,5 +22,23 @@ class SimEvent(ABC):
         return False
 
     @abstractmethod
-    def execute(self, environment: SimEnvironment):
+    def execute(environment: SimEnvironment):
         pass
+
+
+
+#class CompanyRestockSimEvent(SimEvent):
+#
+#    def __init__(self, time: int, priority: int,execute:Callable[[],Self]) -> None:
+#        self._execute:Callable[[],Self]=execute
+#
+#        super().__init__(time,priority)
+#
+#
+#    def execute(environment: SimEnvironment):
+#        self._execute()
+#
+#
+#
+#
+#
