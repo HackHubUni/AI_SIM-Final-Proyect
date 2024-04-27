@@ -28,6 +28,7 @@ Ahora, en la lógica del método `Start()` se crea el evento de `CobrarServicio`
 
 ### Tiendas
 
+<!-- TODO: Agregar el punto de que las tiendas solo tienen un reabastecimiento mágico y este ocurre al inicio de la simulación -->
 Las tiendas son las únicas empresas en la simulación que atienden clientes y son estas las que desencadenan el resto de las acciones a realizar en la simulación luego de la inicialización.
 
 La lógica que se debe ejecutar en el método `Start()` de la tienda es la siguiente:
@@ -49,7 +50,54 @@ La lógica que se debe ejecutar en el método `Start()` de la tienda es la sigui
       - El cliente se retira de la tienda y la tienda genera un nuevo evento que debe ocurrir inmediatamente, es decir, en el tiempo actual de la simulación, este evento es el de `ProcessClient`.
   - Se genera un evento `ReviewStock` que su semántica es decirle al agente de la tienda que debe revisar el stock y analizar si debe pedir a la empresa matriz más suministro. De forma precisa:
     - Se le dice al agente que revise el stock de la tienda (esto es un objetivo de los desires, planteando que se quiere tener el stock en un nivel optimo, donde optimo es algo que depende del agente... que puede ser que tener más de 34 unidades de cada producto).
-    - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de productos a su tienda (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo de cada producto). De forma precisa:
-      - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades. Esto sería:
-        - Analizar si se pueden enviar las unidades desde los almacenes. Pero aquí debe tener en cuenta de que almacén va a enviar los productos y cuantas unidades (el tiempo que tienen los productos en el almacén puede ser un factor importante pues con el tiempo la calidad de los productos decrece). La lógica específica aquí depende del agente.
-        - Analizar que manufactores crean el producto necesario o si lo venden
+    - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de unidades de un producto (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo del producto). De forma precisa:
+      - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades.
+
+## Descripción de la lógica de cada empresa
+
+### Empresa matriz
+
+Su lógica es la siguiente:
+- A la hora de la empresa matriz cumplir con el objetivo de suministrar cierta cantidad de unidades de un producto a una tienda ella tiene un conjunto de posibles acciones a realizar y con estas acciones debe crear una planificación, es decir, decidir la secuencia de pasos a realizar para cumplir el objetivo:
+  <!-- TODO: Volver a analizar esto y analizar lo de la estimación de tiempo de envío y producción-->
+  - **Preguntar** a los agentes transportistas cuanto cobran por el envío de cierta cantidades de un producto desde un punto de origen a un punto de destino.
+  - **Preguntar** por los almacenes que tienen ese producto, la cantidad de unidades que de ese producto y la calidad promedio.
+  - **Preguntar** por los manufactores que tienen a la venta ese producto, cuantos tienen a la venta y a cuanto venden la unidad.
+  - **Preguntar** por los manufactores que pueden crear el producto, cuanto cobran por la creación de cierta cantidad de unidades del producto.
+  - **Preguntar** por los proveedores que venden cierto producto, cuantas unidades venden y a que precio la unidad.
+  - **Comprar** tantas unidad del producto al manufactor y enviarlas a cierto punto con un transportista especifico (Esta compra es para los productos que vende el manufactor).
+  - **Comprarle** tantas unidades del producto al productor y enviarlas por medio de un agente transportista a un punto del mapa.
+  - **Enviar** cierta cantidad de unidades del almacén a un punto del mapa por medio de un transportista.
+  - **Mandar** al manufactor a crear cierta cantidad de productos y enviarla a cierto punto del mapa con un transportista. <!-- Analizar este punto pues es necesario que se hayan enviado los productos base al manufactor -->
+
+### Empresa proveedora
+
+Las acciones de esta empresa son las siguientes:
+1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
+2. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
+
+### Empresa transportista
+
+Las acciones de esta empresa son las siguientes:
+1. Decir cuanto cobra por enviar cierta cantidad de unidades de un producto de un punto de origen del mapa a un punto de destino.
+2. Realizar el envío de cierta cantidad de unidades de un punto del mapa a otro. A la hora de realizar esta acción se le tiene que descontar un dinero a la empresa matriz.
+
+#### Empresa manufacturera
+<!-- TODO: Revisar esto completo -->
+Las acciones de esta empresa
+1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
+2. Dar información sobre los productos que puede crear
+3. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
+4. Producir cierta cantidad de unidades de un producto a una empresa, esto es, se descuenta a la empresa el costo de la producción de estas unidades, luego se envían los productos creados a un punto en el mapa (proporcionado por la empresa matriz) por medio de un distribuidor.
+
+### Empresa Almacén
+
+Las acciones de ..
+
+## Agentes
+
+Los agentes de nuestra simulación siguen la arquitectura BDI (Belief, Desires, Intentions).
+El conocimiento de nuestros agentes, es decir, lo que creen cierto del mundo se guarda dentro de los Belief del agente, así como el conjunto de reglas que rigen su comportamiento, es decir, las reglas que le permiten deducir nuevo conocimiento o realizar nuevas acciones.
+Los deseos de nuestros agentes son los objetivos que deben cumplir en un momento dado, y para cumplirlos ellos .......
+
+
