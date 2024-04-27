@@ -14,7 +14,7 @@ class BaseCompanyReStockException(Exception):
         super().__init__(message)
 
 
-class CompanyStock(ABC):
+class CompanyStockBase(ABC):
     @abstractmethod
     def restock(self):
         """
@@ -24,7 +24,7 @@ class CompanyStock(ABC):
         pass
 
 
-class BaseCompanyStock(CompanyStock):
+class BaseCompanyStock(CompanyStockBase):
 
     def __init__(self,
                  products_max_stock: dict[str, int],
@@ -221,16 +221,26 @@ class BaseCompanyStock(CompanyStock):
 
         self._next_restock()
 
-
-
-
-    def get_products_by_name(self, product_name: str, count: int)->list[Product]:
+    def get_count_product_in_stock(self, product_name: str):
         """
-              Es para tener la logica de como  se quita producto del stock en una cant dada
+        Retorna la cant de unidades de un producto en stock
+        -1 si no está en stock
+        :param product_name:
+        :return: La cant de unidades que hay en stock de un producto dado, - si no hay
+        """
+        if product_name not in self._stock:
+            return -1
+        return len(self._stock[product_name])
+
+    def get_products_by_name(self, product_name: str, count: int) -> list[Product]:
+        """
+              Es para tener la logica de como se quita producto del stock en una cant dada
+              Lanza exception si se pide mas que la cant de productos que hay en stock
               :param product_name:
               :param count:
               :return: lista de productos a devolver para la venta
               """
+
         if product_name not in self._stock:
             raise Exception(f"The product {product_name} don´t exists")
 
@@ -240,8 +250,78 @@ class BaseCompanyStock(CompanyStock):
             raise Exception(
                 f"Don t have {count} of the product {product_name} only have {count_in_stock}")
         lis = self._stock[product_name]
+        lis_old_len = len(lis)
         temp = copy.deepcopy(lis)
         # elimina los n primeros elementos de la lista
-        self._stock[product_name] = lis[count:]
+        lis = lis[count:]
+        lis_new_len = len(lis)
+
+        will_be = (lis_old_len - count)
+
+        # asegurarse que la cant de productos que tiene la lista nueva del stock es el viejo stock- lo que se quiere pedir
+        assert lis_new_len == will_be, f'The product {product_name} want to get {count} units and the new stock will be {lis_new_len} not {will_be}'
+
+        # Si se piden todos los productos
+        if len(lis) < 1:
+            del self._stock[product_name]
+            del self._sale_product_price[product_name]
+        else:
+
+            self._stock[product_name] = lis
 
         return temp[0:count]
+
+    def get_product_price_per_unit(self, product_name: str) -> float:
+        """
+        Devuelve la el precio de venta de una unidad del producto
+
+        :param product_name: nombre del producto
+        :return: el precio de venta del producto, -1 si no hay existencias
+        """
+        if product_name not in self.sale_product_price:
+            return -1
+        return self._sale_product_price[product_name]
+
+
+class ManufacturingStock(BaseCompanyStock):
+    def __init__(self,
+                 products_max_stock: dict[str, int],
+                 products_min_stock: dict[str, int],
+                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                 supply_distribution: Dict[str, Callable[[], int]],
+                 sale_price_distribution: dict[str, Callable[[], float]],
+                 time_restock_distribution: Callable[[], int],
+                 get_time: Callable[[], int],
+                 price_produce_product_per_unit: dict[str, float]
+                 ):
+        super().__init__(
+            products_max_stock,
+            products_min_stock,
+            create_product_lambda,
+            supply_distribution,
+            sale_price_distribution,
+            time_restock_distribution,
+            get_time
+        )
+
+        self.price_produce_product_per_unit: dict[str, float] = price_produce_product_per_unit
+
+    @property
+    def get_produce_products(self) -> list[str]:
+        """
+        Da el nombre de los productos los cuales puede elaborar dándole sus ingredientes
+
+        :return:list[str]
+        """
+        return list (self.price_produce_product_per_unit.keys())
+
+    def get_price_produce_product_per_unit(self, product_name: str):
+        """
+        Devuelve el precio de producir un producto dandole los ingredientes
+        devuelve -1 si no está el producto
+        :param product_name: nombre del producto
+        :return:float precio de producir el producto
+        """
+        if product_name not in self.price_produce_product_per_unit:
+            return -1
+        return self.price_produce_product_per_unit[product_name]

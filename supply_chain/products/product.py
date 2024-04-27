@@ -37,7 +37,7 @@ class Product(ABC):
 
     def get_nutritive_properties(self) -> NutritiveProperties:
         """Obtain the nutritive properties of the product"""
-        self.nutritive_properties
+        return self.nutritive_properties
 
     def __hash__(self) -> int:
         return hash(self.name)

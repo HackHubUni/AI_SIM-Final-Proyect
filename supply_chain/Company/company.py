@@ -1,7 +1,7 @@
 import copy
 from typing import Callable
 
-from supply_chain.Company.company_helper import CompanyStock, BaseCompanyStock
+from supply_chain.Company.company_helper import CompanyStockBase, BaseCompanyStock
 
 try:
     from supply_chain.agents.order import Order
@@ -17,7 +17,7 @@ except:
 
 class CompanyWrapped(Company):
 
-    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: CompanyStock
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: CompanyStockBase
                  ):
         super().__init__(name, get_time)
         self.agent: Agent = agent
@@ -28,8 +28,6 @@ class CompanyWrapped(Company):
         """
         Call the start function
         """
-
-
 
     # TODO:Carla aca tienes como saber el tiempo actual
     @property
@@ -57,8 +55,9 @@ class LogisticCompany(CompanyWrapped):
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
-    def __init__(self, name: str,get_time: Callable[[], int], agent: Agent, stock_manager: BaseCompanyStock):
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: BaseCompanyStock):
         super().__init__(name, get_time, agent, stock_manager)
+        self.stock_manager = stock_manager
 
     def start(self):
         """
@@ -86,7 +85,6 @@ class BaseProducer(CompanyWrapped):
                          to_company_name: str,
                          to_company_tag: TypeCompany
                          ):
-
         self.register.add_sell_record(
             # Tiempo en que se hace la venta
             time=self.get_time,
@@ -103,45 +101,11 @@ class BaseProducer(CompanyWrapped):
             to_company_tag=to_company_tag
         )
 
-    # TODO:Carla aca tienes para conocer el precio de un producto
-    def get_product_price(self, product_name: str) -> float:
-        """
-        Retorna por cada producto el precio de estos
-        :param product_name: nombre del producto
-        :return:float precio de venta del producto
-        """
-        if product_name not in self._stock:
-            return float('inf')
-        return self._product_price[product_name]
-
-    def _delete_product_stock(self, product_name: str, count: int) -> list[Product]:
-        """
-        Es para tener la logica de como  se quita producto del stock en una cant dada
-        :param product_name:
-        :param count:
-        :return: lista de productos a devolver para la venta
-        """
-        if product_name not in self._stock:
-            raise Exception(f"The product {product_name} in the company {self.name} type {self.tag} don´t exists")
-
-        # Chequear que la cant de producto que se tiene en stock es suficiente
-        count_in_stock: int = self.get_stock[product_name]
-        if count_in_stock < count:
-            raise Exception(
-                f"Don t have {count} of the product {product_name} only have {count_in_stock} in the company {self.name} type {self.tag}")
-        lis = self._stock[product_name]
-        temp = copy.deepcopy(lis)
-        # elimina los n primeros elementos de la lista
-        self._stock[product_name] = lis[count:]
-
-        return temp[0:count]
-
-    # TODO:Carla aca tienes para Si no vas a vender mandas como que es infinito el precio de venta
-
     def sell(self, product_name: str,
              price_sold: float,
              amount_asked: int,
              amount_sold: int,
+             normal_price_per_unit:float,
              matrix_name: str,
              to_company: Company,
              logistic_company: LogisticCompany
@@ -157,7 +121,32 @@ class BaseProducer(CompanyWrapped):
         :param logistic_company:LogisticCompany company logística  que debe realizar el envío
         :return:
         """
-        self._delete_product_stock(product_name, amount_sold)
+        count_in_stock: int = self.stock_manager.get_count_product_in_stock(product_name)
+
+        assert amount_sold <= count_in_stock,f"Se trata de vender {amount_sold} unidades del producto {product_name} cuando hay stock {count_in_stock} en la empresa {self.name} "
+        # Se verifica que nunca se venda una cant que no hay en el stock
+        amount_sold = amount_sold if amount_sold <= count_in_stock else count_in_stock
+        #Actualizar estadísticas
+
+        self.register.add_sell_record(time=self.get_time,
+                                      product_name=product_name,
+                                      price_sold=price_sold,
+                                      matrix_name=matrix_name,
+                                      amount_asked=amount_asked,
+                                      from_company_name=self.name,
+                                      from_company_tag=self.tag,
+                                      to_company_name=to_company.name,
+                                      to_company_tag=to_company.tag,
+                                      normal_price=normal_price_per_unit,
+                                      amount_sold=amount_sold,
+                                      list_products_records=
+
+
+
+                                      )
+
+
+        return_list=self.stock_manager.get_products_by_name(product_name,amount_sold)
 
     def deliver(self, order: Order):
         pass
@@ -169,7 +158,7 @@ class SecondaryCompany(BaseProducer):
     def tag(self):
         return TypeCompany.SecondaryProvider
 
-    def __init__(self, name: str,get_time: Callable[[], int], agent: Agent):
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,stock_manager:):
         super().__init__(name, get_time, agent)
 
         self._process_product_price: dict[Product, float] = {}
@@ -221,7 +210,7 @@ class WarehouseCompany(CompanyWrapped):
 
     def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,
                  inicial_balance: float):
-        super().__init__(name,get_time )
+        super().__init__(name, get_time)
         self.agent: Agent = agent
         self.balance = inicial_balance
         self.register = Registry()
