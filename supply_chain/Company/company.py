@@ -1,13 +1,15 @@
 import copy
-from typing import Callable
+from typing import Callable, List
 
-from supply_chain.Company.Sell_order import SellOrder
-from supply_chain.Company.company_helper import CompanyStockBase, BaseCompanyStock, ManufacturingStock
+from supply_chain.Company.Sell_order import SellOrder, ProduceOrder
+from supply_chain.Company.stock_manager import CompanyStockBase, BaseCompanyStock, ManufacturingStock
+from supply_chain.products.ingredient import Ingredient
+from supply_chain.sim_event import SimEvent
 
 try:
     from supply_chain.agents.order import Order
     from supply_chain.sim_environment import SimEnvironment
-
+    from supply_chain.products.product import Product
     from supply_chain.Company.registrers.registers import *
     from supply_chain.company import Company, TypeCompany
 except:
@@ -18,10 +20,14 @@ except:
 
 class CompanyWrapped(Company):
 
-    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: CompanyStockBase
+    def __init__(self,
+                 name: str,
+                 get_time: Callable[[], int],
+                 add_event: Callable[[SimEvent], None],
+                 stock_manager: CompanyStockBase,
+
                  ):
-        super().__init__(name, get_time)
-        self.agent: Agent = agent
+        super().__init__(name, get_time, add_event)
         self.register = Registry()
         self.stock_manager = stock_manager
 
@@ -32,7 +38,7 @@ class CompanyWrapped(Company):
 
     # TODO:Carla aca tienes como saber el tiempo actual
     @property
-    def get_time(self):
+    def time(self) -> int:
         """
         Retorna el tiempo actual en que se está
         :return:
@@ -56,8 +62,12 @@ class LogisticCompany(CompanyWrapped):
 class BaseProducer(CompanyWrapped):
     """Productor de productos base"""
 
-    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: BaseCompanyStock):
-        super().__init__(name, get_time, agent, stock_manager)
+    def __init__(self,
+                 name: str,
+                 get_time: Callable[[], int],
+                 add_event: Callable[[SimEvent], None],
+                 stock_manager: BaseCompanyStock):
+        super().__init__(name, get_time, add_event, stock_manager)
         self.stock_manager = stock_manager
 
     def start(self):
@@ -88,7 +98,7 @@ class BaseProducer(CompanyWrapped):
                          ):
         self.register.add_sell_record(
             # Tiempo en que se hace la venta
-            time=self.get_time,
+            time=self.time,
             product_name=product_name,
             list_products_records=list_products_records,
             normal_price=normal_price,
@@ -102,9 +112,22 @@ class BaseProducer(CompanyWrapped):
             to_company_tag=to_company_tag
         )
 
-    def sell(self,sellOrder:SellOrder
-             ):
+    def create_list_ProductRecord(self, list_products: List[Product]) -> list[ProductRecords]:
+        """
+        Dado una serie de instancias de productos devuelve su product record
+        :param list_products: Lista de productos hacer su ProductRecords
+        :return:list[ProductRecords]
+        """
+        list_products_records: List[ProductRecords] = []
+        for item in list_products:
+            assert isinstance(item, Product), "Item in list_products is not a Product"
+            temp = ProductRecords(name=item.name, quality_now=item.get_quality(self.time), )
+            list_products_records.append(temp)
 
+        return list_products_records
+
+    def sell(self, sellOrder: SellOrder
+             ):
         """
         Llamar para realizar la venta del producto
         :param product_name:str nombre del producto a vender
@@ -119,12 +142,15 @@ class BaseProducer(CompanyWrapped):
 
         count_in_stock: int = self.stock_manager.get_count_product_in_stock(sellOrder.product_name)
 
-        assert sellOrder.amount_sold <= count_in_stock,f"Se trata de vender {sellOrder.amount_sold} unidades del producto {product_name} cuando hay stock {count_in_stock} en la empresa {self.name} "
+        assert sellOrder.amount_sold <= count_in_stock, f"Se trata de vender {sellOrder.amount_sold} unidades del producto {product_name} cuando hay stock {count_in_stock} en la empresa {self.name} "
         # Se verifica que nunca se venda una cant que no hay en el stock
         amount_sold = sellOrder.amount_sold if sellOrder.amount_sold <= count_in_stock else count_in_stock
-        #Actualizar estadísticas
 
-        self.register.add_sell_record(time=self.get_time,
+        return_list = self.stock_manager.get_products_by_name(sellOrder.product_name, amount_sold)
+
+        # Actualizar estadísticas
+
+        self.register.add_sell_record(time=self.time,
                                       product_name=sellOrder.product_name,
                                       price_sold=sellOrder.price_sold,
                                       matrix_name=sellOrder.matrix_name,
@@ -135,20 +161,16 @@ class BaseProducer(CompanyWrapped):
                                       to_company_tag=sellOrder.to_company.tag,
                                       normal_price=sellOrder.normal_price_per_unit,
                                       amount_sold=amount_sold,
-                                      list_products_records=
-
-
-
+                                      list_products_records=self.create_list_ProductRecord(return_list)
                                       )
-        #TODO:Completar para saber donde lanzo el evento
 
-        return_list=self.stock_manager.get_products_by_name(sellOrder.product_name,amount_sold)
+        # TODO:Completar para saber donde lanzo el evento
 
-
-    def get_product_price(self,product_name:str)->float:
+    def get_product_price(self, product_name: str) -> float:
         return self.stock_manager.get_product_price_per_unit(product_name)
 
     def deliver(self, order: Order):
+        # TODO:Ver esto con carla y leismael
         pass
 
 
@@ -158,10 +180,9 @@ class SecondaryCompany(BaseProducer):
     def tag(self):
         return TypeCompany.SecondaryProvider
 
-    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent,stock_manager:ManufacturingStock):
-        super().__init__(name, get_time, agent,stock_manager)
-        self.stock_manager=stock_manager
-
+    def __init__(self, name: str, get_time: Callable[[], int], agent: Agent, stock_manager: ManufacturingStock):
+        super().__init__(name, get_time, agent, stock_manager)
+        self.stock_manager = stock_manager
 
     # TODO:Carla aca tienes el dic de producto con el precio que se procesan porfa
     @property
@@ -172,30 +193,51 @@ class SecondaryCompany(BaseProducer):
         """
         return self.stock_manager.price_produce_product_per_unit
 
+    @property
+    def get_produce_products(self) -> list[str]:
+        """
+        Devuelve la lista de productos finales que puede
+        dado sus ingredientes procesar esta empresa
+        :return:
+        """
+        return list(self.process_products_price.keys())
+
     # TODO:Aca tienes  el precio de procesar un elemento
-    def get_price_process_product(self, product_name:str):
+    def get_price_process_product(self, product_name: str):
         """
         Devuelve el precio del producto
         :param product_name:
         :return:
         """
         try:
-            return  self.stock_manager.get_product_price_per_unit(product_name)
+            return self.stock_manager.get_product_price_per_unit(product_name)
         except Exception as e:
             raise Exception(f"En la empresa {self.name} se tiene el error {str(e)}")
 
     # TODO:Carla aca es para que llames cuando se vende un servicio de manufactura osea que
     # le di las papas y le empresa me hizo el puré
-    def sell_process_product(self, order: Order, sell_price: float):
+
+    def get_product_ingredients(self, product_name: str) -> list[Ingredient]:
+        """
+        Dado el nombre de un producto el cual dado sus ingredientes se brinda
+        el servicio de procesar hasta este producto, devuelve los ingredientes
+        :param product_name:
+        :return:
+        """
+        return self.stock_manager.get_product_ingredients(product_name)
+
+    def sell_process_product(self, produce_order: ProduceOrder):
         """
         Registra la venta de un producto procesado: Osea que la empresa matriz le da los ingredientes y la manufaturera
         elabora otro producto con esta
-        :param order: orden del producto
-        :param sell_price: precio al que se vendió el total de la orden
+        :param produce_order:
         :return:
         """
-
-
+        # TODO:AÑAdir estadísticas
+        #TODO: Enviar evento
+        return self.stock_manager.process_a_list_of_new_products_from_his_ingredients(produce_order.product_name,
+                                                                               produce_order.ingredients,
+                                                                               produce_order.amount_sold)
 
 
 class WarehouseCompany(CompanyWrapped):
@@ -225,6 +267,6 @@ class WarehouseCompany(CompanyWrapped):
     # TODO: Crear el send recibe un Order
     def out_storage_product(self, order: Order):
         """
-        Cuando se saca un producto del almacen
+        Cuando se saca un producto del almacén
         :return:
         """
