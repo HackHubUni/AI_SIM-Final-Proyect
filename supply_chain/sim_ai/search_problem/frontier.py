@@ -1,4 +1,4 @@
-from supply_chain.sim_ai.search_problem.search_node import *
+from search_problem.search_node import *
 
 
 class Frontier:
@@ -29,3 +29,10 @@ class Frontier:
     def contains(self, element: SearchNode) -> bool:
         """Tells if the element is in the frontier"""
         pass
+
+    def count(self) -> int:
+        """Returns the number of elements in the frontier"""
+        pass
+
+    def __len__(self) -> int:
+        return self.count()
