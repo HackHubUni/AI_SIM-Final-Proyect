@@ -654,6 +654,18 @@ class WarehouseStockManager(CompanyStockBase):
         self.add_event(event)
 
     def _restock_product_in_a_company(self, company_name: str, product_name: str):
+        """
+        Dado una compañia y un producto reabastece de este
+        si cuando se hace restock magico hay mas productos que los que se pueden reabastecer
+        pues se toma la cant faltantes y en el stock de esa empresa y el producto
+        se eliminan los peores y se añaden los nuevos
+        Esta función se encarga tb de llamar al sgt evento de reabastecer ese producto de
+        esa empresa matriz
+        :param company_name:
+        :param product_name:
+        :return:
+        """
+
         # El stock de la compañia
         company_stock = self._stock_by_company[company_name]
         # Distribucion de cant de alimentos en la compañia
@@ -687,7 +699,6 @@ class WarehouseStockManager(CompanyStockBase):
         if count_want + count_in_stock > max_in_stock:
             # Esto es cuanto realmente se deberia comprar
 
-
             # Si no cabe tods lo que se va a rellenar en el stock
             need_buy = max_in_stock - count_in_stock
             # TODO:Añadir estadísticas la cant que no se acepta
@@ -718,7 +729,7 @@ class WarehouseStockManager(CompanyStockBase):
         company_stock[product_name] = lis_product_stock
         self._stock_by_company[company_name] = company_stock
 
-        #Crear el nuevo evento
+        # Crear el nuevo evento
         self._add_new_restock_product_in_a_company_event(company_name=company_name,
                                                          product_name=product_name)
 
@@ -741,4 +752,17 @@ class WarehouseStockManager(CompanyStockBase):
                 self._restock_product_in_a_company(company_name, product_name)
 
     def get_average_quality_products_by_matrix_company(self, matrix_name: str, product_name: str):
-        pass
+
+         if not matrix_name in self._stock_by_company:
+             raise Exception(f'La compañia matriz {matrix_name} no tiene ningun stock en este almacen')
+
+         matrix_dic=self._stock_by_company[matrix_name]
+         if not product_name in matrix_dic:
+             raise Exception(f'La compañia matriz {matrix_dic} no tiene unidades del producto {product_name} en stock')
+
+         lis=[product.get_quality(self.time) for product in matrix_dic[product_name]]
+         #Retornar el promedio de los productos
+         return np.mean(lis)
+
+
+
