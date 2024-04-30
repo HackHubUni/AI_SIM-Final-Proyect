@@ -101,3 +101,8 @@ class ManufacturerCompany(ProducerCompany):
         self._create_order_to_delivery(matrix_name=produce_order.matrix_name,
                                        product_name=produce_order.product_name,
                                        products=products)
+
+
+
+
+
