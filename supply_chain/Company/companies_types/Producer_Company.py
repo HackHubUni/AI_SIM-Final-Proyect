@@ -11,7 +11,7 @@ try:
     from supply_chain.products.product import Product
     from supply_chain.Company.registrers.registers import *
     from supply_chain.company import Company, TypeCompany
-    from supply_chain.Company.companies_types.company import *
+    from supply_chain.Company.companies_types.company_wrapped import *
 except:
 
     pass
