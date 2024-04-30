@@ -19,7 +19,11 @@ class TypeCompany(Enum):
 class Company(ABC):
     """Base class for all the companies in the supply chain"""
 
-    def __init__(self, name: str, get_time: Callable[[], int], add_event: Callable[[SimEvent], None]) -> None:
+    def __init__(self,
+                 name: str,
+                 get_time: Callable[[], int],
+                 add_event: Callable[[SimEvent],
+                 None]) -> None:
         super().__init__()
         self.name: str = name
         """The name of the company"""
@@ -27,6 +31,8 @@ class Company(ABC):
         """The reference to the environment of the simulation"""
         self.add_event: Callable[[SimEvent], None] = add_event
         """The lambda to add a event to a env """
+       # self.start()
+        """Call the start method"""
 
     @property
     @abstractmethod
@@ -44,3 +50,14 @@ class Company(ABC):
         :return:
         """
         pass
+
+    @property
+
+    def time(self) -> int:
+        """
+        Retorna el tiempo actual en que se está
+        :return:
+        """
+        return self.get_time()
+
+

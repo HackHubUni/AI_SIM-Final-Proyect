@@ -464,3 +464,15 @@ class ManufacturingStock(BaseCompanyStock):
         ingredients.clear()
         # retornar la lista de productos
         return temp_return_product_list
+
+
+class WarehouseStockManager(CompanyStockBase):
+
+    @abstractmethod
+    def restock(self):
+        """
+        Se reabastece mágicamente la empresa
+        :return: el precio de reabastecerse
+        """
+        pass
+
