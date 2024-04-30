@@ -2,6 +2,7 @@ import copy
 from typing import Callable, List
 
 from supply_chain.Company.Sell_order import SellOrder, ProduceOrder
+from supply_chain.Company.delivery_order import DeliveryOrder
 from supply_chain.Company.stock_manager import CompanyStockBase, BaseCompanyStock, ManufacturingStock
 from supply_chain.products.ingredient import Ingredient
 from supply_chain.sim_event import SimEvent
@@ -69,6 +70,8 @@ class BaseProducer(CompanyWrapped):
                  stock_manager: BaseCompanyStock):
         super().__init__(name, get_time, add_event, stock_manager)
         self.stock_manager = stock_manager
+        self._orders_to_delivery: dict[str, dict[str, list[Product]]] = {}
+        # Empresa matriz : [nombre producto:lista de productos reservados]
 
     def start(self):
         """
@@ -126,6 +129,26 @@ class BaseProducer(CompanyWrapped):
 
         return list_products_records
 
+    def _create_order_to_delivery(self, matrix_name: str, product_name: str, products: list[Product]):
+        """
+        Se crea un delivery de productos a una empresa matriz
+        :param matrix_name:str
+        :param product_name:str
+        :param products:list[Product]
+        :return:
+        """
+        # Si no esta la empresa matriz ponerle un diccionario
+        if not matrix_name in self._orders_to_delivery:
+            self._orders_to_delivery[matrix_name] = {}
+        # Extraer el diccionario por empresa matriz
+        dic_Temp = self._orders_to_delivery[matrix_name]
+        # Si no existe ese producto para esa empresa matriz añadir dicha lista
+        if not product_name in dic_Temp:
+            dic_Temp[product_name] = list(products)
+        else:
+            # Si ya existen añadirlos al combo
+            dic_Temp[product_name] += products
+
     def sell(self, sellOrder: SellOrder
              ):
         """
@@ -163,14 +186,16 @@ class BaseProducer(CompanyWrapped):
                                       amount_sold=amount_sold,
                                       list_products_records=self.create_list_ProductRecord(return_list)
                                       )
+        #TODO: Leisma aca esta donde se guarda la bolsa para cada proveedor
+        #Se guardan los productos en una "bolsa" para cada empresa matriz a esperar a ser enviado
+        self._create_order_to_delivery(matrix_name=sellOrder.matrix_name,product_name=sellOrder.product_name,return_list)
 
-        # TODO:Completar para saber donde lanzo el evento
 
     def get_product_price(self, product_name: str) -> float:
         return self.stock_manager.get_product_price_per_unit(product_name)
 
-    def deliver(self, order: Order):
-        # TODO:Ver esto con carla y leismael
+    def deliver(self,delivery_Order:DeliveryOrder ):
+        # TODO:leismael Esto es para hacer el delivery
         pass
 
 
@@ -234,11 +259,15 @@ class SecondaryCompany(BaseProducer):
         :return:
         """
         # TODO:AÑAdir estadísticas
-        #TODO: Enviar evento
-        return self.stock_manager.process_a_list_of_new_products_from_his_ingredients(produce_order.product_name,
-                                                                               produce_order.ingredients,
-                                                                               produce_order.amount_sold)
+        # TODO: Enviar evento
+        products= self.stock_manager.process_a_list_of_new_products_from_his_ingredients(produce_order.product_name,
+                                                                                      produce_order.ingredients,
+                                                                                      produce_order.amount_sold)
 
+        #Se guarda a la bolsa de ordenes para recoger de esa compañia matriz
+        self._create_order_to_delivery(matrix_name=produce_order.matrix_name,
+                                       product_name=produce_order.product_name,
+                                       products=products)
 
 class WarehouseCompany(CompanyWrapped):
 

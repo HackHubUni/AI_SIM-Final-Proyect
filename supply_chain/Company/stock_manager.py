@@ -435,18 +435,17 @@ class ManufacturingStock(BaseCompanyStock):
         return new_product
 
     def process_a_list_of_new_products_from_his_ingredients(self, product_name: str, ingredients: List[Product],
-                                                          count_to_produce: int)->list[Product]:
-        #Lista para retornar con los productos procesados
-        temp_return_product_list:list[Product]=[]
+                                                            count_to_produce: int) -> list[Product]:
+        # Lista para retornar con los productos procesados
+        temp_return_product_list: list[Product] = []
         lis_ingredients = ingredients
         # Por cada elemento
         if not product_name in self.recipe_dic:
             raise Exception(f'El producto {product_name} no se produce')
         recipe = self.recipe_dic[product_name]
         for _ in range(0, count_to_produce):
-            #INgredientres para cada unidad del producto
+            # INgredientres para cada unidad del producto
             temp_ing = []
-
 
             for ingredient in recipe.get_ingredients():
                 new_lis, ing = self._filter_and_remove(lis_ingredients, ingredient.get_product_name(),
@@ -458,13 +457,10 @@ class ManufacturingStock(BaseCompanyStock):
                 temp_ing += ing
 
             # Ahora crear el producto
-            new_product=self.process_new_product_from_his_ingredients(product_name,temp_ing)
+            new_product = self.process_new_product_from_his_ingredients(product_name, temp_ing)
             temp_return_product_list.append(new_product)
 
-        #Dejar la lista de entrada vacia
+        # Dejar la lista de entrada vacia
         ingredients.clear()
-        #retornar la lista de productos
+        # retornar la lista de productos
         return temp_return_product_list
-
-
-
