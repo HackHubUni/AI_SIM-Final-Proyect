@@ -3,7 +3,7 @@ from typing import Callable, List
 
 from supply_chain.Company.orders.Sell_order import SellOrder, ProduceOrder
 from supply_chain.Company.orders.delivery_order import DeliveryOrder
-from supply_chain.Company.stock_manager.manofacturing_stock_manager import ManufacturingStock
+from supply_chain.Company.stock_manager.manufacturing_stock_manager import ManufacturingStock
 
 from supply_chain.products.ingredient import Ingredient
 from supply_chain.sim_event import SimEvent
@@ -22,7 +22,7 @@ except:
 
 
 
-class SecondaryCompany(BaseProducer):
+class ManufacturerCompany(ProducerCompany):
 
     @property
     def tag(self):
