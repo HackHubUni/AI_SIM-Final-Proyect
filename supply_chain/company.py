@@ -1,6 +1,6 @@
 from typing import Callable
 
-from supply_chain.sim_environment import SimEnvironment
+
 from abc import ABC, abstractmethod, abstractproperty
 from enum import Enum
 
