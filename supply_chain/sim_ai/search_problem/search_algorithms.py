@@ -1,14 +1,14 @@
 # from supply_chain.sim_ai.search_problem.search_node import
-from supply_chain.sim_ai.search_problem.frontier import *
-from supply_chain.sim_ai.search_problem.frontiers.priority_frontier import (
+from .frontier import *
+from .frontiers.priority_frontier import (
     PriorityFrontier,
 )
+from .frontiers.queue_frontier import QueueFrontier
 
 
 def basic_search_algorithm(
     problem: SearchProblem,
     frontier: Frontier,
-    memory_limit=1e6,
 ) -> tuple[bool, SearchNode]:
     """This method execute the common logic of all search algorithms.
     The difference between search algorithms is the choice of the frontier"""
@@ -16,9 +16,7 @@ def basic_search_algorithm(
     visited_nodes = {node.state: node}
     frontier.clear()
     frontier.push(node)
-    while (
-        not frontier.is_empty() or (len(visited_nodes) + len(frontier)) < memory_limit
-    ):
+    while not frontier.is_empty():
         node = frontier.pop()
         if problem.is_final(node.state):
             return True, node
@@ -39,6 +37,13 @@ def a_star_search(
     heuristic_function: Callable[[SearchNode], float],
 ) -> tuple[bool, SearchNode]:
     frontier = PriorityFrontier(
-        lambda node: node.path_cost + heuristic_function
+        lambda node: node.path_cost + heuristic_function(node)
     )  # This is the same as the 'g(n) + h(n)' of the A*
     return basic_search_algorithm(problem=problem, frontier=frontier)
+
+
+def breadth_first_search(
+    problem: SearchProblem,
+) -> tuple[bool, SearchNode]:
+    frontier = QueueFrontier()
+    return basic_search_algorithm(problem, frontier)
