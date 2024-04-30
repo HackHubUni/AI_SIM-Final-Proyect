@@ -640,6 +640,19 @@ class WarehouseStockManager(CompanyStockBase):
 
         return new_list
 
+    def _add_new_restock_product_in_a_company_event(self, company_name: str, product_name: str):
+        # Añadir evento
+        # Ver cuando toca el proximo reinventario
+        company_time = self.company_product_time_count_supply_magic_distribution[company_name]
+        product_time_lambda = company_time[product_name]
+        next_time = self.time + product_time_lambda()
+        event = WarehouseRestockSimEvent(time=next_time,
+                                         priority=0,
+                                         execute=self._restock_product_in_a_company,
+                                         product_name=product_name,
+                                         company_name=company_name)
+        self.add_event(event)
+
     def _restock_product_in_a_company(self, company_name: str, product_name: str):
         # El stock de la compañia
         company_stock = self._stock_by_company[company_name]
@@ -674,7 +687,7 @@ class WarehouseStockManager(CompanyStockBase):
         if count_want + count_in_stock > max_in_stock:
             # Esto es cuanto realmente se deberia comprar
 
-            need_buy = count_want
+
             # Si no cabe tods lo que se va a rellenar en el stock
             need_buy = max_in_stock - count_in_stock
             # TODO:Añadir estadísticas la cant que no se acepta
@@ -705,16 +718,9 @@ class WarehouseStockManager(CompanyStockBase):
         company_stock[product_name] = lis_product_stock
         self._stock_by_company[company_name] = company_stock
 
-        # Añadir evento
-        # Ver cuando toca el proximo reinventario
-        company_time = self.company_product_time_count_supply_magic_distribution[company_name]
-        product_time_lambda = company_time[product_name]
-        next_time = self.time + product_time_lambda()
-        WarehouseRestockSimEvent(time=next_time,
-                                 priority=0,
-                                 execute=self._restock_product_in_a_company,
-                                 product_name=product_name,
-                                 company_name=company_name)
+        #Crear el nuevo evento
+        self._add_new_restock_product_in_a_company_event(company_name=company_name,
+                                                         product_name=product_name)
 
     def restock(self):
         """
