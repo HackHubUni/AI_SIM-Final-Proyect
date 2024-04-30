@@ -1,13 +1,12 @@
 import copy
 import random
-from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
+from supply_chain.events.SimEventCompany import CompanyRestockSimEvent, WarehouseRestockSimEvent
 from supply_chain.products.ingredient import Ingredient
 from supply_chain.products.product import Product
 from typing import Callable, Dict, List, Any, Tuple
 from abc import ABC, abstractmethod, abstractproperty
 import numpy as np
 from supply_chain.products.recipe import Recipe
-from supply_chain.sim_environment import SimEnvironment
 from supply_chain.sim_event import SimEvent
 
 
@@ -497,6 +496,7 @@ class WarehouseStockManager(CompanyStockBase):
                  product_max_stock: dict[str, int],
                  company_product_count_supply_magic_distribution: dict[str, dict[str, Callable[[], int]]],
                  company_product_time_count_supply_magic_distribution: dict[str, dict[str, Callable[[], int]]],
+                 company_product_price_supply_magic_distribution: dict[str, dict[str, Callable[[], float]]],
                  create_product_lambda: Dict[str, Callable[[int], List[Product]]],
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int]):
@@ -505,6 +505,11 @@ class WarehouseStockManager(CompanyStockBase):
 
         self.product_max_stock: dict[str, int] = product_max_stock
         """Por producto la capacidad máxima de este en el almacén"""
+
+        self.company_product_price_supply_magic_distribution: dict[
+            str, dict[str, Callable[[], float]]] = company_product_price_supply_magic_distribution
+        """Por cada matriz:(producto : lambda con el precio del producto en ese restock))"""
+
         self.company_product_count_supply_magic_distribution: dict[
             str, dict[str, Callable[[], int]]] = company_product_count_supply_magic_distribution
         """Por compañía :( producto : la función que devuelve cuando producto se debe reabastecer
@@ -614,20 +619,25 @@ class WarehouseStockManager(CompanyStockBase):
         """Devuelve la calidad de un producto en este mismo momento"""
         return product.get_quality(self.time)
 
-    def delete_firts_n_worts_products_in_quality(self, list_product: list[Product], count: int)->list[Product]:
+    def delete_firts_n_worts_products_in_quality(self, list_product: list[Product], count: int) -> list[Product]:
         """
         Toma la lista de productos y quita los count peores en calidad
         :param list_product: toma la lista original de instancia de producto
         :param count: La cant de productos a eliminar
-        :return:
+        :return: Una nueva lista con los sin los count peores productos que además ha sido reordenada random
         """
-
-        temp_list = sorted(list_product, key=self.get_quality_of_a_product_instance_now)
+        # lanzar exepcion si el count es menor que la cant que hay en la lista
         if count > len(list_product):
             raise BaseCompanyReStockException(
                 f'No se puede quitar los {count} primeros peores si solo se tiene {len(list_product)}')
+        # Ordenar la lista de menor a mayor de acuerdo a su calidad actual
+        temp_list = sorted(list_product, key=self.get_quality_of_a_product_instance_now)
+
+        # Quitar del inicio los count peores productos
         new_list = temp_list[count:]
+        # Reorganizar random los productos restantes
         random.shuffle(new_list)
+
         return new_list
 
     def _restock_product_in_a_company(self, company_name: str, product_name: str):
@@ -635,8 +645,11 @@ class WarehouseStockManager(CompanyStockBase):
         company_stock = self._stock_by_company[company_name]
         # Distribucion de cant de alimentos en la compañia
         count_supply_distrubution = self.company_product_count_supply_magic_distribution[company_name]
-        # Lista de las instancias del producto en stock
-        lis_product_stock = company_stock[product_name]
+
+        company_cost_product_distribution = self.company_product_price_supply_magic_distribution[company_name]
+
+        # Lista de productos inicialmente vacia por si no hay producto en el stock
+        lis_product_stock = []
 
         # Si no esta el producto en el dicc añadirlo
         count_in_stock: int = 0
@@ -644,6 +657,8 @@ class WarehouseStockManager(CompanyStockBase):
         if not product_name in company_stock:
             company_stock[product_name] = []
         else:
+            # Lista de las instancias del producto en stock
+            lis_product_stock = company_stock[product_name]
             # Si no esta en el stock
             count_in_stock = len(lis_product_stock)
 
@@ -652,14 +667,54 @@ class WarehouseStockManager(CompanyStockBase):
                 return
 
         # Que me de la cant de producto a querer
+        # Pero como se quitan los n peores entonces siempre se compra en realidad el count_want
+
         count_want: int = count_supply_distrubution[product_name]()
-        need_buy = count_want
+
         if count_want + count_in_stock > max_in_stock:
+            # Esto es cuanto realmente se deberia comprar
+
+            need_buy = count_want
+            # Si no cabe tods lo que se va a rellenar en el stock
             need_buy = max_in_stock - count_in_stock
             # TODO:Añadir estadísticas la cant que no se acepta
             quantity_not_accepted = count_want - need_buy
 
+            # Comprobar que no se eliminen mas de los que hay en stock
+            assert count_in_stock < quantity_not_accepted, f'En la empresa {company_name} producto {product_name} se quiere quitar los {quantity_not_accepted} peores productos pero en stock hay {count_in_stock}'
             # ELiminar la cant de desechar peores
+            # Actualizar los productos en stock
+            lis_product_stock = self.delete_firts_n_worts_products_in_quality(lis_product_stock, quantity_not_accepted)
+
+        # Generar los productos y añadirlos
+        create_product = self.create_product_lambda[product_name]
+        # Crear esta cant nuevos productos osea los count_want
+        # pq en caso de a ver desechado productos ya caben el count_want
+        new_products = create_product(count_want)
+        lis_product_stock = lis_product_stock + new_products
+        # Reordenar la lista
+        random.shuffle(lis_product_stock)
+
+        # Ver el cosot
+        # TODO:Añadir a las estadísticas
+        cost_lambda = company_cost_product_distribution[product_name]
+        # Coste en este reabastecimiento
+        cost_price = cost_lambda() * count_want
+
+        # Añadir la nueva lista
+        company_stock[product_name] = lis_product_stock
+        self._stock_by_company[company_name] = company_stock
+
+        # Añadir evento
+        # Ver cuando toca el proximo reinventario
+        company_time = self.company_product_time_count_supply_magic_distribution[company_name]
+        product_time_lambda = company_time[product_name]
+        next_time = self.time + product_time_lambda()
+        WarehouseRestockSimEvent(time=next_time,
+                                 priority=0,
+                                 execute=self._restock_product_in_a_company,
+                                 product_name=product_name,
+                                 company_name=company_name)
 
     def restock(self):
         """
@@ -675,6 +730,9 @@ class WarehouseStockManager(CompanyStockBase):
                 # Si no esta la empresa se añade al diccionario
                 self._stock_by_company[company_name] = {}
             # Ir por cada producto
+            for product_name in products_name:
+                # HAcer el reabastecimineto de ese producto
+                self._restock_product_in_a_company(company_name, product_name)
 
     def get_average_quality_products_by_matrix_company(self, matrix_name: str, product_name: str):
         pass
