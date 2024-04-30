@@ -1,11 +1,11 @@
 import copy
-
+import random
 from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
 from supply_chain.products.ingredient import Ingredient
 from supply_chain.products.product import Product
 from typing import Callable, Dict, List, Any, Tuple
 from abc import ABC, abstractmethod, abstractproperty
-
+import numpy as np
 from supply_chain.products.recipe import Recipe
 from supply_chain.sim_environment import SimEnvironment
 from supply_chain.sim_event import SimEvent
@@ -18,6 +18,28 @@ class BaseCompanyReStockException(Exception):
 
 
 class CompanyStockBase(ABC):
+
+    def __init__(self,
+                 add_event: Callable[[SimEvent], None],
+                 get_time: Callable[[], int]
+                 ):
+        self.add_event: Callable[[SimEvent], None] = add_event
+        """
+        función que brinda poder añadir un evento al simulador
+        """
+        self.get_time: Callable[[], int] = get_time
+        """
+        función que brinda el tiempo actual
+        """
+
+    @property
+    def time(self) -> int:
+        """
+        Da el tiempo actual
+        :return:
+        """
+        return self.get_time()
+
     @abstractmethod
     def restock(self):
         """
@@ -41,14 +63,7 @@ class BaseCompanyStock(CompanyStockBase):
                  get_time: Callable[[], int]
                  ):
 
-        self.add_event: Callable[[SimEvent], None] = add_event
-        """
-        función que brinda poder añadir un evento al simulador
-        """
-        self.get_time: Callable[[], int] = get_time
-        """
-        función que brinda el tiempo actual
-        """
+        super().__init__(add_event=add_event, get_time=get_time)
         self.quality_distribution: dict[str, Callable[[], float]] = quality_distribution
         """
         
@@ -296,6 +311,16 @@ class BaseCompanyStock(CompanyStockBase):
             return -1
         return self._sale_product_price[product_name]
 
+    def get_average_quality_products(self, product_name: str):
+
+        if not product_name in self._stock:
+            raise Exception(f"El producto {product_name} no esta en stock")
+        # Se rellena una lista con todos las calidades de las instancias del producto
+        # En este momento
+        temp = [product.get_quality(self.time) for product in self._stock[product_name]]
+        # Retornar el promedio
+        return np.mean(temp) if temp else 0
+
 
 class ManufacturingStock(BaseCompanyStock):
     def __init__(self,
@@ -468,11 +493,188 @@ class ManufacturingStock(BaseCompanyStock):
 
 class WarehouseStockManager(CompanyStockBase):
 
-    @abstractmethod
+    def __init__(self,
+                 product_max_stock: dict[str, int],
+                 company_product_count_supply_magic_distribution: dict[str, dict[str, Callable[[], int]]],
+                 company_product_time_count_supply_magic_distribution: dict[str, dict[str, Callable[[], int]]],
+                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                 add_event: Callable[[SimEvent], None],
+                 get_time: Callable[[], int]):
+        super().__init__(add_event=add_event,
+                         get_time=get_time)
+
+        self.product_max_stock: dict[str, int] = product_max_stock
+        """Por producto la capacidad máxima de este en el almacén"""
+        self.company_product_count_supply_magic_distribution: dict[
+            str, dict[str, Callable[[], int]]] = company_product_count_supply_magic_distribution
+        """Por compañía :( producto : la función que devuelve cuando producto se debe reabastecer
+            mágicamente en ese momento)
+        """
+        self.company_product_time_count_supply_magic_distribution: dict[
+            str, dict[str, Callable[[], int]]] = company_product_time_count_supply_magic_distribution
+        """
+        Por compañía :( producto : la funcion dice cuando debe reabastecerse la proxima vez:
+        time actual + lo que de ese lambda)
+        
+        """
+
+        self.create_product_lambda: Dict[str, Callable[[int], List[Product]]] = create_product_lambda
+        """
+        Guarda el producto, su lambda a crear, cada vez se llame devuelve una lista con los productos se le pasa la cant a 
+         producir como un entero count
+        """
+
+        # Chqueaer
+        self._check()
+
+        # Locales
+        self._stock_by_company: dict[str, dict[str, list[Product]]] = {}
+        """Diccionario que por cada matrix que tenga algo guardado algo aca"""
+
+    def _check_names(self):
+        set_company_product_time_count_supply_magic_distribution = set(
+            self.company_product_time_count_supply_magic_distribution.keys())
+        set_company_product_count_supply_magic_distribution = set(
+            self.company_product_count_supply_magic_distribution.keys())
+        if not set_company_product_count_supply_magic_distribution == set_company_product_time_count_supply_magic_distribution:
+            raise BaseCompanyReStockException(f'Existen nombres de compañias que no coinciden')
+
+    def _check_companies_name(self, company_name: str):
+        """
+        Comprueba que todos los dicc donde esten involucados los nombres de las
+        compañias tengan esta compañia
+        :param company_name:
+        :return:
+        """
+
+        if not company_name in self.company_product_time_count_supply_magic_distribution:
+            raise Exception(
+                f'La compania {company_name} no esta en el diccionario company_time_count_supply_magic_distribution')
+
+        if not company_name in self.company_product_count_supply_magic_distribution:
+            raise Exception(
+                f'La compania {company_name} no esta en el diccionario company_product_count_supply_magic_distribution ')
+
+    def _check_start_products_in_companies(self, companies_name):
+
+        products_names = list(self.company_product_count_supply_magic_distribution[companies_name].keys())
+        # TOmar la cant que se quiere suministrar magicamente en cada restock y ver si tiene todos los productos
+        product_count_supply_magical_distribution = self.company_product_count_supply_magic_distribution[companies_name]
+        # TOmar si en esta empresa todos los productos tiene  tiempo de restock en esta empresa
+        product_time_count_supply_magic_distribution = self.company_product_time_count_supply_magic_distribution[
+            companies_name]
+        for product in products_names:
+            # comprobar que producto se puede crear
+            if not product in self.create_product_lambda:
+                raise Exception(f'El producto {product} no esta en create_product_lambda')
+
+            # Comprobar que por producto hay un stock maximo
+
+            if not product in self.product_max_stock:
+                raise Exception(f'El producto {product} no esta en product_max_stock')
+
+            # Comprobar que por producto hay una cant deseada a reabastecer por restock
+            if not product in product_count_supply_magical_distribution:
+                raise Exception(f'El producto {product} no esta en company_product_count_supply_magic_distribution')
+
+            # Comprotbar que este el producto en la distribucion magica
+            if not product in product_time_count_supply_magic_distribution:
+                raise Exception(
+                    f'El producto {product} no esta en company_product_time_count_supply_magic_distribution')
+
+        # Testing the sets:
+
+        set_create_product_lambda = set(self.create_product_lambda.keys())
+        set_product_max_stock = set(self.product_max_stock.keys())
+        set_product_count_supply_magical_distribution = set(product_count_supply_magical_distribution.keys())
+        set_product_time_count_supply_magic_distribution = set(product_time_count_supply_magic_distribution.keys())
+        # Si alguno no es igual lanzar exception
+        if not (
+                set_create_product_lambda == set_product_max_stock
+                and
+                set_create_product_lambda == set_product_count_supply_magical_distribution
+                and
+                set_create_product_lambda == set_product_time_count_supply_magic_distribution
+        ):
+            raise BaseCompanyReStockException(f'No coincide el nombre de algun producto en los dict')
+
+    def _check(self):
+        # Chequear los  nombres
+        self._check_names()
+        # TOmar las empresas
+        companies_name: list[str] = list(self.company_product_count_supply_magic_distribution.keys())
+        for company_name in companies_name:
+            # Chequear que coinciden los nombres de las compañías
+            self._check_companies_name(company_name)
+            # Chequer que coinciden los productos para cada compañía osea que no haya uno que no tenga
+            # distribucion o cant máxima
+            self._check_start_products_in_companies(companies_name)
+
+    def get_quality_of_a_product_instance_now(self, product: Product) -> float:
+        """Devuelve la calidad de un producto en este mismo momento"""
+        return product.get_quality(self.time)
+
+    def delete_firts_n_worts_products_in_quality(self, list_product: list[Product], count: int)->list[Product]:
+        """
+        Toma la lista de productos y quita los count peores en calidad
+        :param list_product: toma la lista original de instancia de producto
+        :param count: La cant de productos a eliminar
+        :return:
+        """
+
+        temp_list = sorted(list_product, key=self.get_quality_of_a_product_instance_now)
+        if count > len(list_product):
+            raise BaseCompanyReStockException(
+                f'No se puede quitar los {count} primeros peores si solo se tiene {len(list_product)}')
+        new_list = temp_list[count:]
+        random.shuffle(new_list)
+        return new_list
+
+    def _restock_product_in_a_company(self, company_name: str, product_name: str):
+        # El stock de la compañia
+        company_stock = self._stock_by_company[company_name]
+        # Distribucion de cant de alimentos en la compañia
+        count_supply_distrubution = self.company_product_count_supply_magic_distribution[company_name]
+        # Lista de las instancias del producto en stock
+        lis_product_stock = company_stock[product_name]
+
+        # Si no esta el producto en el dicc añadirlo
+        count_in_stock: int = 0
+        max_in_stock = self.product_max_stock[product_name]
+        if not product_name in company_stock:
+            company_stock[product_name] = []
+        else:
+            # Si no esta en el stock
+            count_in_stock = len(lis_product_stock)
+
+            # Si lo que hay en stock es lo máximo que debe ver se termina aca el analysis
+            if count_in_stock == max_in_stock:
+                return
+
+        # Que me de la cant de producto a querer
+        count_want: int = count_supply_distrubution[product_name]()
+        need_buy = count_want
+        if count_want + count_in_stock > max_in_stock:
+            need_buy = max_in_stock - count_in_stock
+            # TODO:Añadir estadísticas la cant que no se acepta
+            quantity_not_accepted = count_want - need_buy
+
+            # ELiminar la cant de desechar peores
+
     def restock(self):
         """
         Se reabastece mágicamente la empresa
+        OJO:Esto es solo para llamar el inicio en el start
         :return: el precio de reabastecerse
         """
-        pass
+        companies_name = list(self.company_product_count_supply_magic_distribution.keys())
+        products_name = list(self.product_max_stock.keys())
+        # Ir por cada compañía
+        for company_name in companies_name:
+            if not company_name in self._stock_by_company:
+                # Si no esta la empresa se añade al diccionario
+                self._stock_by_company[company_name] = {}
+            # Ir por cada producto
 
+    def get_average_quality_products_by_matrix_company(self, matrix_name: str, product_name: str):
+        pass
