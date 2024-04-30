@@ -10,5 +10,5 @@ class DeliveryOrder:
         Devuelve el tiempo que se demorará el distribuidor
         en llevar del punto de salida al punto de llegada 
         :return: 
-        """"""
-     return self.logistic_time
+        """
+        return self.logistic_time
