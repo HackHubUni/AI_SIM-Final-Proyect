@@ -48,7 +48,7 @@ class Dto_InfoCompany:
         if product_name in self.suppliers:
             suppliers = self.suppliers[product_name]
 
-            sorted_suppliers = sorted(suppliers.items(), key=lambda x: sum(x[1]), reverse=True)
+            sorted_suppliers = sorted(suppliers.items(), key=lambda x: x[1][0] + x[1][1] - x[1][2] , reverse=True)
             return [(k, *v) for k, v in sorted_suppliers[:num_entries]]
         return []
 
