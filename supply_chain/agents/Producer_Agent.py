@@ -13,7 +13,7 @@ from supply_chain.sim_environment import SimEnvironment
 
 from supply_chain.Company.companies_types.Producer_Company import *
 
-from supply_chain.Comunicator import MessageWantProductOffer
+from supply_chain.Comunicator import *
 
 
 def make_valoracion(calificacion: float):
@@ -89,6 +89,54 @@ class ProducerAgent(Agent):
         # Start
         self.start()
 
+    def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
+
+        response = ResponseOfertProductMessaage(company_from_type=self.company.tag,
+                                                company_from=self.company.name,
+                                                company_destination_type=oferta.company_from_type,
+                                                company_destination_name=oferta.company_from,
+                                                product_name=oferta.product_want_name,
+                                                price_per_unit=price_per_unit,
+                                                count_can_supply=count_can_supply,
+                                                peticion_instance=oferta, )
+
+        # TODO Enviar
+
+    def sent_msg_response_ofer_cant_supply(self, oferta: MessageWantProductOffer):
+        self.sent_msg_response_ofer(oferta, 0, -1.1)
+
+
+
+    def _get_a_factor_to_a_client(self,from_company_name: str, product_want_name: str,class_type:PedirPrecio|PedirCantidad):
+        """Metodo base para que se pueda pedir factor para suplir de pedido y cant de factor de precio"""
+        # Ahora pedir el factor del precio
+        price_ask = class_type(StringWrapped(from_company_name), StringWrapped(product_want_name), "x")
+        # Factor a multiplicar el precio
+        factor = self.sistema_experto.ask(price_ask)
+
+        if not isinstance(factor, float):
+            AgentException(
+                f'En el agente {self.name} recibiendo una orden de {from_company_name} como pidiendo precio lo que devolvio la inferencia no es float para ser el facto es {type(factor)}')
+        return factor
+
+    def get_factor_price_to_a_client(self, from_company_name: str, product_want_name: str) -> float:
+        """
+        Devuelve el factor a ajustar para un cliente dado
+        :param from_company_name:
+        :param product_want_name:
+        :return:
+        """
+        return self._get_a_factor_to_a_client(from_company_name,product_want_name,PedirPrecio)
+
+    def get_factor_count_to_sell_producto_to_a_client(self,from_company_name: str, product_want_name: str)->float:
+        """
+        Devuelve el factor a multiplicar por la cant de unidades disponibles para vender
+        :param from_company_name:
+        :param product_want_name:
+        :return:
+        """
+        return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirCantidad)
+
     def recive_msg(self, msg: MessageWantProductOffer):
 
         if isinstance(msg, MessageWantProductOffer):
@@ -100,7 +148,29 @@ class ProducerAgent(Agent):
                 raise AgentException(
                     f'El agente {self.name} de tipo {self.company.tag}  no puede recibir ofertas de un no matriz {msg.company_from} de tipo {msg.company_from_type}')
 
+            # Comprobar que hay en stock este producto
+            if not self.company.is_product_in_stock(msg.product_want_name):
+                # Decirle que no  tengo
+                self.sent_msg_response_ofer_cant_supply(msg)
+
             from_company_name = msg.company_from
             product_want_name: str = msg.product_want_name
+
+            factor_price=self.get_factor_price_to_a_client(from_company_name,product_want_name)
+
+            final_price = self.company.get_product_price(product_want_name)*factor_price
+
+            #Cuantas unidades se le puede vender
+
+            factor_to_buy=self.get_factor_count_to_sell_producto_to_a_client(from_company_name,product_want_name)
+
+            temp=self.company.stock_manager.get_count_product_in_stock(product_want_name)*factor_to_buy
+            final_count_to_supply=int(temp)
+
+            # Enviar la respuesta
+
+            self.sent_msg_response_ofer(msg,final_count_to_supply,final_price)
+
+
 
 

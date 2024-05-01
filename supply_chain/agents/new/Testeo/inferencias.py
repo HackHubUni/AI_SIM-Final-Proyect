@@ -249,7 +249,13 @@ def main2():
     print(kb0.ask(expr(pedir_precio_))[x])
     query=Valoracion('Juan', 'x').show()
     print(query)
-    print(kb0.ask(expr(query)[x]))
+    fcf:dict=kb0.ask(expr(query))
+
+    key=list(fcf.keys())
+    print(key)
+    print(type(fcf[key[0]]))
+    s=str(fcf[key[0]])
+    print(s)
 
 
 if __name__ == "__main__":

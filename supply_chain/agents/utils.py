@@ -8,6 +8,25 @@ from enum import Enum
 def float_to_string(float_number):
     return str(float_number).replace('.', '_')
 
+def convert_to_float(input_string:str):
+    """
+    Convierte del lenguaje que se hace las inferencias que devuelve un string
+    a un float
+    Si no puede devuelve None
+    :param input_string:
+    :return:
+    """
+    if input_string.startswith("Float_"):
+        without_prefix = input_string[6:]  # Remove the "Float_" prefix
+        replaced = without_prefix.replace("_", ".")  # Replace underscores with periods
+        return float(replaced)  # Convert to float
+    else:
+        return None  # Return None if the string does not start with "Float_"
+
+# Usage
+input_string = "Float_3_14159"
+output = convert_to_float(input_string)
+print(output)  # Output: 3.14159
 
 class ValoracionTag(Enum):
     Fatal = 'Fatal'
@@ -96,7 +115,7 @@ class NumberWrapped(StringWrapped):
         self.name = str(float_number).replace('.', '_')
 
     def __init__(self,
-                 value: int | float):
+                 value:  float):
         super().__init__(value)
         self.number_inst = value
         self.float_to_string(value)
@@ -111,7 +130,7 @@ class NumberWrapped(StringWrapped):
 
     @property
     def tag(self):
-        return "Int" if isinstance(self.number_inst, float) else "Float"
+        return "Float"
 
 
 class PedirBase(LogicWrapped):

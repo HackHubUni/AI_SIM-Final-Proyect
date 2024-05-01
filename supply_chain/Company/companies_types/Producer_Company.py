@@ -154,6 +154,16 @@ class ProducerCompany(CompanyWrapped):
         """
         return self.stock_manager.get_product_price_per_unit(product_name)
 
+
+    def is_product_in_stock(self,product_name:str)->bool:
+        """
+        Retorna True o False en dependencia de si esta o no el producto en stock
+        :param product_name:
+        :return:
+        """
+
+        self.stock_manager.is_product_in_stock(product_name)
+
     def deliver(self, delivery_Order: DeliveryOrder):
         # TODO:leismael Esto es para hacer el delivery
         pass
@@ -161,7 +171,7 @@ class ProducerCompany(CompanyWrapped):
     def get_name_products_in_stock_now(self)->list[str]:
         """Devuelve el nombre de los productos que hay en stock ahora"""
 
-      return  self.stock_manager.get_name_products_in_stock_now()
+        return  self.stock_manager.get_name_products_in_stock_now()
 
 
 

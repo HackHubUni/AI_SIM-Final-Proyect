@@ -283,3 +283,9 @@ class ProductorCompanyStock(CompanyStockBase):
                 lis.append(name)
 
         return lis
+
+    def is_product_in_stock(self, product_name: str):
+        if not product_name in self._stock:
+            return False
+        lis = self._stock[product_name]
+        return len(lis) > 0
