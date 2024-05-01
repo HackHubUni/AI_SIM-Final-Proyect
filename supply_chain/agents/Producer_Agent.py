@@ -69,13 +69,16 @@ class ProducerAgent(Agent):
         for implication in self.logic_implication:
             self.sistema_experto.add(implication)
 
-    def start(self):
+    def update(self):
         # Upgradear los productos
         self.update_products()
         # Upgradear los clientes
         self.update_clients()
         # Upgradear las implicaciones
         self.update_implications()
+    def start(self):
+        self.update()
+
 
     def __init__(self, name: str, company: ProducerCompany,
                  dict_valoracion_inicial: dict[TypeCompany, dict[str, float]],
@@ -88,6 +91,10 @@ class ProducerAgent(Agent):
 
         # Start
         self.start()
+
+        #Ofertas registradas
+        self.save_ofer:dict[str,ResponseOfertProductMessaage]={}
+                    #guid, Respuesta de la peticion de precio
 
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
 
@@ -137,39 +144,48 @@ class ProducerAgent(Agent):
         """
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirCantidad)
 
+    def _ask_price_product(self,msg:MessageWantProductOffer):
+        # Es pq esta pidiendo precio
+
+        # SI no es una empresa matriz lanzo excepcion
+
+        if not msg.company_from_type == TypeCompany.Matrix:
+            raise AgentException(
+                f'El agente {self.name} de tipo {self.company.tag}  no puede recibir ofertas de un no matriz {msg.company_from} de tipo {msg.company_from_type}')
+
+        # Comprobar que hay en stock este producto
+        if not self.company.is_product_in_stock(msg.product_want_name):
+            # Decirle que no  tengo
+            self.sent_msg_response_ofer_cant_supply(msg)
+
+        from_company_name = msg.company_from
+        product_want_name: str = msg.product_want_name
+
+        factor_price = self.get_factor_price_to_a_client(from_company_name, product_want_name)
+
+        final_price = self.company.get_product_price(product_want_name) * factor_price
+
+        # Cuantas unidades se le puede vender
+
+        factor_to_buy = self.get_factor_count_to_sell_producto_to_a_client(from_company_name, product_want_name)
+
+        temp = self.company.stock_manager.get_count_product_in_stock(product_want_name) * factor_to_buy
+        final_count_to_supply = int(temp)
+
+        # Enviar la respuesta
+
+        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price)
+
     def recive_msg(self, msg: MessageWantProductOffer):
+        #Upgradear la base de conocimiento
+        self.update()
+
 
         if isinstance(msg, MessageWantProductOffer):
-            # Es pq esta pidiendo precio
+            return  self._ask_price_product(msg)
 
-            # SI no es una empresa matriz lanzo excepcion
 
-            if not msg.company_from_type == TypeCompany.Matrix:
-                raise AgentException(
-                    f'El agente {self.name} de tipo {self.company.tag}  no puede recibir ofertas de un no matriz {msg.company_from} de tipo {msg.company_from_type}')
 
-            # Comprobar que hay en stock este producto
-            if not self.company.is_product_in_stock(msg.product_want_name):
-                # Decirle que no  tengo
-                self.sent_msg_response_ofer_cant_supply(msg)
-
-            from_company_name = msg.company_from
-            product_want_name: str = msg.product_want_name
-
-            factor_price=self.get_factor_price_to_a_client(from_company_name,product_want_name)
-
-            final_price = self.company.get_product_price(product_want_name)*factor_price
-
-            #Cuantas unidades se le puede vender
-
-            factor_to_buy=self.get_factor_count_to_sell_producto_to_a_client(from_company_name,product_want_name)
-
-            temp=self.company.stock_manager.get_count_product_in_stock(product_want_name)*factor_to_buy
-            final_count_to_supply=int(temp)
-
-            # Enviar la respuesta
-
-            self.sent_msg_response_ofer(msg,final_count_to_supply,final_price)
 
 
 

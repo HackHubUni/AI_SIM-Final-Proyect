@@ -4,6 +4,10 @@ from supply_chain.agents.new.logic import *
 
 from enum import Enum
 
+import uuid
+
+def generate_guid():
+    return str(uuid.uuid4())
 
 def float_to_string(float_number):
     return str(float_number).replace('.', '_')
