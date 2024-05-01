@@ -10,9 +10,12 @@ def float_to_string(float_number):
 
 
 class ValoracionTag(Enum):
+    Fatal = 'Fatal'
     Mal = 'Mal'
+    Regular = 'Regular'
     Bien = 'Bien'
     MuyBien = 'Muy_bien'
+    Excelente = 'Excelente'
 
     def __str__(self):
         return self.value
@@ -29,8 +32,8 @@ class LogicWrapped(ABC):
     def show(self):
         pass
 
-    def _float_to_string(self, float_number):
-        return str(float_number).replace('.', '_')
+    def __str__(self):
+        return self.show()
 
 
 class StringWrapped(LogicWrapped):
@@ -77,6 +80,8 @@ class ClientWrapped(StringWrapped):
 
 
 class ProductWrapped(StringWrapped):
+    """Clase para el inferenciador de los SE de los agentes"""
+
     def __init__(self,
                  name: str):
         super().__init__(name)
@@ -180,11 +185,11 @@ class PedirPrecio(PedirBase):
 class Valoracion(LogicWrapped):
     def __init__(self,
                  client_name: str,
-                 valoracion: ValoracionTag
+                 valoracion: ValoracionTag | str
                  ):
         self.client_name: str = client_name
         self.valoracion_str: str = str(valoracion)
-        self.valoracion: ValoracionTag = valoracion
+        self.valoracion: ValoracionTag | str = valoracion
 
     @property
     def tag(self):
@@ -194,63 +199,73 @@ class Valoracion(LogicWrapped):
         return f'{self.tag}_({self.client_name},{self.valoracion_str})'
 
 
-def main():
-    """A knowledge base consisting of first-order definite clauses.
-       >>> kb0 = FolKB([expr('Farmer(Mac)'), expr('Rabbit(Pete)'),
-       ...              expr('(Rabbit(r) & Farmer(f)) ==> Hates(f, r)')])
-       >>> kb0.tell(expr('Rabbit(Flopsie)'))
-       >>> kb0.retract(expr('Rabbit(Pete)'))
-       >>> kb0.ask(expr('Hates(Mac, x)'))[x]
-       Flopsie
-       >>> kb0.ask(expr('Wife(Pete, x)'))
-       False
+class LogicOperatorsWrapped(LogicWrapped):
+    def _get_the_show_str(self):
+        s = ''
+
+        for expr in self.list_wrapped_original:
+            str_expr = expr.show()
+            s += f' {str_expr} {self.tag}  '
+
+        return s
+
+    def __init__(self,
+                 list_wrapped: list[LogicWrapped]
+                 ):
+        self.list_wrapped_original: list[LogicWrapped] = list_wrapped
+
+        self.string_: str = f'({self._get_the_show_str()})'
+
+    @property
+    @abstractmethod
+    def tag(self) -> str:
+        pass
+
+    @abstractmethod
+    def show(self):
+        return self.string_
 
 
-       """
-
-    kb0 = FolKB([expr('Cliente(Juan)'), expr('Valoracion(Juan,Buena)'), expr('Producto(Tomate)'),
-                 expr('Cliente(x) & Valoracion(x,Buena) & Producto(y)  ==> Preguntar_precio(x,y,Mantener)')])
-    # print(kb0.tell(expr('Rabbit(Flopsie)')))
-    # print(kb0.retract(expr('Rabbit(Pete)')))
-    print(kb0.ask(expr('Preguntar_precio(Juan,Tomate,x)'))[x])
+class NotLogicWrapped(LogicOperatorsWrapped):
+    def tag(self) -> str:
+        return '~'
 
 
-def main2():
-    cliente = ClientWrapped("Juan").show()
-    print(cliente)
-    valoracion = Valoracion('Juan', ValoracionTag.Bien).show()
-    print(valoracion)
+class AndLogicWrapped(LogicOperatorsWrapped):
 
-    producto = ProductWrapped('Tomate').show()
-    print(producto)
-
-    cliente_x = ClientWrapped('x').show()
-    valoracion_x_bien = Valoracion("x", ValoracionTag.Bien).show()
-
-    product_y = ProductWrapped('y').show()
-
-    pedir_precio_ = PedirPrecio('Juan', 'Tomate', "x").show()
-    print(pedir_precio_)
-
-    pedir_precio_hecho = PedirPrecio('x', 'y', NumberWrapped(1))
-
-    kb0 = FolKB()
-
-    lis = [expr(cliente), expr(valoracion), expr(producto),
-           expr(
-               f'({cliente_x} & ({valoracion_x_bien} & {product_y}))  ==> {pedir_precio_hecho}')
-
-           ,# f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
-           ]
-
-    for item in lis:
-        kb0.tell(item)
-
-    print(kb0.ask(expr(pedir_precio_))[x])
-    query=Valoracion('Juan', 'x').show()
-    print(query)
-    print(kb0.ask(expr(query)[x]))
+    def tag(self) -> str:
+        return '&'
 
 
-if __name__ == "__main__":
-    main2()
+class OrLogicWrapped(LogicOperatorsWrapped):
+
+    def tag(self) -> str:
+        return '|'
+
+
+class ImplicationLogicWrapped(LogicWrapped):
+
+    def to_str(self, lis: list[LogicWrapped]):
+        s = ''
+        for item in lis:
+            s += f' {item.show()}  '
+
+        return s
+
+    def __init__(self,
+                 left_part: list[LogicWrapped],
+                 right_part: list[LogicWrapped]
+
+                 ):
+        self.left_part: list[LogicWrapped] = left_part
+        self.right_part: list[LogicWrapped] = right_part
+        self.string_: str = f'{self.to_str(self.left_part)} {self.tag} {self.to_str(self.right_part)}'
+
+    @property
+    @abstractmethod
+    def tag(self) -> str:
+        return '==>'
+
+    @abstractmethod
+    def show(self):
+        return self.string_

@@ -6,7 +6,8 @@ from collections import defaultdict, Counter
 #from agents import Agent, Glitter, Bump, Stench, Breeze, Scream
 #from csp import parse_neighbors, UniversalDict
 #from search import astar_search, PlanRoute
-from utils import remove_all, unique, first, issequence, Expr, expr, subexpressions, extend
+from supply_chain.agents.new.utils  import remove_all, unique, first, issequence, Expr, expr, subexpressions, extend
+
 
 
 class KB:
@@ -678,6 +679,9 @@ class FolKB(KB):
         if clauses:
             for clause in clauses:
                 self.tell(clause)
+
+
+
 
     def tell(self, sentence):
         if is_definite_clause(sentence):

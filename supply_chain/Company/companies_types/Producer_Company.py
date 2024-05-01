@@ -30,6 +30,9 @@ class ProducerCompany(CompanyWrapped):
         self._orders_to_delivery: dict[str, dict[str, list[Product]]] = {}
         # Empresa matriz : [nombre producto:lista de productos reservados]
 
+
+
+
     def start(self):
         """
         Inicializa la clase
@@ -154,6 +157,11 @@ class ProducerCompany(CompanyWrapped):
     def deliver(self, delivery_Order: DeliveryOrder):
         # TODO:leismael Esto es para hacer el delivery
         pass
+
+    def get_name_products_in_stock_now(self)->list[str]:
+        """Devuelve el nombre de los productos que hay en stock ahora"""
+
+      return  self.stock_manager.get_name_products_in_stock_now()
 
 
 

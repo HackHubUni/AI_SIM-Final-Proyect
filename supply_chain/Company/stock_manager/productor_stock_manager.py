@@ -272,3 +272,14 @@ class ProductorCompanyStock(CompanyStockBase):
         temp = [product.get_quality(self.time) for product in self._stock[product_name]]
         # Retornar el promedio
         return np.mean(temp) if temp else 0
+
+    def get_name_products_in_stock_now(self):
+        """Devuelve el nombre de los productos que hay en stock ahora"""
+        products_name = self._stock.keys()
+        lis = []
+        for name in products_name:
+            # Si hay existencia del producto añadirla a la lista
+            if len(self._stock[name]) > 0:
+                lis.append(name)
+
+        return lis
