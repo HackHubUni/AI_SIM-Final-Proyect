@@ -1,4 +1,4 @@
-from supply_chain.agents.agent import Order
+from supply_chain.agents.old.agent import Order
 
 
 class Func:

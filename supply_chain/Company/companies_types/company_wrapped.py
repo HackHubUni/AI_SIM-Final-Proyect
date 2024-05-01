@@ -1,14 +1,11 @@
 from abc import ABC
-from typing import Callable, List
+from typing import Callable
 
-from supply_chain.Company.orders.Sell_order import SellOrder, ProduceOrder
-from supply_chain.Company.orders.delivery_order import DeliveryOrder
 from supply_chain.Company.stock_manager.stock_manager import CompanyStockBase
-from supply_chain.products.ingredient import Ingredient
 from supply_chain.sim_event import SimEvent
 
 try:
-    from supply_chain.agents.order import Order
+    from supply_chain.agents.old.order import Order
     from supply_chain.sim_environment import SimEnvironment
     from supply_chain.products.product import Product
     from supply_chain.Company.registrers.registers import *

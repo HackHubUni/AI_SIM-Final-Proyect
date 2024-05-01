@@ -6,7 +6,7 @@ from supply_chain.Company.stock_manager.productor_stock_manager import Productor
 from supply_chain.sim_event import SimEvent
 
 try:
-    from supply_chain.agents.order import Order
+    from supply_chain.agents.old.order import Order
     from supply_chain.sim_environment import SimEnvironment
     from supply_chain.products.product import Product
     from supply_chain.Company.registrers.registers import *

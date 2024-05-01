@@ -30,7 +30,8 @@ class KB:
 
     def ask(self, query):
         """Return a substitution that makes the query true, or, failing that, return False."""
-        return first(self.ask_generator(query), default=False)
+        a=self.ask_generator(query)
+        return first(a, default=False)
 
     def ask_generator(self, query):
         """Yield all the substitutions that make query true."""
