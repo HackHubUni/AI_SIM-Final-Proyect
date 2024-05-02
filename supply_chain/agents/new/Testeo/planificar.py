@@ -2,11 +2,11 @@
 
 import itertools
 import numpy as np
-import search
-from utils import *
-from logic import *
-from search import *
-from planning import *
+from supply_chain.agents.new.search import *
+from supply_chain.agents.new.utils import *
+from supply_chain.agents.new.logic import *
+from supply_chain.agents.new.search import *
+from supply_chain.agents.new.planning import *
 
 
 def get_solution(problem):
