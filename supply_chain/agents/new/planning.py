@@ -5,10 +5,10 @@ from functools import reduce as _reduce
 
 import numpy as np
 
-import search
-from logic import FolKB, conjuncts, unify_mm, associate
+from supply_chain.agents.new.search import *
+from supply_chain.agents.new.logic import FolKB, conjuncts, unify_mm, associate
 
-from utils import Expr, expr, first
+from supply_chain.agents.new.utils import Expr, expr, first
 
 
 class PlanningProblem:
@@ -271,7 +271,7 @@ def goal_test(goals, state):
     return all(kb.ask(q) is not False for q in goals)
 
 
-class ForwardPlan(search.Problem):
+class ForwardPlan(Problem):
     """
     [Section 10.2.1]
     Forward state-space search
@@ -307,7 +307,7 @@ class ForwardPlan(search.Problem):
             return np.inf
 
 
-class BackwardPlan(search.Problem):
+class BackwardPlan(Problem):
     """
     [Section 10.2.2]
     Backward relevant-states search

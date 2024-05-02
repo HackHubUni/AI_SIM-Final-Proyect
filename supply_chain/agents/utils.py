@@ -222,6 +222,9 @@ class Valoracion(LogicWrapped):
         return f'{self.tag}_({self.client_name},{self.valoracion_str})'
 
 
+
+
+
 class LogicOperatorsWrapped(LogicWrapped):
     def _get_the_show_str(self):
         s = ''
