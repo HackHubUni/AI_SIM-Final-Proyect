@@ -1,30 +1,7 @@
-import copy
-
-from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
-from supply_chain.products.product import Product
-from typing import Callable, Dict, List
-from abc import ABC, abstractmethod, abstractproperty
-
-from supply_chain.sim_environment import SimEnvironment
+from stock_manager import *
 
 
-class BaseCompanyReStockException(Exception):
-
-    def __init__(self, message: str):
-        super().__init__(message)
-
-
-class CompanyStockBase(ABC):
-    @abstractmethod
-    def restock(self):
-        """
-        Se reabastece magicamente la empresa
-        :return: el precio de reabastecerse
-        """
-        pass
-
-
-class BaseCompanyStock(CompanyStockBase):
+class ProductorCompanyStock(CompanyStockBase):
 
     def __init__(self,
                  products_max_stock: dict[str, int],
@@ -33,14 +10,16 @@ class BaseCompanyStock(CompanyStockBase):
                  supply_distribution: Dict[str, Callable[[], int]],
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
+                 quality_distribution: dict[str, Callable[[], float]],
+                 add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int]
                  ):
 
-        self.get_time: Callable[[], int] = get_time
-        """
-        función que brinda el tiempo actual
+        super().__init__(add_event=add_event, get_time=get_time)
+        self.quality_distribution: dict[str, Callable[[], float]] = quality_distribution
         """
 
+        """
         self.products_max_stock: dict[str, int] = products_max_stock
         """
         Cant maxima de productos en stock
@@ -92,7 +71,7 @@ class BaseCompanyStock(CompanyStockBase):
     @property
     def sale_product_price(self):
         """
-        Da el diccionario del precio por producuto
+        Da el diccionario del precio por producto
         :return:
 
         """
@@ -195,10 +174,12 @@ class BaseCompanyStock(CompanyStockBase):
             return False
 
     def _next_restock(self):
-        # TODO: llamar lanzar el evento
+        # Nuevo tiempo
         next_restock = self.time_restock_distribution()
         time_next_restock = self.get_time() + next_restock
         event = CompanyRestockSimEvent(time_next_restock, 0, self.restock)
+        # Añadir evento al simulador
+        self.add_event(event)
 
     def restock(self):
         """
@@ -282,46 +263,12 @@ class BaseCompanyStock(CompanyStockBase):
             return -1
         return self._sale_product_price[product_name]
 
+    def get_average_quality_products(self, product_name: str):
 
-class ManufacturingStock(BaseCompanyStock):
-    def __init__(self,
-                 products_max_stock: dict[str, int],
-                 products_min_stock: dict[str, int],
-                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
-                 supply_distribution: Dict[str, Callable[[], int]],
-                 sale_price_distribution: dict[str, Callable[[], float]],
-                 time_restock_distribution: Callable[[], int],
-                 get_time: Callable[[], int],
-                 price_produce_product_per_unit: dict[str, float]
-                 ):
-        super().__init__(
-            products_max_stock,
-            products_min_stock,
-            create_product_lambda,
-            supply_distribution,
-            sale_price_distribution,
-            time_restock_distribution,
-            get_time
-        )
-
-        self.price_produce_product_per_unit: dict[str, float] = price_produce_product_per_unit
-
-    @property
-    def get_produce_products(self) -> list[str]:
-        """
-        Da el nombre de los productos los cuales puede elaborar dándole sus ingredientes
-
-        :return:list[str]
-        """
-        return list (self.price_produce_product_per_unit.keys())
-
-    def get_price_produce_product_per_unit(self, product_name: str):
-        """
-        Devuelve el precio de producir un producto dandole los ingredientes
-        devuelve -1 si no está el producto
-        :param product_name: nombre del producto
-        :return:float precio de producir el producto
-        """
-        if product_name not in self.price_produce_product_per_unit:
-            return -1
-        return self.price_produce_product_per_unit[product_name]
+        if not product_name in self._stock:
+            raise Exception(f"El producto {product_name} no esta en stock")
+        # Se rellena una lista con todos las calidades de las instancias del producto
+        # En este momento
+        temp = [product.get_quality(self.time) for product in self._stock[product_name]]
+        # Retornar el promedio
+        return np.mean(temp) if temp else 0

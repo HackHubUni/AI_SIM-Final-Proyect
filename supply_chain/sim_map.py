@@ -44,7 +44,7 @@ class MapNode:
     ) -> bool:
         """This method removes a connection"""
         if point in self.connections:
-            self.connections.pop()
+            self.connections.pop(point, (0, 0))
             return True
         return False
 
@@ -56,4 +56,50 @@ class SimMap:
     def __init__(
         self,
     ) -> None:
-        pass
+        self.points: dict[tuple[float, float], MapNode] = {}
+
+    def add_point(self, point: tuple[float, float]) -> bool:
+        if point in self.points:
+            return False
+        self.points[point] = MapNode()
+        return True
+
+    def add_directed_connection(
+        self,
+        point1: tuple[float, float],
+        point2: tuple[float, float],
+        distance: float,
+        create_point_if_not_exist: bool = False,
+    ):
+        if not create_point_if_not_exist:
+            if point1 not in self.points:
+                raise Exception(
+                    f"The first point ({point1[0]}, {point1[1]}) is not a point in the map"
+                )
+            if point2 not in self.points:
+                raise Exception(
+                    f"The second point ({point2[0]}, {point2[1]}) is not a point in the map"
+                )
+        else:
+            self.points.setdefault(point1, MapNode)
+            self.points.setdefault(point2, MapNode)
+        self.points[point1].add_connection(point2, distance)
+
+    def add_bidirectional_connection(
+        self,
+        point1: tuple[float, float],
+        point2: tuple[float, float],
+        distance: float,
+        create_point_if_not_exist: bool = False,
+    ):
+        self.add_directed_connection(
+            point1, point2, distance, create_point_if_not_exist
+        )
+        self.add_directed_connection(
+            point2, point1, distance, create_point_if_not_exist
+        )
+
+    def remove_point(self, point: tuple[float, float]):
+        self.points.pop(point, (0, 0))
+        for _, map_node in self.points.items():
+            map_node.remove_connection(point, (0, 0))

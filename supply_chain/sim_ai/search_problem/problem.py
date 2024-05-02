@@ -11,7 +11,7 @@ class SearchProblem:
 
     def action_cost(self, state, action) -> float:
         """This method returns the cost of applying the action to the state"""
-        pass
+        return 1
 
     def apply_action(self, state, action):
         """This method apply an action to a state and return the resulting state"""

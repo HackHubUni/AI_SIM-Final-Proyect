@@ -1,5 +1,5 @@
 from typing import *
-from supply_chain.sim_ai.search_problem.problem import *
+from search_problem.problem import *
 
 
 class SearchNode:
@@ -48,7 +48,7 @@ class SearchNode:
         this node"""
         path = [self.state]
         node = self
-        while node.parent:
+        while node.parent is not None:
             path.append(node.parent.state)
             node = node.parent
         path.reverse()
@@ -59,7 +59,7 @@ class SearchNode:
         state of the problem to the actual state represented by this node"""
         path = [self.action]
         node = self
-        while node.parent:
+        while node.parent is not None:
             path.append(node.parent.action)
             node = node.parent
         path.reverse()

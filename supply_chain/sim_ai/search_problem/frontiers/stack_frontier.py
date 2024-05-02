@@ -1,4 +1,4 @@
-from supply_chain.sim_ai.search_problem.frontier import *
+from ..frontier import *
 
 
 class StackFrontier(Frontier):
@@ -19,3 +19,6 @@ class StackFrontier(Frontier):
 
     def contains(self, element: SearchNode) -> bool:
         return element in self.frontier
+
+    def count(self) -> int:
+        return len(self.frontier)
