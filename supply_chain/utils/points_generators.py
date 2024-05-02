@@ -1,8 +1,8 @@
 from collections import deque
 import random as rnd
 import math
-from quad_tree import QuadTree
-from utility_functions import sum_points, mul_point_by_escalar
+from .quad_tree import QuadTree
+from .utility_functions import sum_points, mul_point_by_escalar
 
 
 def poisson_disc_sampling(

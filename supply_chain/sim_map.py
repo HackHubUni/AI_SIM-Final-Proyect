@@ -1,8 +1,11 @@
 from typing import *
 from utils.utility_functions import *
+import random as rnd
 
 
 class MapNode:
+    """This class represents the connections of a point and the distance to reach all of them"""
+
     def __init__(self, point: tuple[float, float]) -> None:
         self.point: tuple[float, float] = point
         """The point that this node represents"""
@@ -24,6 +27,19 @@ class MapNode:
             )
         self.connections[point] = distance
         return True
+
+    def get_connections(self):
+        """Get the list of connections of this map"""
+        res = [item for item in self.connections.items()]
+        return res
+
+    def get_distance(self, other_point: tuple[float, float]) -> float:
+        """Get the distance from this point to the other point"""
+        if not other_point in self.connections:
+            raise Exception(
+                f"The point '{self.point}' has no connection edge to the point '{other_point}'"
+            )
+        return self.connections[other_point]
 
     def update_distance(self, point: tuple[float, float], new_distance: float):
         """This method tries to update the distance between the points but raise an exception if the point is not in the connections and if the distance is less than the real distance (geographical distance) between the points"""
@@ -58,10 +74,14 @@ class SimMap:
     ) -> None:
         self.points: dict[tuple[float, float], MapNode] = {}
 
+    def point_in_map(self, point: tuple[float, float]) -> bool:
+        """Returns True if the point is in the map"""
+        return point in self.points
+
     def add_point(self, point: tuple[float, float]) -> bool:
-        if point in self.points:
+        if self.point_in_map(point):
             return False
-        self.points[point] = MapNode()
+        self.points[point] = MapNode(point)
         return True
 
     def add_directed_connection(
@@ -72,18 +92,22 @@ class SimMap:
         create_point_if_not_exist: bool = False,
     ):
         if not create_point_if_not_exist:
-            if point1 not in self.points:
+            if not self.point_in_map(point1):
                 raise Exception(
                     f"The first point ({point1[0]}, {point1[1]}) is not a point in the map"
                 )
-            if point2 not in self.points:
+            if not self.point_in_map(point2):
                 raise Exception(
                     f"The second point ({point2[0]}, {point2[1]}) is not a point in the map"
                 )
         else:
-            self.points.setdefault(point1, MapNode)
-            self.points.setdefault(point2, MapNode)
-        self.points[point1].add_connection(point2, distance)
+            # self.points.setdefault(point1, MapNode)
+            self.add_point(point1)
+            # self.points.setdefault(point2, MapNode)
+            self.add_point(point2)
+        # self.points[point1].add_connection(point2, distance)
+        node = self.points[point1]
+        node.add_connection(point=point2, distance=distance)
 
     def add_bidirectional_connection(
         self,
@@ -103,3 +127,50 @@ class SimMap:
         self.points.pop(point, (0, 0))
         for _, map_node in self.points.items():
             map_node.remove_connection(point, (0, 0))
+
+    def add_directed_connection_with_random_distance(
+        self,
+        point1: tuple[float, float],
+        point2: tuple[float, float],
+        max_exceeding_distance: float = 1,
+        create_point_if_not_exist: bool = False,
+    ):
+        max_exceeding_distance: float = max(1, max_exceeding_distance)
+        real_distance: float = distance_between_points(point1, point2)
+        # distance = rnd.randrange(real_distance, real_distance + max_exceeding_distance)
+        distance = rnd.uniform(real_distance, real_distance + max_exceeding_distance)
+        self.add_directed_connection(
+            point1, point2, distance, create_point_if_not_exist
+        )
+
+    def add_bidirectional_connection_with_random_distance(
+        self,
+        point1: tuple[float, float],
+        point2: tuple[float, float],
+        max_exceeding_distance: float = 1,
+        create_point_if_not_exist: bool = False,
+    ):
+        self.add_directed_connection_with_random_distance(
+            point1, point2, max_exceeding_distance, create_point_if_not_exist
+        )
+        self.add_directed_connection_with_random_distance(
+            point2, point1, max_exceeding_distance, create_point_if_not_exist
+        )
+
+    def get_connections(self, point: tuple[float, float]) -> MapNode:
+        if not self.point_in_map(point):
+            raise Exception(f"The point {point} is not in the map")
+        res: MapNode = self.points[point]
+        return res
+
+    def get_distance(
+        self,
+        point1: tuple[float, float],
+        point2: tuple[float, float],
+    ) -> float:
+        if not self.point_in_map(point1):
+            raise Exception(f"The point {point1} is not in the map")
+        if not self.point_in_map(point2):
+            raise Exception(f"The point {point2} is not in the map")
+        node = self.get_connections(point1)
+        return node.get_distance(point2)

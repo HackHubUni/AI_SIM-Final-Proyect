@@ -1,5 +1,5 @@
 from typing import *
-from utility_functions import point_inside_circle, boundary_inside_circle
+from .utility_functions import point_inside_circle, boundary_inside_circle
 
 
 class QuadTreeNode:
