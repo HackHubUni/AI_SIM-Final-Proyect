@@ -110,3 +110,8 @@ class CheeseRecipe(Recipe):
                 raise ValueError("The ingredients are not enough to create the cheese")
         
         return Cheese("cheese", np.median([milk.get_flavor(), salt.get_flavor(), rennet.get_flavor()]),np.median([milk.get_nutritive_properties(), salt.get_nutritive_properties(), rennet.get_nutritive_properties()]), 100)
+    
+
+
+
+    
