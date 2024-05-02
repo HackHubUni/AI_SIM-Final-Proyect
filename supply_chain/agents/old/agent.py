@@ -6,6 +6,8 @@ from func import Func
 import time
 import math
 
+from supply_chain.agents.SE.belief import Belief
+
 try:
     from supply_chain.products.product import Product
     from supply_chain.agents.old.order import Order

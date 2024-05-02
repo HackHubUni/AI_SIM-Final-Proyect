@@ -96,8 +96,11 @@ class ProducerAgent(Agent):
         self.save_ofer:dict[str,ResponseOfertProductMessaage]={}
                     #guid, Respuesta de la peticion de precio
 
+
+
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
 
+        id_=generate_guid()
         response = ResponseOfertProductMessaage(company_from_type=self.company.tag,
                                                 company_from=self.company.name,
                                                 company_destination_type=oferta.company_from_type,
@@ -105,7 +108,13 @@ class ProducerAgent(Agent):
                                                 product_name=oferta.product_want_name,
                                                 price_per_unit=price_per_unit,
                                                 count_can_supply=count_can_supply,
-                                                peticion_instance=oferta, )
+                                                peticion_instance=oferta,
+                                                id_=id_)
+
+        self.save_ofer[id_]=response
+
+
+
 
         # TODO Enviar
 
@@ -144,6 +153,8 @@ class ProducerAgent(Agent):
         """
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirCantidad)
 
+
+
     def _ask_price_product(self,msg:MessageWantProductOffer):
         # Es pq esta pidiendo precio
 
@@ -176,13 +187,17 @@ class ProducerAgent(Agent):
 
         self.sent_msg_response_ofer(msg, final_count_to_supply, final_price)
 
-    def recive_msg(self, msg: MessageWantProductOffer):
+
+
+    def recive_msg(self, msg: Message):
         #Upgradear la base de conocimiento
         self.update()
 
 
         if isinstance(msg, MessageWantProductOffer):
             return  self._ask_price_product(msg)
+
+
 
 
 
