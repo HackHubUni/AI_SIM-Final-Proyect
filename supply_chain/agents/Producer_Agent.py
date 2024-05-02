@@ -66,6 +66,8 @@ class AgentWrapped(Agent):
         # Manager de las ofertas
         self.ofer_manager: GestorOfertas = GestorOfertas(
             self.env_visualizer.get_time)
+        self.start()
+
 
     def lanzar_excepcion_por_no_saber_mensaje(self, msg: Message):
         raise AgentException(
