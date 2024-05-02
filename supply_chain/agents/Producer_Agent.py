@@ -167,6 +167,9 @@ class ProducerAgent(AgentWrapped):
 
         # guid, Respuesta de la peticion de precio
 
+    def get_time_demora(self):
+        return 300000
+
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
 
         response = ResponseOfertProductMessaage(company_from_type=self.company.tag,
@@ -177,6 +180,8 @@ class ProducerAgent(AgentWrapped):
                                                 price_per_unit=price_per_unit,
                                                 count_can_supply=count_can_supply,
                                                 peticion_instance=oferta,
+                                                end_time=self.get_time_demora()
+
                                                 )
 
         self.ofer_manager.add_response_despues_de_negociar_oferta(response)

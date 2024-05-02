@@ -1,0 +1,468 @@
+Index: supply_chain/Company/company.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import copy\r\n\r\ntry:\r\n    from supply_chain.agents.order import Order\r\n    from supply_chain.sim_environment import SimEnvironment\r\n\r\n    from supply_chain.Company.registrers.registers import *\r\n    from supply_chain.company import Company, TypeCompany\r\nexcept:\r\n\r\n    from agent import Agent\r\n    from products.product import Product\r\n\r\n\r\nclass CompanyWrapped(Company):\r\n\r\n    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,\r\n                 inicial_balance: float):\r\n        super().__init__(name, environment)\r\n        self.agent: Agent = agent\r\n        self.environment: SimEnvironment = env\r\n        self.balance = inicial_balance\r\n        self.register = Registry()\r\n\r\n        self.start()\r\n        \"\"\"\r\n        Call the start function\r\n        \"\"\"\r\n\r\n    # TODO:Carla aca tienes el ambiente\r\n    @property\r\n    def get_environment(self):\r\n        \"\"\"\r\n        :return: El env de la simulación\r\n        \"\"\"\r\n        return self.environment\r\n\r\n    # TODO:Carla aca tienes como saber el tiempo actual\r\n    @property\r\n    def get_time(self):\r\n        \"\"\"\r\n        Retorna el tiempo actual en que se está\r\n        :return:\r\n        \"\"\"\r\n        return self.environment.get_time()\r\n\r\n    def start(self):\r\n        pass\r\n\r\n\r\nclass LogisticCompany(CompanyWrapped):\r\n    \"\"\"\r\n    Class for the logistic Company\r\n    \"\"\"\r\n\r\n    @property\r\n    def tag(self):\r\n        return TypeCompany.Logistic\r\n\r\n\r\nclass BaseProducer(CompanyWrapped):\r\n    \"\"\"Productor de productos base\"\"\"\r\n\r\n    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,\r\n                 initial_balance: float, lis_sales_products_name: list[str]):\r\n        super().__init__(name, environment, agent, env, initial_balance)\r\n        self._stock: dict[str, list[Product]] = {}\r\n        # Por cada producto tengo la lista de las instancias de estos\r\n\r\n        self._product_price: dict[str, float] = {}\r\n        \"\"\"\r\n        nombre del producto: precio\r\n        \"\"\"\r\n        self.lis_sales_products_name: list[str]\r\n\r\n    def _restock(self):\r\n\r\n        \"\"\"\r\n        Reabastecimiento mágico que va a tener ,a empresa\r\n        \"\"\"\r\n\r\n\r\n    def start(self):\r\n        self._restock()\r\n\r\n    # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant\r\n    @property\r\n    def get_stock(self) -> dict[str, int]:\r\n        \"\"\"\r\n         nombre de producto: lista de los productos en stock son instancias de Product\r\n        :return:\r\n        \"\"\"\r\n        dic = {}\r\n        for key in self._stock.keys():\r\n            dic[key] = len(self._stock[key])\r\n\r\n        return dic\r\n\r\n    @property\r\n    def tag(self):\r\n        return TypeCompany.BaseProducer\r\n\r\n    def restock(self):\r\n        \"\"\"\r\n        Se llama a esta función para reabastecerse de productos bajo cierta lógica\r\n        :return:\r\n        \"\"\"\r\n        pass\r\n\r\n    def _add_sell_record(self,\r\n                         product_name: str,\r\n                         list_products_records: list[ProductRecords],\r\n                         normal_price: float,\r\n                         price_sold: float,\r\n                         amount_asked: int,\r\n                         amount_sold: int,\r\n                         matrix_name: str,\r\n                         from_company_name: str,\r\n                         from_company_tag: TypeCompany,\r\n                         to_company_name: str,\r\n                         to_company_tag: TypeCompany\r\n                         ):\r\n\r\n        self.register.add_sell_record(\r\n            # Tiempo en que se hace la venta\r\n            time=self.get_time,\r\n            product_name=product_name,\r\n            list_products_records=list_products_records,\r\n            normal_price=normal_price,\r\n            price_sold=price_sold,\r\n            amount_asked=amount_asked,\r\n            amount_sold=amount_sold,\r\n            matrix_name=matrix_name,\r\n            from_company_name=from_company_name,\r\n            from_company_tag=from_company_tag,\r\n            to_company_name=to_company_name,\r\n            to_company_tag=to_company_tag\r\n        )\r\n\r\n    # TODO:Carla aca tienes para conocer el precio de un producto\r\n    def get_product_price(self, product_name: str) -> float:\r\n        \"\"\"\r\n        Retorna por cada producto el precio de estos\r\n        :param product_name: nombre del producto\r\n        :return:float precio de venta del producto\r\n        \"\"\"\r\n        if product_name not in self._stock:\r\n            return float('inf')\r\n        return self._product_price[product_name]\r\n\r\n    def _delete_product_stock(self, product_name: str, count: int) -> list[Product]:\r\n        \"\"\"\r\n        Es para tener la logica de como  se quita producto del stock en una cant dada\r\n        :param product_name:\r\n        :param count:\r\n        :return: lista de productos a devolver para la venta\r\n        \"\"\"\r\n        if product_name not in self._stock:\r\n            raise Exception(f\"The product {product_name} in the company {self.name} type {self.tag} don´t exists\")\r\n\r\n        # Chequear que la cant de producto que se tiene en stock es suficiente\r\n        count_in_stock: int = self.get_stock[product_name]\r\n        if count_in_stock < count:\r\n            raise Exception(\r\n                f\"Don t have {count} of the product {product_name} only have {count_in_stock} in the company {self.name} type {self.tag}\")\r\n        lis = self._stock[product_name]\r\n        temp = copy.deepcopy(lis)\r\n        # elimina los n primeros elementos de la lista\r\n        self._stock[product_name] = lis[count:]\r\n\r\n        return temp[0:count]\r\n\r\n    # TODO:Carla aca tienes para Si no vas a vender mandas como que es infinito el precio de venta\r\n\r\n    def sell(self, product_name: str,\r\n             price_sold: float,\r\n             amount_asked: int,\r\n             amount_sold: int,\r\n             matrix_name: str,\r\n             to_company: Company,\r\n             logistic_company: LogisticCompany\r\n             ):\r\n        \"\"\"\r\n        Llamar para realizar la venta del producto\r\n        :param product_name:str nombre del producto a vender\r\n        :param price_sold:float precio de venta del lote de productos\r\n        :param amount_asked:int cantidad que pidió comprar\r\n        :param amount_sold:int cantidad que se le vendió\r\n        :param matrix_name:str nombre de la empresa matriz que gestionó la compra\r\n        :param to_company:Company compañía a la que hay que enviarle\r\n        :param logistic_company:LogisticCompany company logística  que debe realizar el envío\r\n        :return:\r\n        \"\"\"\r\n        self._delete_product_stock(product_name, amount_sold)\r\n\r\n    def deliver(self, order: Order):\r\n        pass\r\n\r\n\r\nclass SecondaryCompany(BaseProducer):\r\n\r\n    @property\r\n    def tag(self):\r\n        return TypeCompany.SecondaryProvider\r\n\r\n    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment):\r\n        super().__init__(name, environment, agent, env)\r\n\r\n        self._process_product_price: dict[Product, float] = {}\r\n\r\n    # TODO:Carla aca tienes el dic de producto con el precio que se procesan porfa\r\n    @property\r\n    def process_products_price(self) -> dict[Product, float]:\r\n        \"\"\"\r\n        Devuelve el diccionario que tiene por producto que se procesa su precio de venta por procesar\r\n        :return:\r\n        \"\"\"\r\n        return self._process_product_price\r\n\r\n    # TODO:Aca tienes  el precio de procesar un elemento\r\n    def get_price_process_product(self, product: Product):\r\n        \"\"\"\r\n        Devuelve el precio del producto\r\n        :param product:\r\n        :return:\r\n        \"\"\"\r\n        if not product in self._process_product_price:\r\n            raise Exception(f\"El producto: {product.name} no se encuentra entre los productos a procesar\")\r\n        return self._process_product_price[product]\r\n\r\n    # TODO:Carla aca es para que llames cuando se vende un servicio de manufactura osea que\r\n    # le di las papas y le empresa me hizo el puré\r\n    def sell_process_product(self, order: Order, sell_price: float):\r\n        \"\"\"\r\n        Registra la venta de un producto procesado: Osea que la empresa matriz le da los ingredientes y la manufaturera\r\n        elabora otro producto con esta\r\n        :param order: orden del producto\r\n        :param sell_price: precio al que se vendió el total de la orden\r\n        :return:\r\n        \"\"\"\r\n        pass\r\n\r\n    def restock(self):\r\n        \"\"\"\r\n        LLama a reabastecer un producto y una cantidad en específico\r\n        :param product:\r\n        :param count:\r\n        :return:\r\n        \"\"\"\r\n        # Todo:Implementar restock este es el que llama carla pq tiene que hacer restock no es el que tengo que hacer para que sea magicamente\r\n        pass\r\n\r\n\r\nclass WarehouseCompany(CompanyWrapped):\r\n\r\n    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,\r\n                 inicial_balance: float):\r\n        super().__init__(name, environment)\r\n        self.agent: Agent = agent\r\n        self.environment: SimEnvironment = env\r\n        self.balance = inicial_balance\r\n        self.register = Registry()\r\n\r\n    @property\r\n    def tag(self):\r\n        return TypeCompany.Warehouse\r\n\r\n    def stock(self):\r\n        pass\r\n\r\n    def in_storage_product(self, order: Order):\r\n        \"\"\"\r\n        Cuando se entra a guardar un producto\r\n        :param order:\r\n        :return:\r\n        \"\"\"\r\n        pass\r\n\r\n    # TODO: Crear el send recibe un Order\r\n    def out_storage_product(self, order: Order):\r\n        \"\"\"\r\n        Cuando se saca un producto del almacen\r\n        :return:\r\n        \"\"\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/supply_chain/Company/company.py b/supply_chain/Company/company.py
+--- a/supply_chain/Company/company.py	(revision c444c7ab8ddbbd506e5ef3369dc8fa1731b85a47)
++++ b/supply_chain/Company/company.py	(date 1714235317435)
+@@ -1,5 +1,7 @@
+ import copy
+ 
++from supply_chain.Company.company_helper import CompanyStock, BaseCompanyStock
++
+ try:
+     from supply_chain.agents.order import Order
+     from supply_chain.sim_environment import SimEnvironment
+@@ -14,13 +16,13 @@
+ 
+ class CompanyWrapped(Company):
+ 
+-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
+-                 inicial_balance: float):
++    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: CompanyStock
++                 ):
+         super().__init__(name, environment)
+         self.agent: Agent = agent
+-        self.environment: SimEnvironment = env
+-        self.balance = inicial_balance
++        self.environment: SimEnvironment = environment
+         self.register = Registry()
++        self.stock_manager = stock_manager
+ 
+         self.start()
+         """
+@@ -61,27 +63,15 @@
+ class BaseProducer(CompanyWrapped):
+     """Productor de productos base"""
+ 
+-    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, env: SimEnvironment,
+-                 initial_balance: float, lis_sales_products_name: list[str]):
+-        super().__init__(name, environment, agent, env, initial_balance)
+-        self._stock: dict[str, list[Product]] = {}
+-        # Por cada producto tengo la lista de las instancias de estos
+-
+-        self._product_price: dict[str, float] = {}
+-        """
+-        nombre del producto: precio
+-        """
+-        self.lis_sales_products_name: list[str]
+-
+-    def _restock(self):
+-
+-        """
+-        Reabastecimiento mágico que va a tener ,a empresa
+-        """
+-
++    def __init__(self, name: str, environment: SimEnvironment, agent: Agent, stock_manager: BaseCompanyStock):
++        super().__init__(name, environment, agent, stock_manager)
+ 
+     def start(self):
+-        self._restock()
++        """
++        Inicializa la clase
++        :return:
++        """
++        self.stock_manager.restock()
+ 
+     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
+     @property
+@@ -100,13 +90,6 @@
+     def tag(self):
+         return TypeCompany.BaseProducer
+ 
+-    def restock(self):
+-        """
+-        Se llama a esta función para reabastecerse de productos bajo cierta lógica
+-        :return:
+-        """
+-        pass
+-
+     def _add_sell_record(self,
+                          product_name: str,
+                          list_products_records: list[ProductRecords],
+Index: supply_chain/Company/company_helper.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from supply_chain.products.product import Product\r\nfrom typing import Callable, Dict, List\r\n\r\nclass BaseCompanyReStockException(Exception):\r\n    def\r\n\r\n        def __init__(self, message: str):\r\n            super().__init__(message)\r\n\r\n\r\nclass BaseCompanyStock:\r\n\r\n    def __init__(self,\r\n                 products_max_stock: dict[str, int],\r\n                 products_min_stock: dict[str, int],\r\n                 create_product_lambda:Dict[str, Callable[[int], List[Product]]],\r\n                 supply_distribution: Dict[str, Callable[[],float]],\r\n                 create_price_distribution: dict[str, Callable[[],float]],\r\n                 sale_price_distribution: dict[str, Callable[[],float]],\r\n                 time_restock_distribution: callable\r\n                 ):\r\n        self.products_max_stock: dict[str, int] = products_max_stock\r\n        \"\"\"\r\n        Cant maxima de productos en stock\r\n        \"\"\"\r\n        self.products_min_stock: dict[str, int] = products_min_stock\r\n        \"\"\"\r\n        Cant mínima de productos en stock\r\n        \"\"\"\r\n        self.create_product_lambda: Dict[str, Callable[[int], List[Product]]] = create_product_lambda\r\n        \"\"\"\r\n        Guarda el producto, su lambda a crear, cada vez se llame devuelve una lista con los productos se le pasa la cant a \r\n         producir como un entero count\r\n        \"\"\"\r\n        self.supply_distribution: Dict[str, Callable[[],float]] = supply_distribution\r\n        \"\"\"\r\n        Cant de productos a crear en cada llamado\r\n        \"\"\"\r\n        self.create_price_distribution: dict[str, Callable[[],float]] = create_price_distribution\r\n        \"\"\"\r\n        Determina el precio de esta producción\r\n        \"\"\"\r\n        self.sale_price_distribution: dict[str, Callable[[],float]] = sale_price_distribution\r\n        \"\"\"\r\n        Función que devuelva siempre >=1 pq osea se multiplica el precio de producción por este coeficiente\r\n        \"\"\"\r\n        self.time_restock_distribution: callable = time_restock_distribution\r\n        \"\"\"\r\n        Tiempo a pasar entre cada restock\r\n        \"\"\"\r\n        self._stock: dict[str,list[Product]] = {}\r\n        \"\"\"\r\n        El stock de la empresa\r\n        \"\"\"\r\n        self._sale_product_price: dict[str, float] = {}\r\n        \"\"\"\r\n        Precio por producto del stock\r\n        \"\"\"\r\n        self._cost_product_price: dict[str, float] = {}\r\n        \"\"\"\r\n        El coste de producir ese producto\r\n        \"\"\"\r\n\r\n        self.check()\r\n        \"\"\"\r\n        Chequear que los nombres de los productos son correctos\r\n        \"\"\"\r\n\r\n    def check(self):\r\n        products_name = self.products_max_stock.keys()\r\n        products_min_stock_name = self.products_min_stock.keys()\r\n        supply_names = self.supply_distribution.keys()\r\n        create_product_lambda = self.create_product_lambda.keys()\r\n        price_distribution = self.create_price_distribution.keys()\r\n        sale_price_name = self.sale_price_distribution.keys()\r\n        if not (set(products_name) == set(supply_names)\r\n                and\r\n                set(supply_names) == set(products_min_stock_name)\r\n                and\r\n                set(\r\n                    supply_names) == set(price_distribution)\r\n                and\r\n                set(\r\n                    price_distribution) == set(sale_price_name)\r\n                and\r\n                set(create_product_lambda) == set(sale_price_name)\r\n        ):\r\n            raise BaseCompanyReStockException(f'The names in the dicts ar different')\r\n\r\n    def _actualizar_costos(self, product_name: str, count_supply: int) -> float:\r\n        \"\"\"\r\n        Actualiza los costos del producto y devuelve el precio de haberlo producido\r\n        :param product_name: nombre del producto\r\n        :param count_supply_int:\r\n        :return:\r\n        \"\"\"\r\n\r\n        # Distribución del costo\r\n        price_to_supply = self.create_price_distribution[product_name]()\r\n        # Actualizar el precio de venta del producto\r\n\r\n        #Actualizar el precio de producción del producto\r\n        self._cost_product_price[product_name]=price_to_supply\r\n\r\n        actual_sale_distribution = self.sale_price_distribution[product_name]\r\n        # Osea se da el precio de producción por el coeficiente de venta\r\n        self._sale_product_price[product_name] = actual_sale_distribution() * price_to_supply\r\n\r\n        # Cuanto Costo en total\r\n        return count_supply * price_to_supply\r\n    def _get_count_supply(self,product_name:str):\r\n        # Se genera una cant de productos\r\n        supply_distribution = self.supply_distribution[product_name]\r\n        # Llamar para saber cuanto seria reabastecer\r\n        count_supply = supply_distribution()\r\n        return count_supply\r\n    def _restock_without_exists(self, product_name: str) -> float:\r\n        # Comprobar el stock actual\r\n        # Si no esta en el stock es pq no hay existencias\r\n\r\n        count_supply=self._get_count_supply()\r\n        # saber cuanto es que se puede reabastecer\r\n        max_supply = self.products_max_stock[product_name]\r\n        if count_supply > max_supply:\r\n            count_supply = max_supply\r\n        # Se añade al stock la lista de los productos creados\r\n        self._stock[product_name] = self.create_product_lambda[product_name](count_supply)\r\n        # Actualizar los costos\r\n        return self._actualizar_costos(product_name, count_supply)\r\n\r\n    def _restock_with_exists(self, product_name: str):\r\n        count_in_stock = self._stock\r\n\r\n    def restock(self) -> float:\r\n        \"\"\"\r\n        Se reabastece magicamente la empresa\r\n        :return: el precio de reabastecerse\r\n        \"\"\"\r\n        cost = 0\r\n        product_names = self.products_max_stock.keys()\r\n        # Comprobar si cada producto esta por debajo de una linea\r\n        for product_name in product_names:\r\n            if product_name not in self._stock:\r\n                cost += self._restock_without_exists(product_name)\r\n        else:\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/supply_chain/Company/company_helper.py b/supply_chain/Company/company_helper.py
+--- a/supply_chain/Company/company_helper.py	(revision c444c7ab8ddbbd506e5ef3369dc8fa1731b85a47)
++++ b/supply_chain/Company/company_helper.py	(date 1714235317444)
+@@ -1,24 +1,43 @@
+ from supply_chain.products.product import Product
+ from typing import Callable, Dict, List
++from abc import ABC, abstractmethod, abstractproperty
++
++from supply_chain.sim_environment import SimEnvironment
++
+ 
+ class BaseCompanyReStockException(Exception):
+-    def
+ 
+-        def __init__(self, message: str):
+-            super().__init__(message)
++    def __init__(self, message: str):
++        super().__init__(message)
+ 
+ 
+-class BaseCompanyStock:
++class CompanyStock(ABC):
++    @abstractmethod
++    def restock(self):
++        """
++        Se reabastece magicamente la empresa
++        :return: el precio de reabastecerse
++        """
++        pass
++
++
++class BaseCompanyStock(CompanyStock):
+ 
+     def __init__(self,
+                  products_max_stock: dict[str, int],
+                  products_min_stock: dict[str, int],
+-                 create_product_lambda:Dict[str, Callable[[int], List[Product]]],
+-                 supply_distribution: Dict[str, Callable[[],float]],
+-                 create_price_distribution: dict[str, Callable[[],float]],
+-                 sale_price_distribution: dict[str, Callable[[],float]],
+-                 time_restock_distribution: callable
++                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
++                 supply_distribution: Dict[str, Callable[[], int]],
++                 sale_price_distribution: dict[str, Callable[[], float]],
++                 time_restock_distribution: Callable[[], int],
++                 environment: SimEnvironment
+                  ):
++
++        self.env = environment
++        """
++        El env de la simulación
++        """
++
+         self.products_max_stock: dict[str, int] = products_max_stock
+         """
+         Cant maxima de productos en stock
+@@ -32,23 +51,23 @@
+         Guarda el producto, su lambda a crear, cada vez se llame devuelve una lista con los productos se le pasa la cant a 
+          producir como un entero count
+         """
+-        self.supply_distribution: Dict[str, Callable[[],float]] = supply_distribution
++        self.supply_distribution: Dict[str, Callable[[], int]] = supply_distribution
+         """
+         Cant de productos a crear en cada llamado
+         """
+-        self.create_price_distribution: dict[str, Callable[[],float]] = create_price_distribution
+-        """
+-        Determina el precio de esta producción
+-        """
+-        self.sale_price_distribution: dict[str, Callable[[],float]] = sale_price_distribution
++
++        self.sale_price_distribution: dict[str, Callable[[], float]] = sale_price_distribution
+         """
+         Función que devuelva siempre >=1 pq osea se multiplica el precio de producción por este coeficiente
+         """
+-        self.time_restock_distribution: callable = time_restock_distribution
++        self.time_restock_distribution: Callable[[], int] = time_restock_distribution
+         """
+         Tiempo a pasar entre cada restock
+         """
+-        self._stock: dict[str,list[Product]] = {}
++
++        # Locales
++
++        self._stock: dict[str, list[Product]] = {}
+         """
+         El stock de la empresa
+         """
+@@ -56,69 +75,79 @@
+         """
+         Precio por producto del stock
+         """
+-        self._cost_product_price: dict[str, float] = {}
+-        """
+-        El coste de producir ese producto
+-        """
+ 
+-        self.check()
++        self._check()
+         """
+         Chequear que los nombres de los productos son correctos
+         """
+ 
+-    def check(self):
++    @property
++    def stock(self):
++        """Brinda el stock de la empresa"""
++        return self._stock
++
++    @property
++    def sale_product_price(self):
++        """
++        Da el diccionario del precio por producuto
++        :return:
++
++        """
++        return self._sale_product_price
++
++    def _check(self):
+         products_name = self.products_max_stock.keys()
+         products_min_stock_name = self.products_min_stock.keys()
+         supply_names = self.supply_distribution.keys()
+         create_product_lambda = self.create_product_lambda.keys()
+-        price_distribution = self.create_price_distribution.keys()
+         sale_price_name = self.sale_price_distribution.keys()
+         if not (set(products_name) == set(supply_names)
+                 and
+                 set(supply_names) == set(products_min_stock_name)
+                 and
+                 set(
+-                    supply_names) == set(price_distribution)
+-                and
+-                set(
+-                    price_distribution) == set(sale_price_name)
++                    supply_names) == set(products_min_stock_name)
+                 and
+                 set(create_product_lambda) == set(sale_price_name)
+         ):
+             raise BaseCompanyReStockException(f'The names in the dicts ar different')
+ 
+-    def _actualizar_costos(self, product_name: str, count_supply: int) -> float:
++    def _actualizar_costos(self, product_name: str):
+         """
+-        Actualiza los costos del producto y devuelve el precio de haberlo producido
+-        :param product_name: nombre del producto
+-        :param count_supply_int:
++        Actualiza los costos de venta del producto del producto
++        :param product_name: Nombre del producto
+         :return:
+         """
+ 
+-        # Distribución del costo
+-        price_to_supply = self.create_price_distribution[product_name]()
+         # Actualizar el precio de venta del producto
+ 
+-        #Actualizar el precio de producción del producto
+-        self._cost_product_price[product_name]=price_to_supply
+-
+         actual_sale_distribution = self.sale_price_distribution[product_name]
+-        # Osea se da el precio de producción por el coeficiente de venta
+-        self._sale_product_price[product_name] = actual_sale_distribution() * price_to_supply
++        # Osea se da el precio de venta del producto
++        self._sale_product_price[product_name] = actual_sale_distribution()
+ 
+-        # Cuanto Costo en total
+-        return count_supply * price_to_supply
+-    def _get_count_supply(self,product_name:str):
++    def _get_count_supply(self, product_name: str) -> int:
++        """
++        Da la cant de productos a se quisiera abastecer por la función de cuanto a abastecer
++        :param product_name: nombre del producto
++        :return: cuantos se quisieran abastecer
++        """
+         # Se genera una cant de productos
+         supply_distribution = self.supply_distribution[product_name]
+         # Llamar para saber cuanto seria reabastecer
+         count_supply = supply_distribution()
+         return count_supply
+-    def _restock_without_exists(self, product_name: str) -> float:
++
++    def _restock_without_exists(self, product_name: str) -> bool:
++        """
++        Si un producto no esta en stock, pq no hay existencias de el
++        se reabastece
++        :param product_name:
++        :return: bool: True si se reabasteció
++        """
+         # Comprobar el stock actual
+         # Si no esta en el stock es pq no hay existencias
+ 
+-        count_supply=self._get_count_supply()
++        count_supply = self._get_count_supply(product_name)
+         # saber cuanto es que se puede reabastecer
+         max_supply = self.products_max_stock[product_name]
+         if count_supply > max_supply:
+@@ -126,20 +155,63 @@
+         # Se añade al stock la lista de los productos creados
+         self._stock[product_name] = self.create_product_lambda[product_name](count_supply)
+         # Actualizar los costos
+-        return self._actualizar_costos(product_name, count_supply)
++        self._actualizar_costos(product_name)
++
++        return True
++
++    def _restock_with_exists(self, product_name: str) -> bool:
++        """
++        Si hay existencias en el stock de un producto reabastece lo que se desea reabastecer, siempre respetando la cota máxima
++        de producto en stock
++        :param product_name:
++        :return: True:Si se reabasteció, False: Si no se reabasteció
++        """
++        count_in_stock = len(self._stock[product_name])
++
++        # Si todavía no hay que reabastecer
++        if count_in_stock >= self.products_min_stock[product_name]:
++            return False
++        # Cuanto se quiere satisfacer
++        count_want_supply: int = self._get_count_supply(product_name)
++
++        # Cuanto queda por llenar
++        count_to_supply: int = self.products_max_stock[product_name] - count_in_stock
++
++        if count_want_supply < count_to_supply:
++            # Si la cant que se quiere suministrar es menor que la cant que queda para llegar al máximo
++            count_to_supply = count_want_supply
++
++            # Se toma la lista de productos en stock
++
++            lis_temp = self._stock[product_name]
++            # Se toma añade  a la lista del stock actual los recién creados y se actualiza el stock
++            self._stock[product_name] = lis_temp + self.create_product_lambda[product_name](count_to_supply)
++            # Actualizar los costos
++            self._actualizar_costos(product_name)
+ 
+-    def _restock_with_exists(self, product_name: str):
+-        count_in_stock = self._stock
++            return False
+ 
+-    def restock(self) -> float:
++    def _next_restock(self):
++        # TODO: llamar lanzar el evento
++        time_next_restock = self.time_restock_distribution()
++
++    def restock(self):
+         """
+         Se reabastece magicamente la empresa
+         :return: el precio de reabastecerse
+         """
+-        cost = 0
++
+         product_names = self.products_max_stock.keys()
+-        # Comprobar si cada producto esta por debajo de una linea
++
+         for product_name in product_names:
++            # Si esta en el stock
++
+             if product_name not in self._stock:
+-                cost += self._restock_without_exists(product_name)
+-        else:
++                self._restock_without_exists(product_name)
++            else:
++                # Si no esta en el stock
++                self._restock_with_exists(product_name)
++
++        # Lanzar el evento de reabastecer en el próximo tiempo
++
++        self._next_restock()
+Index: supply_chain/sim_event.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from abc import ABC, abstractmethod\r\nfrom sim_environment import SimEnvironment\r\n\r\n\r\nclass SimEvent:\r\n    \"\"\"This is the base class for all the events in the simulation\"\"\"\r\n\r\n    def __init__(self, time: int, priority: int) -> None:\r\n        self.time: int = time\r\n        \"\"\"The time in which the event should be processed\"\"\"\r\n        self.priority: int = priority\r\n        \"\"\"The priority that helps the simulator to choose an order of execution\r\n        between events in the same time\"\"\"\r\n\r\n    @abstractmethod\r\n    def execute(environment: SimEnvironment):\r\n        pass\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/supply_chain/sim_event.py b/supply_chain/sim_event.py
+--- a/supply_chain/sim_event.py	(revision c444c7ab8ddbbd506e5ef3369dc8fa1731b85a47)
++++ b/supply_chain/sim_event.py	(date 1714235317458)
+@@ -1,4 +1,6 @@
+ from abc import ABC, abstractmethod
++from typing import Callable, Self
++
+ from sim_environment import SimEnvironment
+ 
+ 
+@@ -15,3 +17,21 @@
+     @abstractmethod
+     def execute(environment: SimEnvironment):
+         pass
++
++
++
++#class CompanyRestockSimEvent(SimEvent):
++#
++#    def __init__(self, time: int, priority: int,execute:Callable[[],Self]) -> None:
++#        self._execute:Callable[[],Self]=execute
++#
++#        super().__init__(time,priority)
++#
++#
++#    def execute(environment: SimEnvironment):
++#        self._execute()
++#
++#
++#
++#
++#
+\ No newline at end of file
+Index: supply_chain/Flujo de la simulacion.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Flujo de la simulación\r\n\r\n## Inicio\r\n\r\nAl inicio de la simulación como no hay eventos creados se tiene que pasar por cada empresa de la simulación (empresas matrices y del mapa) y llamar a un método común en todas las empresas `Start()`. Este método lo que hace es crear los eventos iniciales de cada una para su correcto funcionamiento.\r\n\r\n### Descripción del `Start()` de cada empresa\r\n\r\n#### Proveedores\r\n\r\n- Crear un evento del momento en que se tiene que hacer `restock`. Recordar que los proveedores tienen en general un tiempo fijo $t$ con el que se separan todos los eventos de `restock`.\r\n  - A la hora de procesar este evento se tiene que reabastecer cada producto del proveedor (con la calidad inicial que deben tener estos productos) y generar el próximo evento de `restock`\r\n\r\n### Manufactores\r\n\r\nLos manufactores tienen 2 servicios que ofrecen. Uno es la venta de productos que él mágicamente produce (pagando un costo por su `restock`) y otro es el servicio de creación de nuevos productos pidiendo ciertos ingredientes (productos necesarios junto con la cantidad de estos) (la calidad mínima de los productos puede ser útil pero por ahora se quita).\r\nEntonces, el método `Start()` de esta empresa hace lo siguiente (lo mismo que el proveedor):\r\n- Crear el primer evento de `restock` que rellena los productos necesarios para ofrecer el primer servicio descrito.\r\n  - A la hora de procesar este evento se tiene que reabastecer cada producto que el manufactor ofrece (con la calidad inicial que deben tener estos productos) y generar el próximo evento de `restock`\r\n\r\n### Almacenes\r\n\r\nLos almacenes ofrecen el servicio de almacenar productos a empresas matrices. Para cada empresa matriz el almacén crea eventos de cuando toca cobrarle a la empresa matriz por sus servicios.\r\nLa lógica del cobro del servicio de almacén es el siguiente:\r\n- En el momento en que una empresa matriz pide almacenar productos entonces el almacén crea un evento de `CobrarServicio` (ponerle otro nombre al evento, en ingles) para que se ejecute en el tiempo correspondiente.\r\n\r\nAhora, en la lógica del método `Start()` se crea el evento de `CobrarServicio` para cada una de las empresas que tienen productos almacenados al comienzo de la simulación (notar que los almacenes deben tener internamente una forma de saber que productos son de cada empresa).\r\n\r\n### Tiendas\r\n\r\nLas tiendas son las únicas empresas en la simulación que atienden clientes y son estas las que desencadenan el resto de las acciones a realizar en la simulación luego de la inicialización.\r\n\r\nLa lógica que se debe ejecutar en el método `Start()` de la tienda es la siguiente:\r\n- Se debe crear el evento de `restock` que dice en que momento llegarán productos a la tienda.\r\n  - A la hora de procesar este evento se hace lo mismo que con los proveedores y manufactores, es decir, se generan productos con una calidad inicial y se añaden a la tienda.\r\n- Se debe crear el evento de `ClientArrival` que no es más que el evento que determina el momento en que un cliente llegará a la tienda (por ahora esto se hace por medio de la distribución Poisson). A la hora de procesar este evento se hace lo siguiente:\r\n  - Se genera un nuevo cliente con sus características propias de sabor favorito y propiedades nutritivas que busca, así como también el hambre que tiene.\r\n  - Se agrega el cliente a la cola de la tienda.\r\n  - Se llama al cliente recién creado su método `Start()` que lo único que hace es generar un evento `LeaveStore` que remueve al cliente de la tienda si en el momento de su procesamiento el cliente sigue en la cola. De forma precisa se hace lo siguiente al procesar este evento:\r\n    - El evento `LeaveStore` debe tener internamente el identificador *Único* del cliente (un GUID por ejemplo), digamos que se guarda en la variable `id`.\r\n    - Luego se busca en la cola de la tienda por este cliente. Si el cliente se encuentra en la cola entonces se remueve y se le reporta a la tienda que se perdió un cliente (esto debe estar en los registros de la tienda, es simplemente anotar el tiempo en el que se fue el cliente de la tienda). Si el cliente no se encuentra en la cola esto quiere decir que se está atendiendo o que ya se fue de la tienda porque ya fue atendido, es decir, no es necesario hacer nada en este caso.\r\n  - Se crea el evento `ProcessClient` que su semántica es simplemente decirle a la tienda que tiene que atender al próximo cliente. La forma precisa en que se realizará esto es la siguiente:\r\n    - Se verifica si se está atendiendo algún cliente (las tiendas deben tener una forma de resolver esto, que en lo básico puede ser un booleano) en caso positivo simplemente no se hace nada. Pero en caso negativo, es decir, no se está atendiendo un cliente, entonces se saca de la cola de la tienda el próximo cliente y se le dice que decida que va a hacer.\r\n    - Para el cliente decidir que hacer debe recibir información relacionada con los productos disponibles en la tienda y la cantidad que hay de estos productos. Luego, el cliente debe crear un evento `BuyItem` que su semántica es decirle a la tienda los productos que quiere comprar y cuantas unidades quería comprar de cada uno (porque puede ser que la tienda no tenga la cantidad suficiente para satisfacer su demanda). La lógica que se ejecuta al procesar este evento es la siguiente:\r\n      - Se analiza cuantas unidades hay de cada producto.\r\n      - Se trata de dar al cliente la cantidad de productos que pidieron (siempre es menor o igual, nunca es mayor, es decir, nunca se dan más unidades que las que piden).\r\n      - El cliente analiza la calidad de cada producto recibido y genera un nuevo evento `GiveScore` que se debe ejecutar en el tiempo de la simulación en la que se espera que el cliente haya probado todos los productos (puede ser días después de la compra). Este evento se procesa de la siguiente forma:\r\n        - El cliente calcula la calidad promedio que haya percibido de los alimentos y en dependencia de esto agrega a la tienda una nueva reseña, es decir, un valor entre 1 y 5 (las estrellas). Esto es útil para las estadísticas del final de la tienda (ver con que reseñas se quedaron, que no es más que el promedio de las reseñas).\r\n      - El cliente se retira de la tienda y la tienda genera un nuevo evento que debe ocurrir inmediatamente, es decir, en el tiempo actual de la simulación, este evento es el de `ProcessClient`.\r\n  - Se genera un evento `ReviewStock` que su semántica es decirle al agente de la tienda que debe revisar el stock y analizar si debe pedir a la empresa matriz más suministro. De forma precisa:\r\n    - Se le dice al agente que revise el stock de la tienda (esto es un objetivo de los desires, planteando que se quiere tener el stock en un nivel optimo, donde optimo es algo que depende del agente... que puede ser que tener más de 34 unidades de cada producto).\r\n    - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de productos a su tienda (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo de cada producto). De forma precisa:\r\n      - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades. Esto sería:\r\n        - Analizar si se pueden enviar las unidades desde los almacenes. Pero aquí debe tener en cuenta de que almacén va a enviar los productos y cuantas unidades (el tiempo que tienen los productos en el almacén puede ser un factor importante pues con el tiempo la calidad de los productos decrece). La lógica específica aquí depende del agente.\r\n        - Analizar que manufactores crean el producto necesario o si lo venden\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/supply_chain/Flujo de la simulacion.md b/supply_chain/Flujo de la simulacion.md
+--- a/supply_chain/Flujo de la simulacion.md	(revision c444c7ab8ddbbd506e5ef3369dc8fa1731b85a47)
++++ b/supply_chain/Flujo de la simulacion.md	(date 1714235317446)
+@@ -28,6 +28,7 @@
+ 
+ ### Tiendas
+ 
++<!-- TODO: Agregar el punto de que las tiendas solo tienen un reabastecimiento mágico y este ocurre al inicio de la simulación -->
+ Las tiendas son las únicas empresas en la simulación que atienden clientes y son estas las que desencadenan el resto de las acciones a realizar en la simulación luego de la inicialización.
+ 
+ La lógica que se debe ejecutar en el método `Start()` de la tienda es la siguiente:
+@@ -49,7 +50,46 @@
+       - El cliente se retira de la tienda y la tienda genera un nuevo evento que debe ocurrir inmediatamente, es decir, en el tiempo actual de la simulación, este evento es el de `ProcessClient`.
+   - Se genera un evento `ReviewStock` que su semántica es decirle al agente de la tienda que debe revisar el stock y analizar si debe pedir a la empresa matriz más suministro. De forma precisa:
+     - Se le dice al agente que revise el stock de la tienda (esto es un objetivo de los desires, planteando que se quiere tener el stock en un nivel optimo, donde optimo es algo que depende del agente... que puede ser que tener más de 34 unidades de cada producto).
+-    - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de productos a su tienda (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo de cada producto). De forma precisa:
+-      - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades. Esto sería:
+-        - Analizar si se pueden enviar las unidades desde los almacenes. Pero aquí debe tener en cuenta de que almacén va a enviar los productos y cuantas unidades (el tiempo que tienen los productos en el almacén puede ser un factor importante pues con el tiempo la calidad de los productos decrece). La lógica específica aquí depende del agente.
+-        - Analizar que manufactores crean el producto necesario o si lo venden
++    - Si el agente cree que es hora de pedir más suministros, entonces crea un evento `SupplyToShop` que su semántica al ejecutarse es decirle a la empresa matriz correspondiente que debe suministrarle cierta cantidad de unidades de un producto (se debe definir dentro del evento la tienda a la que se debe suministrar, así como la cantidad que está pidiendo del producto). De forma precisa:
++      - La empresa matriz recibe la petición de la tienda y comienza a analizar cual es la serie de acciones que debe realizar para suplirle a la tienda sus necesidades.
++
++### Descripción de la lógica de cada empresa
++
++#### Empresa matriz
++
++Su lógica es la siguiente:
++- A la hora de la empresa matriz cumplir con el objetivo de suministrar cierta cantidad de unidades de un producto a una tienda ella tiene un conjunto de posibles acciones a realizar y con estas acciones debe crear una planificación, es decir, decidir la secuencia de pasos a realizar para cumplir el objetivo:
++  <!-- TODO: Volver a analizar esto y analizar lo de la estimación de tiempo de envío y producción-->
++  - **Preguntar** a los agentes transportistas cuanto cobran por el envío de cierta cantidades de un producto desde un punto de origen a un punto de destino.
++  - **Preguntar** por los almacenes que tienen ese producto, la cantidad de unidades que de ese producto y la calidad promedio.
++  - **Preguntar** por los manufactores que tienen a la venta ese producto, cuantos tienen a la venta y a cuanto venden la unidad.
++  - **Preguntar** por los manufactores que pueden crear el producto, cuanto cobran por la creación de cierta cantidad de unidades del producto.
++  - **Preguntar** por los proveedores que venden cierto producto, cuantas unidades venden y a que precio la unidad.
++  - **Comprar** tantas unidad del producto al manufactor y enviarlas a cierto punto con un transportista especifico (Esta compra es para los productos que vende el manufactor).
++  - **Comprarle** tantas unidades del producto al productor y enviarlas por medio de un agente transportista a un punto del mapa.
++  - **Enviar** cierta cantidad de unidades del almacén a un punto del mapa por medio de un transportista.
++  - **Mandar** al manufactor a crear cierta cantidad de productos y enviarla a cierto punto del mapa con un transportista. <!-- Analizar este punto pues es necesario que se hayan enviado los productos base al manufactor -->
++
++#### Empresa proveedora
++
++Las acciones de esta empresa son las siguientes:
++1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
++2. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
++
++#### Empresa transportista
++
++Las acciones de esta empresa son las siguientes:
++1. Decir cuanto cobra por enviar cierta cantidad de unidades de un producto de un punto de origen del mapa a un punto de destino.
++2. Realizar el envío de cierta cantidad de unidades de un punto del mapa a otro. A la hora de realizar esta acción se le tiene que descontar un dinero a la empresa matriz.
++
++#### Empresa manufacturera
++<!-- TODO: Revisar esto completo -->
++Las acciones de esta empresa
++1. Dar información a una empresa sobre un producto, esto es, mostrar de un producto la cantidad de unidades que tiene a la venta y el precio por unidad.
++2. Dar información sobre los productos que puede crear
++3. Realizar venta, esto es, definir la cantidad de unidades a vender de un producto especifico y enviarlo a cierto punto del mapa por un distribuidor.
++4. Producir cierta cantidad de unidades de un producto a una empresa, esto es, se descuenta a la empresa el costo de la producción de estas unidades, luego se envían los productos creados a un punto en el mapa (proporcionado por la empresa matriz) por medio de un distribuidor.
++
++#### Empresa Almacén
++
++Las acciones de 
