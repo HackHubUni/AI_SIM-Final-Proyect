@@ -3,7 +3,7 @@ import google.generativeai as genai
 from dto_InfoCompany import Dto_InfoCompany
 
 # Configure API Key
-GOOGLE_API_KEY = "AIzaSyDKZl8gFeDs6X0draN3nd3kV5Se0l1FCLg"
+GOOGLE_API_KEY = "AIzaSyBuvL5iFKPB49uh1qBS3wABCLkhvUBjpiM"
 model = genai.GenerativeModel('gemini-pro')
 genai.configure(api_key=GOOGLE_API_KEY)
 
@@ -37,19 +37,17 @@ def create_prompt(info:Dto_InfoCompany):
 
     for product_name in info.suppliers.keys():
         dict_top_suppliers = info.get_top_suppliers(product_name, 3)
+        dict_bottom_suppliers = info.get_top_suppliers(product_name, 3, False)
         for (supplier_name, product_quality, trust_level, product_cost) in dict_top_suppliers:
             str_top_suppliers += f"\n{str_supplier(product_name,supplier_name, product_quality, trust_level, product_cost)}"
-
-    for product_name in info.suppliers.keys():
-        dict_bottom_suppliers = info.get_top_suppliers(product_name, 3, False)
         for (supplier_name, product_quality, trust_level, product_cost) in dict_bottom_suppliers:
             str_bottom_suppliers += f"\n{str_supplier(product_name,supplier_name, product_quality, trust_level, product_cost)}"
 
-        for (shop_name,n_product) in info.get_top_lost_customers(3):
+    for (shop_name,n_product) in info.get_top_lost_customers(3):
             str_customers += f'''\n {str_lost_customers(shop_name,n_product)}'''
 
 
-    for (shop_name,n_product) in info.get_botton_food_quality(3):
+    for (shop_name,quality) in info.get_botton_food_quality(3):
         str_bottom_food += f'''\n {str_lost_customers(shop_name,quality)}'''
     
     prompt:str = f'''
@@ -95,5 +93,6 @@ def load_knowledge_base(json_file):
 def gen_report(prompt):
     response = model.generate_content(prompt)
     return response.text
+
 
 
