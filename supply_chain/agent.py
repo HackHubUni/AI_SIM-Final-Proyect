@@ -1,16 +1,21 @@
 from abc import ABC, abstractmethod
 
 
+class AgentException(Exception):
+    pass
+
 class Agent(ABC):
     """Base class for all agents"""
 
     def __init__(
         self,
         name: str,
+
     ) -> None:
         super().__init__()
         self.name: str = name
         """The name of the agent"""
+
 
     @abstractmethod
     def tell(info):

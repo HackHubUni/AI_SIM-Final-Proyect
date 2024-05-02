@@ -1,5 +1,16 @@
+from supply_chain.agents.old.agent import Order
+
+
 class Func:
-    def __init__(self, event_type:str, event_time:float, event_location, event_description,price):
+    def __init__(self, event_type:str, event_time:float, event_location, event_description:Order,price:float):
+        """
+
+        :param event_type:
+        :param event_time:
+        :param event_location:Agent
+        :param event_description:
+        :param price:
+        """
         self.event_type = event_type
         self.event_time = event_time
         self.event_location = event_location

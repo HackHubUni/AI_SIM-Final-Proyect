@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 
 class Product(ABC):
-    """This class represents the products of the simulation"""
+    """This is the base class for all the products in the simulation. Tha BaseProduct and CreatedProduct inherits from this class"""
 
     def __init__(
         self,
@@ -13,6 +13,7 @@ class Product(ABC):
         nutritive_properties: NutritiveProperties,
         initial_quality: float,
     ) -> None:
+        super().__init__()
         self.name: str = name
         """The name of the product"""
         self.flavor: Flavor = flavor
@@ -27,10 +28,21 @@ class Product(ABC):
         pass
 
     def get_name(self) -> str:
+        """Returns the name of the product"""
         return self.name
 
     def get_flavor(self) -> Flavor:
+        """Obtain the flavor of the product"""
         return self.flavor
 
     def get_nutritive_properties(self) -> NutritiveProperties:
+        """Obtain the nutritive properties of the product"""
         return self.nutritive_properties
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, Product):
+            return self.name == value.name
+        return False
