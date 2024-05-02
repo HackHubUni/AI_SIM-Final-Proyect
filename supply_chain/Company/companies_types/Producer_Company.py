@@ -6,7 +6,7 @@ from supply_chain.Company.stock_manager.productor_stock_manager import Productor
 from supply_chain.sim_event import SimEvent
 
 try:
-    from supply_chain.agents.order import Order
+    from supply_chain.agents.old.order import Order
     from supply_chain.sim_environment import SimEnvironment
     from supply_chain.products.product import Product
     from supply_chain.Company.registrers.registers import *
@@ -30,6 +30,9 @@ class ProducerCompany(CompanyWrapped):
         self._orders_to_delivery: dict[str, dict[str, list[Product]]] = {}
         # Empresa matriz : [nombre producto:lista de productos reservados]
 
+
+
+
     def start(self):
         """
         Inicializa la clase
@@ -43,6 +46,13 @@ class ProducerCompany(CompanyWrapped):
     def tag(self):
         return TypeCompany.BaseProducer
 
+    def get_count_product_in_stock(self,product_name:str):
+        """
+        Devuelve cuantas unidades tengo en stock
+        :param product_name:
+        :return:
+        """
+        return self.stock_manager.get_count_product_in_stock(product_name)
     def _add_sell_record(self,
                          product_name: str,
                          list_products_records: list[ProductRecords],
@@ -151,9 +161,24 @@ class ProducerCompany(CompanyWrapped):
         """
         return self.stock_manager.get_product_price_per_unit(product_name)
 
+
+    def is_product_in_stock(self,product_name:str)->bool:
+        """
+        Retorna True o False en dependencia de si esta o no el producto en stock
+        :param product_name:
+        :return:
+        """
+
+        self.stock_manager.is_product_in_stock(product_name)
+
     def deliver(self, delivery_Order: DeliveryOrder):
         # TODO:leismael Esto es para hacer el delivery
         pass
+
+    def get_name_products_in_stock_now(self)->list[str]:
+        """Devuelve el nombre de los productos que hay en stock ahora"""
+
+        return  self.stock_manager.get_name_products_in_stock_now()
 
 
 

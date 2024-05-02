@@ -4,6 +4,7 @@ from supply_chain.products.product import Product
 
 class SellOrder:
     def __init__(self,
+
                  product_name: str,
                  price_sold: float,
                  amount_asked: int,
