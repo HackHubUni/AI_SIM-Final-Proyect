@@ -10,6 +10,8 @@ import uuid
 from typing import Callable
 import heapq
 
+from supply_chain.products.product import Product
+
 
 class MessageWantProductOffer(Message):
     """Clase para mensajes ResponseOfertProductMessaage"""
@@ -38,7 +40,7 @@ class BuyOrderMessage(Message):
                  count_want: int,
                  logistic_company_name: str,
                  id_contract_logistic: str,
-                 id_contract_destination:str, #Si es una tienda poner el id en -1
+                 id_contract_destination: str,  # Si es una tienda poner el id en -1
                  to_company: str,
                  price_logist: float,
                  time_logist: int,
@@ -55,7 +57,8 @@ class BuyOrderMessage(Message):
         self.count_want_buy = count_want
         self.logistic_company: str = logistic_company_name
         self.to_company: str = to_company
-        self.id_contract_destination: str=id_contract_destination
+        self.id_contract_destination: str = id_contract_destination
+
 
 class SellResponseMessage(BuyOrderMessage):
     def __init__(self,
@@ -85,55 +88,48 @@ class SellResponseMessage(BuyOrderMessage):
 
 class HacerServicioDeDistribucion(Message):
     def __init__(self,
+                 matrix_name: str,
                  company_from: str,
                  company_from_type: TypeCompany,
                  company_destination_name: str,
                  company_destination_type: TypeCompany,
                  product_name: str,
                  count_move: int,
-                 recibir_producto_desde_name: str,
-                 recibir_producto_desde_tag: TypeCompany,
-                 destino_producto_compania_nombre: str,
-                 destino_producto_compania_tag: TypeCompany,
-
+                 #recibir_producto_desde_name: str,
+                 #recibir_producto_desde_tag: TypeCompany,
+                 #destino_producto_compania_nombre: str,
+                 #destino_producto_compania_tag: TypeCompany,
+                 time_demora_logistico: int,
                  ):
         super().__init__(company_from=company_from,
                          company_from_type=company_from_type,
                          company_destination_name=company_destination_name,
                          company_destination_type=company_destination_type,
                          )
+        self.matrix_name: str = matrix_name
         self.product_name: str = product_name
         self.count_move: int = count_move
-        self.recibir_producto_desde_name: str = recibir_producto_desde_name
-        self.recibir_producto_desde_tag: TypeCompany = recibir_producto_desde_tag
-        self.destino_producto_compania_nombre: str = destino_producto_compania_nombre
-        self.destino_producto_compania_tag: TypeCompany = destino_producto_compania_tag
+        #self.recibir_producto_desde_name: str = recibir_producto_desde_name
+        #self.recibir_producto_desde_tag: TypeCompany = recibir_producto_desde_tag
+        #self.destino_producto_compania_nombre: str = destino_producto_compania_nombre
+        #self.destino_producto_compania_tag: TypeCompany = destino_producto_compania_tag
+        self.products_instance: list[Product] = []
+        self.time_demora_logistico: int = time_demora_logistico
 
-
-class Comunicator:
-
-    def __init__(self,
-                 productor_list: list[Company],
-                 ):
-        self.productor_list = productor_list
-
-    def sent_want_product_msg(self, msg: MessageWantProductOffer):
-        productor_name = msg.company_destination_name
-        for productor in self.productor_list:
-            if productor.name == productor_name:
-        # TODO: Agregar aca  el enviar al agente
+    def set_list_product(self, products: list[Product]):
+        self.products_instance = products
 
 
 class EnvVisualizer:
 
     def __init__(self,
                  get_time: Callable[[], int], send_msg: Callable[[Message], None],
-                 dict_valoracion_inicial: dict[TypeCompany, dict[str, float]],
-                 logic_implication: list[ImplicationLogicWrapped],
-                 get_distance_in_the_map:Callable[[str,str],float],
+                 get_dict_valoracion_inicial: Callable[[], dict[TypeCompany, dict[str, float]]],
+                 get_logic_implication: Callable[[], list[ImplicationLogicWrapped]],
+                 get_distance_in_the_map: Callable[[str, str], float],
                  ):
-        self.get_distance_in_the_map:Callable[[str,str],float]=get_distance_in_the_map
+        self.get_distance_in_the_map: Callable[[str, str], float] = get_distance_in_the_map
         self.get_time: Callable[[], int] = get_time
         self.send_msg: Callable[[Message], None] = send_msg
-        self.dict_valoracion_inicial: dict[TypeCompany, dict[str, float]] = dict_valoracion_inicial
-        self.logic_implication: list[ImplicationLogicWrapped] = logic_implication
+        self.get_dict_valoracion: Callable[[], dict[TypeCompany, dict[str, float]]] = get_dict_valoracion_inicial
+        self.get_logic_implication: Callable[[], list[ImplicationLogicWrapped]] = get_logic_implication

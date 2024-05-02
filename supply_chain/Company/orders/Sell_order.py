@@ -1,6 +1,6 @@
 from supply_chain import Company
 from supply_chain.products.product import Product
-
+from supply_chain.company import *
 
 class SellOrder:
     def __init__(self,
@@ -12,7 +12,8 @@ class SellOrder:
                  normal_price_per_unit: float,
                  matrix_name: str,
                  to_company: str,
-                 logistic_company:str
+                 to_company_tag: TypeCompany,
+                 logistic_company: str,
                  ):
         self.product_name: str = product_name
         self.price_sold: float = price_sold
@@ -21,6 +22,7 @@ class SellOrder:
         self.normal_price_per_unit: float = normal_price_per_unit
         self.matrix_name: str = matrix_name
         self.to_company: str = to_company
+        self.to_company_tag:TypeCompany=to_company_tag
         self.logistic_company: str = logistic_company
 
 

@@ -39,11 +39,11 @@ class AgentWrapped(Agent):
 
     @property
     def logic_implication(self) -> list[ImplicationLogicWrapped]:
-        return self.env_visualizer.logic_implication
+        return self.env_visualizer.get_logic_implication()
 
     @property
     def dict_valoracion_inicial(self) -> dict[TypeCompany, dict[str, float]]:
-        return self.env_visualizer.dict_valoracion_inicial
+        return self.env_visualizer.get_dict_valoracion()
 
     @property
     def time(self):
@@ -66,7 +66,6 @@ class AgentWrapped(Agent):
         # Manager de las ofertas
         self.ofer_manager: GestorOfertas = GestorOfertas(
             self.env_visualizer.get_time)
-
 
     def lanzar_excepcion_por_no_saber_mensaje(self, msg: Message):
         raise AgentException(
@@ -164,8 +163,6 @@ class ProducerAgent(AgentWrapped):
         # Start
         self.start()
 
-
-
         # guid, Respuesta de la peticion de precio
 
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
@@ -245,10 +242,23 @@ class ProducerAgent(AgentWrapped):
         )
         return response
 
-    def deliver(self, sell_order: SellOrder):
-        #TODO:Implementar la logica de esperar cierto tiempo para enviar
+    def deliver(self, sell_order: SellOrder, time_transport: int):
 
+        a = HacerServicioDeDistribucion(
+            matrix_name=sell_order.matrix_name,
+            company_from=self.company.name,
+            company_from_type=self.company.tag,
+            company_destination_name=sell_order.to_company,
+            company_destination_type=sell_order.to_company_tag,
+            product_name=sell_order.product_name,
+            count_move=sell_order.amount_sold,
+            time_demora_logistico=time_transport,
 
+        )
+
+        self.company.deliver(self.send_smg_to_a_agent, a)
+
+    # TODO:Implementar la logica de esperar cierto tiempo para enviar
 
     def going_to_sell(self, msg: BuyOrderMessage):
         """Cuando te hacen una orden de compra"
@@ -260,7 +270,7 @@ class ProducerAgent(AgentWrapped):
             # Responder con cant a vender cero no hay oferta
             response = self.make_sell_ofert_response(msg, 0)
             self.send_smg_to_a_agent(response)
-        ofer:ResponseOfertProductMessaage = self.ofer_manager.get_ofer_by_id(ofer_id)
+        ofer: ResponseOfertProductMessaage = self.ofer_manager.get_ofer_by_id(ofer_id)
 
         sell_order = SellOrder(product_name=ofer.product_name,
                                matrix_name=ofer.company_from,
@@ -269,7 +279,8 @@ class ProducerAgent(AgentWrapped):
                                amount_sold=msg.count_want_buy,
                                normal_price_per_unit=self.company.get_product_price(ofer.product_name),
                                to_company=msg.to_company,
-                               logistic_company=msg.logistic_company
+                               logistic_company=msg.logistic_company,
+                               to_company_tag=msg.company_from_type
 
                                )
         product_name = ofer.product_name
@@ -280,32 +291,29 @@ class ProducerAgent(AgentWrapped):
         response = self.make_sell_ofert_response(msg, count_to_supply)
         self.send_smg_to_a_agent(response)
 
-        #Retornar el sell order
+        # Retornar el sell order
         return sell_order
-
 
     def recive_msg(self, msg: Message):
         # Upgradear la base de conocimiento
         self.update()
 
         if isinstance(msg, MessageWantProductOffer):
-                return self._ask_price_product(msg)
+            return self._ask_price_product(msg)
         elif isinstance(msg, BuyOrderMessage):
-                sell_order= self.going_to_sell(msg)
-            #Enviar el producto
-                self.deliver(sell_order)
+            sell_order = self.going_to_sell(msg)
+            # Enviar el producto
+            self.deliver(sell_order)
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)
-
-
 
 
 class ManufacturerAgent(ProducerAgent):
 
     def __init__(self,
                  name: str,
-                 company:ManufacturerAgent,
+                 company: ManufacturerAgent,
                  env_visualizer: EnvVisualizer,
 
                  ):
@@ -317,6 +325,13 @@ class ManufacturerAgent(ProducerAgent):
 
     def recive_msg(self, msg: Message):
 
+        if isinstance(msg, HacerServicioDeDistribucion):
+
+            pass
+
+
+        else:
+            self.lanzar_excepcion_por_no_saber_mensaje(msg)
 
 
 class DistributorAgent(AgentWrapped):
@@ -340,11 +355,11 @@ class DistributorAgent(AgentWrapped):
 
     def get_distance(self, company_from_name: str, company_destination_name: str) -> int:
 
-        return int(self.env_visualizer.get_distance_in_the_map(company_from_name,company_destination_name))
+        return int(self.env_visualizer.get_distance_in_the_map(company_from_name, company_destination_name))
 
-    def create_response_msg(self, msg: HacerServicioDeDistribucion, price: float, count_to_move: int, duration:int):
+    def create_response_msg(self, msg: HacerServicioDeDistribucion, price: float, count_to_move: int, duration: int):
 
-        a= ResponseLogistic(
+        a = ResponseLogistic(
             company_from=self.company.name,
             company_from_type=self.company.tag,
             company_destination_name=msg.company_from,
@@ -363,7 +378,8 @@ class DistributorAgent(AgentWrapped):
         )
         self.ofer_manager.add_response_despues_de_negociar_oferta(a)
         return a
-    def hacer_orden_de_servicio(self, msg:HacerServicioDeDistribucion):
+
+    def hacer_orden_de_servicio(self, msg: HacerServicioDeDistribucion):
         """
         Le da la oferta a la matrix y la orden de venta del servicio
          y se la envia al agente que le pidio y guarda ese contrato para
@@ -388,8 +404,9 @@ class DistributorAgent(AgentWrapped):
     def recive_msg(self, msg: Message):
 
         if isinstance(msg, HacerServicioDeDistribucion):
-            #Si quiere que haga
+            # Si quiere que haga
             self.hacer_orden_de_servicio(msg)
+
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)

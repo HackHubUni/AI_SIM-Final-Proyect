@@ -358,5 +358,8 @@ class WarehouseStockManager(CompanyStockBase):
 
         #Por cada producto guardarlos en sus stock
         for product in list_Products:
+            #TODO:Rellenar
+
+            pass
 
 

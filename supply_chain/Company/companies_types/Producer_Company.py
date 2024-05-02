@@ -3,6 +3,8 @@ from typing import Callable, List
 from supply_chain.Company.orders.Sell_order import SellOrder
 from supply_chain.Company.orders.delivery_order import DeliveryOrder
 from supply_chain.Company.stock_manager.productor_stock_manager import ProductorCompanyStock
+from supply_chain.Comunicator import HacerServicioDeDistribucion
+from supply_chain.events.RecibirProductosEvent import SendProductEvent
 from supply_chain.sim_event import SimEvent
 
 try:
@@ -169,10 +171,45 @@ class ProducerCompany(CompanyWrapped):
 
         self.stock_manager.is_product_in_stock(product_name)
 
-    def deliver(self, delivery_Order: DeliveryOrder):
-        #TODO:REllenar AÑADir estadísticas
+    def deliver(self,comunication:Callable, delivery_Order: HacerServicioDeDistribucion):
+        # TODO:REllenar AÑADir estadísticas
+        matrix_name = delivery_Order.matrix_name
+        if not matrix_name in self._orders_to_delivery:
+            raise Exception(f'En la empresa {self.name} no hay ordenees para la compañia {matrix_name}')
 
-        #Devolver la lista de los productos
+        dict_temp = self._orders_to_delivery[matrix_name]
+
+        product_name = delivery_Order.product_name
+
+        if not product_name in dict_temp:
+            raise Exception(
+                f'En la empresa {self.name} no hay ordenees para la compañia {matrix_name} del producto {product_name}')
+
+        lis = dict_temp[product_name]
+
+        count = delivery_Order.count_move
+
+        len_lis = len(lis)
+        if len_lis < count:
+            raise Exception(
+                f'En la empresa {self.name} no hay ordenees para la compañia {matrix_name} del producto {product_name} en la cant querida {count} sino que hay {len_lis}')
+        #Lista de productos a retornar
+        list_return=lis[:count]
+        #Lista de la nueva bolsa en stock
+        list_nueva=lis[count:]
+        #Actualizar el diccionario
+        dict_temp[product_name]=list_nueva
+
+        #Añadir antes de enviar el evento
+
+        delivery_Order.set_list_product(list_return)
+
+        time_=self.time+delivery_Order.time_demora_logistico
+        event=SendProductEvent(time_,
+                               1,
+                               comunication,
+                               delivery_Order)
+        self.add_event(event)
 
     def get_name_products_in_stock_now(self) -> list[str]:
         """Devuelve el nombre de los productos que hay en stock ahora"""
