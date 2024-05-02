@@ -2,13 +2,15 @@ from collections import abc
 from SE.belief import *
 from SE.so_sistemaexperto import *
 import queue
-from func import Func, Func_restock
+from func import Func
 import time
 import math
 
+from supply_chain.agents.SE.belief import Belief
+
 try:
     from supply_chain.products.product import Product
-    from supply_chain.agents.order import Order
+    from supply_chain.agents.old.order import Order
 
 except:
     from products.product import Product

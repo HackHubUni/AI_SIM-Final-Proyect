@@ -1,6 +1,6 @@
 from typing import Callable
 
-from supply_chain.sim_environment import SimEnvironment
+
 from abc import ABC, abstractmethod, abstractproperty
 from enum import Enum
 
@@ -59,3 +59,14 @@ class Company(ABC):
         :return:
         """
         pass
+
+    @property
+
+    def time(self) -> int:
+        """
+        Retorna el tiempo actual en que se está
+        :return:
+        """
+        return self.get_time()
+
+
