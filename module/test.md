@@ -1,63 +1,80 @@
 Dado el siguiente reporte:
 
-Empresa: Empresa A
-Período: 2023
+# Balance General
+- Empresa: FastFood
+- Ganancias Totales: $1,000,000
+- Gastos Totales: $800,000
+# Distribución de Gastos:
+- Costo de Productos: $400,000
+- Costo de Transporte y Logístico: $200,000
+- Pérdidas por Sobrecostos: $100,000
 
-Ganancias Totales: $1,000,000
-Gastos Totales: $800,000
+# Estrategias para optimizar resultados:
 
-Distribución de Gastos:
+### Mejores Proveedores para cada tipo de Producto:
 
-Costo de Productos: $400,000
-Costo de Transporte y Logístico: $200,000
-Pérdidas por Sobrecostos: $100,000
-Estrategias para optimizar resultados:
+- Producto: Leche
+    * Empresa Lácteos del Valle: Calidad del producto: 9/10, Nivel de confianza: Alto, Precio: $2 por litro
+    * Empresa Leche Fresca: Calidad del producto: 8/10, Nivel de confianza: Medio, Precio: $1.8 por litro
+    * Empresa Calidad Láctea: Calidad del producto: 7/10, Nivel de confianza: Bajo, Precio: $1.5 por litro
+- Producto: Queso
 
-Mejores Proveedores para cada tipo de Producto:
+    * Empresa Quesos Gourmet: Calidad del producto: 9/10, Nivel de confianza: Alto, Precio: $4 por kg
+    * Empresa Quesos Finos: Calidad del producto: 8/10, Nivel de confianza: Medio, Precio: $3.8 por kg
+    * Empresa Quesos Selectos: Calidad del producto: 7/10, Nivel de confianza: Bajo, Precio: $3.5 por kg
 
-Producto: Leche
+### Peores Proveedores para cada tipo de Producto:
 
-Empresa Lácteos del Valle: Calidad del producto: 9/10, Nivel de confianza: Alto, Precio: $2 por litro
-Empresa Leche Fresca: Calidad del producto: 8/10, Nivel de confianza: Medio, Precio: $1.8 por litro
-Empresa Calidad Láctea: Calidad del producto: 7/10, Nivel de confianza: Bajo, Precio: $1.5 por litro
-Producto: Queso
+- Producto: Leche
+  * Empresa Calidad Láctea: Calidad del producto: 4/10, Nivel de confianza: Bajo, Precio: $1 por litro
+  * Empresa Leche Fresca: Calidad del producto: 5/10, Nivel de confianza: Medio, Precio: $1.2 por litro
+  * Empresa Lácteos del Valle: Calidad del producto: 6/10, Nivel de confianza: Alto, Precio: $1.5 por litro
 
-Empresa Quesos Gourmet: Calidad del producto: 9/10, Nivel de confianza: Alto, Precio: $4 por kg
-Empresa Quesos Finos: Calidad del producto: 8/10, Nivel de confianza: Medio, Precio: $3.8 por kg
-Empresa Quesos Selectos: Calidad del producto: 7/10, Nivel de confianza: Bajo, Precio: $3.5 por kg
-Peores Proveedores para cada tipo de Producto:
-
-Producto: Leche
-
-Empresa Calidad Láctea: Calidad del producto: 4/10, Nivel de confianza: Bajo, Precio: $1 por litro
-Empresa Leche Fresca: Calidad del producto: 5/10, Nivel de confianza: Medio, Precio: $1.2 por litro
-Empresa Lácteos del Valle: Calidad del producto: 6/10, Nivel de confianza: Alto, Precio: $1.5 por litro
-Producto: Queso
-
-Empresa Quesos Selectos: Calidad del producto: 4/10, Nivel de confianza: Bajo, Precio: $3 por kg
-Empresa Quesos Gourmet: Calidad del producto: 5/10, Nivel de confianza: Medio, Precio: $3.2 por kg
-Empresa Quesos Finos: Calidad del producto: 6/10, Nivel de confianza: Alto, Precio: $3.5 por kg
+- Producto: Queso
+  * Empresa Quesos Selectos: Calidad del producto: 4/10, Nivel de confianza: Bajo, Precio: $3 por kg
+  * Empresa Quesos Gourmet: Calidad del producto: 5/10, Nivel de confianza: Medio, Precio: $3.2 por kg
+  * Empresa Quesos Finos: Calidad del producto: 6/10, Nivel de confianza: Alto, Precio: $3.5 por kg
 Satisfacción y Control de Puntos de Venta:
 
-Tiendas con Mayor Pérdida de Clientes:
+### Tiendas con Mayor Pérdida de Clientes:
 
-Supermercado A: Clientes perdidos: 100
-Tienda de Barrio B: Clientes perdidos: 80
-Cadena de Tiendas C: Clientes perdidos: 50
-Peores Tiendas en Calidad de Comida:
+- Supermercado A:
+  * Clientes perdidos: 100
+- Tienda de Barrio B 
+  * Clientes perdidos: 80
+- Cadena de Tiendas C:
+  * Clientes perdidos: 50
+  
+### Peores Tiendas en Calidad de Comida:
 
-Comida: Pan
+- Comida: Pan
 
-Tienda de Barrio B: Calidad de la comida: 4/10
-Cadena de Tiendas C: Calidad de la comida: 5/10
-Supermercado A: Calidad de la comida: 6/10
-Comida: Pasteles
+    * Tienda de Barrio B: 
+      * Calidad de la comida: 4/10
+    * Cadena de Tiendas C: 
+      * Calidad de la comida: 5/10
+    * Supermercado A:
+      *  Calidad de la comida: 6/10
+  
+- Comida: Pasteles
 
-Cadena de Tiendas C: Calidad de la comida: 4/10
-Supermercado A: Calidad de la comida: 5/10
-Tienda de Barrio B: Calidad de la comida: 6/10
+  * Cadena de Tiendas C: 
+    *  Calidad de la comida: 4/10
+  * Supermercado A: 
+    * Calidad de la comida: 5/10
+  * Tienda de Barrio B: 
+    * Calidad de la comida: 6/10
+  
+---
+---
+---
 
-Basado en el informe proporcionado genera un informe basado en este donde aportes conclusiones sobre esos datos proporciones un Análisis y Recomendaciones dirigidas al jefe de la empresa 
+Dado el informe anterior, genera un nuevo informe basado en los datos proporcionados, con el objetivo de brindar conclusiones, análisis y recomendaciones para mejorar la situación actual de la empresa y facilitar la toma de decisiones del CEO.
+
+---
+---
+---
+
 
 Aquí está el informe generado:
 

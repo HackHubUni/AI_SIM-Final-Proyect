@@ -25,7 +25,7 @@ class Dto_InfoCompany:
         self.products_costs = product_cost
     
     def add_transportation_cost(self, transportation_cost: int):
-        self.transportation_cost = transportation_cost
+        self.transportation_costs = transportation_cost
 
     def add_overcost_losses(self, overcost_losses: int):
         self.overcost_losses = overcost_losses
@@ -44,18 +44,18 @@ class Dto_InfoCompany:
         self.store_food_quality[store_name] = food_quality
         
 
-    def get_top_suppliers(self, product_name: str, num_entries: int) -> List[Tuple[str, int, int, int]]:
+    def get_top_suppliers(self, product_name: str, num_entries: int, rev =True) -> List[Tuple[str, int, int, int]]:
         if product_name in self.suppliers:
             suppliers = self.suppliers[product_name]
 
-            sorted_suppliers = sorted(suppliers.items(), key=lambda x: x[1][0] + x[1][1] - x[1][2] , reverse=True)
+            sorted_suppliers = sorted(suppliers.items(), key=lambda x: x[1][0] + x[1][1] - x[1][2] , reverse=rev)
             return [(k, *v) for k, v in sorted_suppliers[:num_entries]]
         return []
 
-    def get_top_lost_customers(self, num_entries: int) -> List[Tuple[str, int]]:
-        sorted_customers = sorted(self.store_lost_customers.items(), key=lambda x: x[1], reverse=True)
+    def get_top_lost_customers(self, num_entries: int,rev = True) -> List[Tuple[str, int]]:
+        sorted_customers = sorted(self.store_lost_customers.items(), key=lambda x: x[1], reverse=rev)
         return sorted_customers[:num_entries]
     
-    def get_top_food_quality(self, num_entries: int) -> List[Tuple[str, int]]:
-        sorted_quality = sorted(self.store_food_quality.items(), key=lambda x: x[1], reverse=True)
+    def get_botton_food_quality(self, num_entries: int, rev=False) -> List[Tuple[str, int]]:
+        sorted_quality = sorted(self.store_food_quality.items(), key=lambda x: x[1], reverse=rev)
         return sorted_quality[:num_entries]
