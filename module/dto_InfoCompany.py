@@ -18,19 +18,27 @@ class Dto_InfoCompany:
 
 
     def add_balance_general(self, total_earnings: int, total_expenses: int):
+        """Anadir total de ganancias y perdidas de la empresa"""
         self.total_earnings = total_earnings
         self.total_expenses = total_expenses
 
     def add_product_cost(self,product_cost: int):
+        """Anadir costos en compras de productos"""
         self.products_costs = product_cost
     
     def add_transportation_cost(self, transportation_cost: int):
+        """Anadir costos  de logistica y transportacion"""
         self.transportation_costs = transportation_cost
 
     def add_overcost_losses(self, overcost_losses: int):
+        """Anadir costos generados por perdidas de la empresa"""
         self.overcost_losses = overcost_losses
 
+    
     def add_supplier(self, product_name: str, supplier_name:str,product_quality:int,trust_level:int,product_cost:int):
+        """Anadir el nombre de un producto ,el nombre del proveedor,lacalidad del producto que provee,
+        el nivel de confianza que se le tiene a la empresa,el costo del producto  """
+
         if product_name not in self.suppliers:
             self.suppliers[product_name] = {supplier_name:(product_quality,trust_level,product_cost)}
         else:
@@ -38,9 +46,11 @@ class Dto_InfoCompany:
         
         
     def add_store_lost_customers(self, store_name: str, lost_customers: int):
+        """Anadir la cantidad de clientes que pierde la tienda"""
         self.store_lost_customers[store_name] = lost_customers
 
     def add_store_food_quality(self, store_name: str, food_quality: int):
+        """Anadir la calidad Promedio de la comida por tienda"""
         self.store_food_quality[store_name] = food_quality
         
 
