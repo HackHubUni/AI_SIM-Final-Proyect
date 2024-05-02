@@ -96,7 +96,9 @@ class ProducerAgent(Agent):
         self.save_ofer:dict[str,ResponseOfertProductMessaage]={}
                     #guid, Respuesta de la peticion de precio
 
-
+    def get_time_caducar_oferta(self):
+        #TODO:Moduficar aca
+        return 30000
 
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
 
@@ -109,7 +111,10 @@ class ProducerAgent(Agent):
                                                 price_per_unit=price_per_unit,
                                                 count_can_supply=count_can_supply,
                                                 peticion_instance=oferta,
-                                                id_=id_)
+                                                id_=id_,
+                                                end_time=self.get_time_caducar_oferta()
+
+                                                )
 
         self.save_ofer[id_]=response
 
