@@ -37,20 +37,25 @@ class BuyOrderMessage(Message):
                  ofer_id: str,
                  count_want: int,
                  logistic_company_name: str,
-                 id_contract_logistic:str,
-                 to_company: Company
+                 id_contract_logistic: str,
+                 id_contract_destination:str, #Si es una tienda poner el id en -1
+                 to_company: str,
+                 price_logist: float,
+                 time_logist: int,
 
                  ):
         super().__init__(company_from,
                          company_from_type,
                          company_destination_name,
                          company_destination_type)
-        self.id_contract_logistic:str=id_contract_logistic
+        self.id_contract_logistic: str = id_contract_logistic
         self.ofer_id: str = ofer_id
+        self.price_logist: float = price_logist
+        self.time_logist: int = time_logist
         self.count_want_buy = count_want
         self.logistic_company: str = logistic_company_name
-        self.to_company: Company = to_company
-
+        self.to_company: str = to_company
+        self.id_contract_destination: str=id_contract_destination
 
 class SellResponseMessage(BuyOrderMessage):
     def __init__(self,
@@ -125,7 +130,9 @@ class EnvVisualizer:
                  get_time: Callable[[], int], send_msg: Callable[[Message], None],
                  dict_valoracion_inicial: dict[TypeCompany, dict[str, float]],
                  logic_implication: list[ImplicationLogicWrapped],
+                 get_distance_in_the_map:Callable[[str,str],float],
                  ):
+        self.get_distance_in_the_map:Callable[[str,str],float]=get_distance_in_the_map
         self.get_time: Callable[[], int] = get_time
         self.send_msg: Callable[[Message], None] = send_msg
         self.dict_valoracion_inicial: dict[TypeCompany, dict[str, float]] = dict_valoracion_inicial

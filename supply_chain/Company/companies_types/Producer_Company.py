@@ -170,8 +170,9 @@ class ProducerCompany(CompanyWrapped):
         self.stock_manager.is_product_in_stock(product_name)
 
     def deliver(self, delivery_Order: DeliveryOrder):
-        #TODO:REllenar
-        pass
+        #TODO:REllenar AÑADir estadísticas
+
+        #Devolver la lista de los productos
 
     def get_name_products_in_stock_now(self) -> list[str]:
         """Devuelve el nombre de los productos que hay en stock ahora"""

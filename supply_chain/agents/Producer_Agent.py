@@ -8,6 +8,7 @@ from enum import Enum
 from supply_chain.Mensajes.Mensajes_de_dar_el_precio_y_cant_a_la_matriz import *
 from supply_chain.agent import Agent, AgentException
 from supply_chain.agents.Sistema_experto import SistExperto
+from supply_chain.agents.old.agent import ManufacturerAgent
 from supply_chain.agents.utils import *
 
 from supply_chain.sim_environment import SimEnvironment
@@ -245,8 +246,9 @@ class ProducerAgent(AgentWrapped):
         return response
 
     def deliver(self, sell_order: SellOrder):
+        #TODO:Implementar la logica de esperar cierto tiempo para enviar
 
-        logistic_instance: LogisticCompany = sell_order.logistic_company
+
 
     def going_to_sell(self, msg: BuyOrderMessage):
         """Cuando te hacen una orden de compra"
@@ -258,7 +260,7 @@ class ProducerAgent(AgentWrapped):
             # Responder con cant a vender cero no hay oferta
             response = self.make_sell_ofert_response(msg, 0)
             self.send_smg_to_a_agent(response)
-        ofer = self.ofer_manager.get_ofer_by_id(ofer_id)
+        ofer:ResponseOfertProductMessaage = self.ofer_manager.get_ofer_by_id(ofer_id)
 
         sell_order = SellOrder(product_name=ofer.product_name,
                                matrix_name=ofer.company_from,
@@ -278,17 +280,42 @@ class ProducerAgent(AgentWrapped):
         response = self.make_sell_ofert_response(msg, count_to_supply)
         self.send_smg_to_a_agent(response)
 
+        #Retornar el sell order
+        return sell_order
+
+
     def recive_msg(self, msg: Message):
         # Upgradear la base de conocimiento
         self.update()
 
         if isinstance(msg, MessageWantProductOffer):
-            return self._ask_price_product(msg)
+                return self._ask_price_product(msg)
         elif isinstance(msg, BuyOrderMessage):
-            self.going_to_sell(msg)
+                sell_order= self.going_to_sell(msg)
+            #Enviar el producto
+                self.deliver(sell_order)
+
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)
 
+
+
+
+class ManufacturerAgent(ProducerAgent):
+
+    def __init__(self,
+                 name: str,
+                 company:ManufacturerAgent,
+                 env_visualizer: EnvVisualizer,
+
+                 ):
+        super().__init__(name, company, env_visualizer)
+        self.company: ManufacturerAgent = company
+
+        # Start
+        self.start()
+
+    def recive_msg(self, msg: Message):
 
 
 
@@ -312,8 +339,8 @@ class DistributorAgent(AgentWrapped):
         # guid, Respuesta de la peticion de precio
 
     def get_distance(self, company_from_name: str, company_destination_name: str) -> int:
-        # TODO:Aca llamo para conocer la distancia
-        pass
+
+        return int(self.env_visualizer.get_distance_in_the_map(company_from_name,company_destination_name))
 
     def create_response_msg(self, msg: HacerServicioDeDistribucion, price: float, count_to_move: int, duration:int):
 
@@ -335,7 +362,7 @@ class DistributorAgent(AgentWrapped):
 
         )
         self.ofer_manager.add_response_despues_de_negociar_oferta(a)
-
+        return a
     def hacer_orden_de_servicio(self, msg:HacerServicioDeDistribucion):
         """
         Le da la oferta a la matrix y la orden de venta del servicio
