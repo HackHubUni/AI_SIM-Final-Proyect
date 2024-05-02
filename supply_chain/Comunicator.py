@@ -1,5 +1,7 @@
+from abc import ABC
+
 from supply_chain.Company.companies_types.distribution_company import LogisticCompany
-from supply_chain.agents.utils import generate_guid
+from supply_chain.agents.utils import generate_guid, ImplicationLogicWrapped
 from supply_chain.company import Company, TypeCompany
 from typing import Callable
 
@@ -8,7 +10,7 @@ from typing import Callable
 import heapq
 
 
-class Message:
+class Message(ABC):
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -134,8 +136,8 @@ class BuyOrderMessage(Message):
                  company_from_type: TypeCompany,
                  company_destination_name: str,
                  company_destination_type: TypeCompany,
-                 ofer_id:str,
-                 count_want:int,
+                 ofer_id: str,
+                 count_want: int,
                  logistic_company: LogisticCompany,
                  to_company: Company
 
@@ -144,10 +146,10 @@ class BuyOrderMessage(Message):
                          company_from_type,
                          company_destination_name,
                          company_destination_type)
-        self.ofer_id:str=ofer_id
-        self.count_want_buy=count_want
-        self.logistic_company: LogisticCompany=logistic_company
-        self.to_company: Company=to_company
+        self.ofer_id: str = ofer_id
+        self.count_want_buy = count_want
+        self.logistic_company: LogisticCompany = logistic_company
+        self.to_company: Company = to_company
 
 
 class SellResponseMessage(BuyOrderMessage):
@@ -156,12 +158,12 @@ class SellResponseMessage(BuyOrderMessage):
                  company_from_type: TypeCompany,
                  company_destination_name: str,
                  company_destination_type: TypeCompany,
-                 ofer_id:str,
-                 count_want:int,
-                 count_sell:int,
-                 total_cost:int,
-                 logistic_company:LogisticCompany,
-                 to_company:Company
+                 ofer_id: str,
+                 count_want: int,
+                 count_sell: int,
+                 total_cost: int,
+                 logistic_company: LogisticCompany,
+                 to_company: Company
 
                  ):
         super().__init__(company_from,
@@ -171,13 +173,69 @@ class SellResponseMessage(BuyOrderMessage):
                          ofer_id,
                          count_want)
 
-        self.count_sell=count_sell
+        self.count_sell = count_sell
 
-        self.total_cost=total_cost
-
-
+        self.total_cost = total_cost
 
 
+class AskPriceLogistic(Message):
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 product_name:str,
+                 count_move:int,
+                 recibir_producto_desde_name:str,
+                 recibir_producto_desde_tag:TypeCompany,
+                 destino_producto_compania_nombre:str,
+                 destino_producto_compania_tag:TypeCompany,
+
+                 ):
+        super().__init__(company_from,
+                         company_from_type,
+                         company_destination_name,
+                         company_destination_type)
+        self.product_name: str=product_name
+        self.count_move: int=count_move
+        self.recibir_producto_desde_name: str=recibir_producto_desde_name
+        self.recibir_producto_desde_tag: TypeCompany=recibir_producto_desde_tag
+        self.destino_producto_compania_nombre: str=destino_producto_compania_nombre
+        self.destino_producto_compania_tag: TypeCompany=destino_producto_compania_tag
+
+class ResponseLogistic(AskPriceLogistic):
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 product_name: str,
+                 count_ask_move: int,
+                 recibir_producto_desde_name: str,
+                 recibir_producto_desde_tag: TypeCompany,
+                 destino_producto_compania_nombre: str,
+                 destino_producto_compania_tag: TypeCompany,
+                 price:float,
+                 count_can_move:int,
+                 time_duration:int,
+
+                 ):
+        super().__init__(
+                     company_from,
+                     company_from_type,
+                     company_destination_name,
+                     company_destination_type,
+                     product_name,
+                     count_ask_move,
+                     recibir_producto_desde_name,
+                     recibir_producto_desde_tag,
+                     destino_producto_compania_nombre,
+                     destino_producto_compania_tag,
+
+        )
+        self.time_duration=time_duration
+        self.price=price
+        self.count_move=count_can_move
 class Comunicator:
 
     def __init__(self,
@@ -195,6 +253,11 @@ class Comunicator:
 class EnvVisualizer:
 
     def __init__(self,
-                 get_time: Callable[[], int],send_msg:Callable[[Message],[]]):
+                 get_time: Callable[[], int], send_msg: Callable[[Message], None],
+                 dict_valoracion_inicial: dict[TypeCompany, dict[str, float]],
+                 logic_implication: list[ImplicationLogicWrapped],
+                 ):
         self.get_time: Callable[[], int] = get_time
-        self.send_msg:Callable[[Message],[]]=send_msg
+        self.send_msg: Callable[[Message], None] = send_msg
+        self.dict_valoracion_inicial: dict[TypeCompany, dict[str, float]] = dict_valoracion_inicial
+        self.logic_implication: list[ImplicationLogicWrapped] = logic_implication

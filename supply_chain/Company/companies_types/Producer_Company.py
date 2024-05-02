@@ -30,14 +30,12 @@ class ProducerCompany(CompanyWrapped):
         self._orders_to_delivery: dict[str, dict[str, list[Product]]] = {}
         # Empresa matriz : [nombre producto:lista de productos reservados]
 
-
-
-
     def start(self):
         """
         Inicializa la clase
         :return:
         """
+
         self.stock_manager.restock()
 
     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
@@ -46,13 +44,14 @@ class ProducerCompany(CompanyWrapped):
     def tag(self):
         return TypeCompany.BaseProducer
 
-    def get_count_product_in_stock(self,product_name:str):
+    def get_count_product_in_stock(self, product_name: str):
         """
         Devuelve cuantas unidades tengo en stock
         :param product_name:
         :return:
         """
         return self.stock_manager.get_count_product_in_stock(product_name)
+
     def _add_sell_record(self,
                          product_name: str,
                          list_products_records: list[ProductRecords],
@@ -161,8 +160,7 @@ class ProducerCompany(CompanyWrapped):
         """
         return self.stock_manager.get_product_price_per_unit(product_name)
 
-
-    def is_product_in_stock(self,product_name:str)->bool:
+    def is_product_in_stock(self, product_name: str) -> bool:
         """
         Retorna True o False en dependencia de si esta o no el producto en stock
         :param product_name:
@@ -172,13 +170,10 @@ class ProducerCompany(CompanyWrapped):
         self.stock_manager.is_product_in_stock(product_name)
 
     def deliver(self, delivery_Order: DeliveryOrder):
-        # TODO:leismael Esto es para hacer el delivery
+        #TODO:REllenar
         pass
 
-    def get_name_products_in_stock_now(self)->list[str]:
+    def get_name_products_in_stock_now(self) -> list[str]:
         """Devuelve el nombre de los productos que hay en stock ahora"""
 
-        return  self.stock_manager.get_name_products_in_stock_now()
-
-
-
+        return self.stock_manager.get_name_products_in_stock_now()

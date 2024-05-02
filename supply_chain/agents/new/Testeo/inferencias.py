@@ -242,9 +242,10 @@ def main2():
 
            ,# f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
            ]
-
+    print(lis)
     for item in lis:
         kb0.tell(item)
+
 
     print(kb0.ask(expr(pedir_precio_))[x])
     query=Valoracion('Juan', 'x').show()
