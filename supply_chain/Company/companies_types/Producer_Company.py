@@ -46,6 +46,13 @@ class ProducerCompany(CompanyWrapped):
     def tag(self):
         return TypeCompany.BaseProducer
 
+    def get_count_product_in_stock(self,product_name:str):
+        """
+        Devuelve cuantas unidades tengo en stock
+        :param product_name:
+        :return:
+        """
+        return self.stock_manager.get_count_product_in_stock(product_name)
     def _add_sell_record(self,
                          product_name: str,
                          list_products_records: list[ProductRecords],
