@@ -1,4 +1,4 @@
-from search_problem.search_node import *
+from .search_node import *
 
 
 class Frontier:

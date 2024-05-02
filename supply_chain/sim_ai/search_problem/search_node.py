@@ -1,5 +1,5 @@
 from typing import *
-from search_problem.problem import *
+from .problem import *
 
 
 class SearchNode:
