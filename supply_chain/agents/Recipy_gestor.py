@@ -1,5 +1,5 @@
-from supply_chain.Comunicator import BuyOrderMessage
-from supply_chain.Mensajes.Mensajes_de_dar_el_precio_y_cant_a_la_matriz import ResponseOfertProduceProductMessage
+from supply_chain.Mensajes.ask_msg import BuyOrderMessage
+from supply_chain.Mensajes.offer_msg import ResponseOfertProduceProductMessage
 from supply_chain.products.ingredient import Ingredient
 from supply_chain.products.product import Product
 

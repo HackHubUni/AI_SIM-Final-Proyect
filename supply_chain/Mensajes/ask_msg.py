@@ -34,6 +34,11 @@ class MessageWantProductProduceOffer(MessageWantProductOffer):
     pass
 
 
+class AskPriceWareHouseCompany(MessageWantProductOffer):
+    pass
+
+
+
 class BuyOrderMessage(Message):
     def __init__(self,
                  company_from: str,
@@ -91,6 +96,9 @@ class SellResponseMessage(BuyOrderMessage):
 
 
 
+
+
+
 class HacerServicioDeDistribucion(Message):
     def __init__(self,
                  matrix_name: str,
@@ -120,16 +128,6 @@ class HacerServicioDeDistribucion(Message):
         self.products_instance = products
 
 
-class EnvVisualizer:
 
-    def __init__(self,
-                 get_time: Callable[[], int], send_msg: Callable[[Message], None],
-                 get_dict_valoracion_inicial: Callable[[], dict[TypeCompany, dict[str, float]]],
-                 get_logic_implication: Callable[[], list[ImplicationLogicWrapped]],
-                 get_distance_in_the_map: Callable[[str, str], float],
-                 ):
-        self.get_distance_in_the_map: Callable[[str, str], float] = get_distance_in_the_map
-        self.get_time: Callable[[], int] = get_time
-        self.send_msg: Callable[[Message], None] = send_msg
-        self.get_dict_valoracion: Callable[[], dict[TypeCompany, dict[str, float]]] = get_dict_valoracion_inicial
-        self.get_logic_implication: Callable[[], list[ImplicationLogicWrapped]] = get_logic_implication
+
+

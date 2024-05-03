@@ -1,9 +1,6 @@
-from typing import Callable, Self
-
-from supply_chain.sim_environment import SimEnvironment
 from supply_chain.sim_event import SimEvent
 
-from supply_chain.Comunicator import *
+from supply_chain.Mensajes.ask_msg import *
 
 
 class SendProductEvent(SimEvent):

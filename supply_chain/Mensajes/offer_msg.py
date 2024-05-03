@@ -1,7 +1,7 @@
 from typing import Callable
 
 import heapq
-from supply_chain.Comunicator import Message, MessageWantProductOffer, HacerServicioDeDistribucion, \
+from supply_chain.Mensajes.ask_msg import Message, MessageWantProductOffer, HacerServicioDeDistribucion, \
     MessageWantProductProduceOffer
 from supply_chain.agents.utils import generate_guid
 from supply_chain.company import TypeCompany

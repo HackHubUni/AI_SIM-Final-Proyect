@@ -1,4 +1,10 @@
+import random
+
+import numpy as np
+
 from stock_manager import *
+from supply_chain.events.SimEventCompany import WarehouseRestockSimEvent
+from supply_chain.products.product import Product
 
 
 class WarehouseStockManager(CompanyStockBase):
@@ -157,6 +163,7 @@ class WarehouseStockManager(CompanyStockBase):
         # Quitar del inicio los count peores productos
         new_list = temp_list[count:]
         # Reorganizar random los productos restantes
+
         random.shuffle(new_list)
 
         return new_list
@@ -240,7 +247,7 @@ class WarehouseStockManager(CompanyStockBase):
         # Reordenar la lista
         random.shuffle(lis_product_stock)
 
-        # Ver el cosot
+        # Ver el costo
         # TODO:Añadir a las estadísticas
         cost_lambda = company_cost_product_distribution[product_name]
         # Coste en este reabastecimiento
@@ -301,10 +308,9 @@ class WarehouseStockManager(CompanyStockBase):
             self._stock_by_company[matrix_name] = new_dicc
             return new_dicc
 
-
-
     def _add_product_to_and_check_balance_it_s_ok(self
-                                                  ,product_instance:Product,dicc:dict[str,list[Product]])-> dict[str, list[Product]]:
+                                                  , product_instance: Product, dicc: dict[str, list[Product]]) -> dict[
+        str, list[Product]]:
         """
         Toma la instancia de un producto y tiene completa la lógica
         de añadir ese producto al stock de esa tienda
@@ -313,53 +319,48 @@ class WarehouseStockManager(CompanyStockBase):
         :return:
         """
 
-        product_name=product_instance.name
-        #Si el producto no esta contemplado dentro de lo que se puede guardar en la tienda
+        product_name = product_instance.name
+        # Si el producto no esta contemplado dentro de lo que se puede guardar en la tienda
         if not product_name in self.product_max_stock:
             raise Exception(f'El producto {product_name} no está en el dicc de max_stock')
 
-        #Stock maximo que se puede tener de este producto
-        max_stock=self.product_max_stock[product_name]
+        # Stock maximo que se puede tener de este producto
+        max_stock = self.product_max_stock[product_name]
 
-        #Si no hay un producto en específico
+        # Si no hay un producto en específico
 
         if not product_name in dicc:
-            dicc[product_name]=[]
+            dicc[product_name] = []
 
-        #Darme la lista de productos
-        produc_list=dicc[product_name]
+        # Darme la lista de productos
+        produc_list = dicc[product_name]
 
-        #Cant de productos en el stock de ese tipo ahora
+        # Cant de productos en el stock de ese tipo ahora
 
-        count_stock_now=len(produc_list)
+        count_stock_now = len(produc_list)
 
-        assert count_stock_now<=max_stock,f'La cant de productos en la lista {count_stock_now} es mayor que el max_stock{max_stock}'
+        assert count_stock_now <= max_stock, f'La cant de productos en la lista {count_stock_now} es mayor que el max_stock{max_stock}'
 
-
-
-        if count_stock_now==max_stock:
-            produc_list=self.delete_firts_n_worts_products_in_quality(produc_list,1)
+        if count_stock_now == max_stock:
+            produc_list = self.delete_firts_n_worts_products_in_quality(produc_list, 1)
 
         produc_list.append(product_instance)
 
-        #Reordear la lista random
+        # Reordear la lista random
         random.shuffle(produc_list)
 
-
-        dicc[product_name]=produc_list
+        dicc[product_name] = produc_list
 
         return dicc
-
-
 
     def add_products(self, matrix_name: str, list_Products: list[Product]):
         # Tomar el stock de esa compañia
         company_stock_dicc = self._get_dicc_stock_by_company(matrix_name)
 
-        #Por cada producto guardarlos en sus stock
+        # Por cada producto guardarlos en sus stock
         for product in list_Products:
-            #TODO:Rellenar
+            self._add_product_to_and_check_balance_it_s_ok(product,company_stock_dicc)
 
-            pass
+
 
 

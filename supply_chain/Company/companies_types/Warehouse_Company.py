@@ -32,13 +32,13 @@ class WarehouseCompany(CompanyWrapped):
     def stock(self):
         pass
 
-    def in_storage_product(self, order: Order):
+    def is_in_storage_product(self, product_name:str):
         """
-        Cuando se entra a guardar un producto
+
         :param order:
         :return:
         """
-        pass
+        return self.stock_manager.
 
     # TODO: Crear el send recibe un Order
     def out_storage_product(self, order: Order):

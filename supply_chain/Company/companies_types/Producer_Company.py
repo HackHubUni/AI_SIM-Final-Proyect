@@ -1,6 +1,3 @@
-from typing import Callable, List
-
-
 from supply_chain.Company.stock_manager.productor_stock_manager import *
 
 from supply_chain.Company.orders.Sell_order import SellOrder
@@ -9,7 +6,7 @@ from supply_chain.Company.companies_types.company_wrapped import *
 from supply_chain.Company.registrers.product_history import *
 
 from supply_chain.Company.stock_manager.productor_stock_manager import ProductorCompanyStock
-from supply_chain.Comunicator import HacerServicioDeDistribucion
+from supply_chain.Mensajes.ask_msg import HacerServicioDeDistribucion
 from supply_chain.events.RecibirProductosEvent import SendProductEvent
 from supply_chain.sim_event import SimEvent
 
