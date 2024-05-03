@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix_bugs">
-      <change afterPath="$PROJECT_DIR$/supply_chain/agents/Recipy_gestor.py" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="add producer _agent">
+      <change afterPath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/supply_chain/agents/ware_house_agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Comunicator.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Comunicator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Message.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Distributor_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Distributor_Agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/lll.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/kaka.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,15 +244,7 @@
       <workItem from="1714441583342" duration="16512000" />
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
-      <workItem from="1714683554014" duration="34392000" />
-    </task>
-    <task id="LOCAL-00003" summary="Stable">
-      <option name="closed" value="true" />
-      <created>1713157563901</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1713157563901</updated>
+      <workItem from="1714683554014" duration="38191000" />
     </task>
     <task id="LOCAL-00004" summary="Add Pdf">
       <option name="closed" value="true" />
@@ -638,7 +630,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714713090777</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="add producer _agent">
+      <option name="closed" value="true" />
+      <created>1714733655144</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1714733655144</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add Warehouse stock manager" />
     <MESSAGE value="finish Warehouse stock manager&#10;&#10;Add WarehouseReStockSimEvent" />
     <MESSAGE value="reafactor companies" />
     <MESSAGE value="refactor companies" />
@@ -700,7 +699,8 @@
     <MESSAGE value="change msg to agent" />
     <MESSAGE value="fix bugs and create instance agent" />
     <MESSAGE value="fix_bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix_bugs" />
+    <MESSAGE value="add producer _agent" />
+    <option name="LAST_COMMIT_MESSAGE" value="add producer _agent" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -716,16 +716,6 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py</url>
           <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>6</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>137</line>
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
