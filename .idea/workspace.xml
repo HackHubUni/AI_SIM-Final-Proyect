@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="change values">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix bugs">
+      <change afterPath="$PROJECT_DIR$/Building/build_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/productor_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/productor_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/sim_environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/sim_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_event.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/simulation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +220,7 @@
       <workItem from="1714441583342" duration="16512000" />
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
-      <workItem from="1714683554014" duration="1957000" />
+      <workItem from="1714683554014" duration="7546000" />
     </task>
     <task id="LOCAL-00001" summary="Add">
       <option name="closed" value="true" />
@@ -589,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714685347520</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1714685691170</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1714685691170</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -631,7 +648,6 @@
     <MESSAGE value="Add Distributor Company" />
     <MESSAGE value="Add Warehouse stock manager" />
     <MESSAGE value="finish Warehouse stock manager&#10;&#10;Add WarehouseReStockSimEvent" />
-    <MESSAGE value="fix bugs" />
     <MESSAGE value="reafactor companies" />
     <MESSAGE value="refactor companies" />
     <MESSAGE value="refactor companies: Change names" />
@@ -651,7 +667,8 @@
     <MESSAGE value="subir" />
     <MESSAGE value="Try instance" />
     <MESSAGE value="change values" />
-    <option name="LAST_COMMIT_MESSAGE" value="change values" />
+    <MESSAGE value="fix bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$lll.coverage" NAME="lll Coverage Results" MODIFIED="1714603215802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />

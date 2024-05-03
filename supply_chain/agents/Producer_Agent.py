@@ -11,7 +11,7 @@ from supply_chain.agents.Sistema_experto import SistExperto
 from supply_chain.agents.old.agent import ManufacturerAgent
 from supply_chain.agents.utils import *
 
-from supply_chain.sim_environment import SimEnvironment
+
 
 from supply_chain.Company.companies_types.Producer_Company import *
 
@@ -49,9 +49,7 @@ class AgentWrapped(Agent):
     def time(self):
         return self.env_visualizer.get_time()
 
-    @abstractmethod
-    def recive_msg(self, msg: Message):
-        pass
+
 
     def __init__(self,
                  name: str,

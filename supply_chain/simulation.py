@@ -1,6 +1,8 @@
 from sim_event import *
 import heapq
 
+from supply_chain.sim_environment import SimEnvironment
+
 
 class SupplyChainSimulator:
     def __init__(self, environment: SimEnvironment, simulation_time: int) -> None:

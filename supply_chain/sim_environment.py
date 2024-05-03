@@ -11,9 +11,6 @@ class SimEnvironment:
     def __init__(
         self,
         sim_map: SimMap,
-        companies_in_map: list[Company],
-        matrix_companies: list[Company],
-        agents: list[Agent],
     ) -> None:
         self.time: int = 0
         """The current time of the simulation"""
@@ -22,13 +19,22 @@ class SimEnvironment:
         # TODO: Check that the list of companies in map have a valid position in the simulation map
         # this is, checking that the location point of the company is a location in the map
         """The map where the companies in the simulation lives"""
-        self.companies_in_map: list[Company] = companies_in_map
+        self.companies_in_map: list[Company] = []
         """The list of companies in the simulation"""
-        self.matrix_companies: list[Company] = matrix_companies
+        self.matrix_companies: list[Company] = []
         """The list of matrix companies. This are the companies that take the big decisions
         in the supply chain"""
-        self.agents: list[Agent] = agents
+        self.agents: list[Agent] = []
         """The list of agents in the simulation"""
+
+    def add_companies_in_map(self, companies_in_map: list[Company]):
+        self.companies_in_map.extend(companies_in_map)
+
+    def add_matrix_companies(self, matrix_companies: list[Company]):
+        self.matrix_companies.extend(matrix_companies)
+
+    def add_agents(self, agents: list[Agent]):
+        self.agents.extend(agents)
 
     def get_map(self) -> SimMap:
         """Returns the map of the simulation"""

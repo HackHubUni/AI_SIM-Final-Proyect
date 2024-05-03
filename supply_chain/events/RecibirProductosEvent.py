@@ -14,5 +14,5 @@ class SendProductEvent(SimEvent):
         self._delivery_order = delivery_Order
         super().__init__(time, priority)
 
-    def execute(self, environment: SimEnvironment):
+    def execute(self):
         self._execute(self._delivery_order)

@@ -10,13 +10,12 @@ class ProductorCompanyStock(CompanyStockBase):
                  supply_distribution: Dict[str, Callable[[], int]],
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
-                 quality_distribution: dict[str, Callable[[], float]],
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int]
                  ):
 
         super().__init__(add_event=add_event, get_time=get_time)
-        self.quality_distribution: dict[str, Callable[[], float]] = quality_distribution
+
         """
 
         """
