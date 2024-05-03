@@ -39,8 +39,8 @@ class ProduceOrder(SellOrder):
                  amount_sold: int,
                  normal_price_per_unit: float,
                  matrix_name: str,
-                 to_company: Company,
-                 logistic_company: Company,
+                 to_company: Company|str,
+                 logistic_company: Company|str,
                  ingredients: list[Product]
                  ):
         self.ingredients: list[Product] = ingredients

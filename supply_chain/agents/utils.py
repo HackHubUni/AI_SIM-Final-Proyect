@@ -119,6 +119,17 @@ class ProductWrapped(StringWrapped):
         return 'Product'
 
 
+class ProduceProductWrapped(StringWrapped):
+
+    def __init__(self,
+                 name: str):
+        super().__init__(name)
+
+    @property
+    def tag(self):
+        return 'Produce_product_wrapped'
+
+
 class NumberWrapped(StringWrapped):
     def float_to_string(self, float_number):
         self.name = str(float_number).replace('.', '_')
@@ -210,6 +221,23 @@ class PedirPrecio(PedirBase):
         return 'Pedir_precio'
 
 
+class PedirProducirPrecio(PedirBase):
+
+    def __init__(self,
+                 client: str | StringWrapped,
+                 product_want: str | StringWrapped,
+                 count: str | NumberWrapped
+
+                 ):
+        super().__init__(client=client,
+                         product_want=product_want,
+                         count=count)
+
+    @property
+    def tag(self):
+        return 'Pedir_producir_precio'
+
+
 class Valoracion(LogicWrapped):
     def __init__(self,
                  client_name: str,
@@ -230,10 +258,10 @@ class Valoracion(LogicWrapped):
 class LogicOperatorsWrapped(LogicWrapped):
     def _get_the_show_str(self):
         s = ''
-        len_lis=len(self.list_wrapped_original)
-        for i, expr in enumerate(self.list_wrapped_original,1):
+        len_lis = len(self.list_wrapped_original)
+        for i, expr in enumerate(self.list_wrapped_original, 1):
             str_expr = expr.show()
-            if i<len_lis:
+            if i < len_lis:
 
                 s += f' {str_expr} {self.tag}  '
             else:
@@ -294,10 +322,8 @@ class ImplicationLogicWrapped(LogicWrapped):
         self.string_: str = f'{self.to_str(self.left_part)} {self.tag} {self.to_str(self.right_part)}'
 
     @property
-
     def tag(self) -> str:
         return '==>'
-
 
     def show(self):
         return self.string_

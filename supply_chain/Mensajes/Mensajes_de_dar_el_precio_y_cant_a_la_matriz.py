@@ -1,9 +1,11 @@
 from typing import Callable
 
 import heapq
-from supply_chain.Comunicator import Message, MessageWantProductOffer, HacerServicioDeDistribucion
+from supply_chain.Comunicator import Message, MessageWantProductOffer, HacerServicioDeDistribucion, \
+    MessageWantProductProduceOffer
 from supply_chain.agents.utils import generate_guid
 from supply_chain.company import TypeCompany
+from supply_chain.products.ingredient import Ingredient
 
 
 class Oferta(Message):
@@ -36,7 +38,60 @@ class Oferta(Message):
         return False
 
 
-class ResponseOfertProductMessaage(Oferta):
+class ResponseOfertMessage(Oferta):
+    """ABstracta"""
+
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 product_name: str,
+                 price_per_unit: float,
+
+                 peticion_instance: MessageWantProductOffer,
+                 end_time: int
+                 ):
+        super().__init__(company_from=company_from,
+                         company_from_type=company_from_type,
+                         company_destination_name=company_destination_name,
+                         company_destination_type=company_destination_type,
+                         end_time=end_time,
+                         peticion_instance=peticion_instance
+                         )
+        self.product_name: str = product_name
+        self.price_per_unit: float = price_per_unit
+        self.peticion_instance: MessageWantProductOffer = peticion_instance
+        self.id_ = generate_guid()
+        self.end_time: int = end_time
+
+
+class ResponseOfertProduceProductMessage(ResponseOfertMessage):
+    """Para enviar mensajes desde el productor a la matrix"""
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 product_name: str,
+                 price_per_unit: float,
+                 peticion_instance: MessageWantProductProduceOffer,
+                 end_time: int,
+                 list_ingredients_recipe: list[Ingredient]
+                 ):
+        super().__init__(company_from=company_from,
+                         company_from_type=company_from_type,
+                         company_destination_name=company_destination_name,
+                         company_destination_type=company_destination_type,
+                         end_time=end_time,
+                         peticion_instance=peticion_instance,
+                         price_per_unit=price_per_unit,
+                         product_name=product_name,
+                         )
+        self.list_ingredients_recipe: list[Ingredient]=list_ingredients_recipe
+
+
+class ResponseOfertProductMessaage(ResponseOfertMessage):
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -53,14 +108,12 @@ class ResponseOfertProductMessaage(Oferta):
                          company_destination_name=company_destination_name,
                          company_destination_type=company_destination_type,
                          end_time=end_time,
-                         peticion_instance=peticion_instance
+                         peticion_instance=peticion_instance,
+                         price_per_unit=price_per_unit,
+                         product_name=product_name,
+
                          )
-        self.product_name: str = product_name
-        self.price_per_unit: float = price_per_unit
         self.count_can_supply: int = count_can_supply
-        self.peticion_instance: MessageWantProductOffer = peticion_instance
-        self.id_ = generate_guid()
-        self.end_time: int = end_time
 
     def _show(self):
         return f'Producto: {self.product_name} precio por unidad {self.price_per_unit} cuanto puede suplir {self.count_can_supply} el id {self.id_} y finaliza en el {self.end_time}'

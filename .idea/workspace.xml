@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix bugs and create instance agent">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix_bugs">
+      <change afterPath="$PROJECT_DIR$/supply_chain/agents/Recipy_gestor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Comunicator.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Comunicator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Message.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +51,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Python.Comunicator.executor": "Run",
     "Python.fkfkf.executor": "Run",
+    "Python.inferencias (1).executor": "Run",
     "Python.inferencias.executor": "Run",
     "Python.kaka.executor": "Run",
     "Python.kk.executor": "Run",
@@ -75,15 +83,15 @@
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new\Testeo" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\old" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company\companies_types" />
-      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company\stock_manager" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.kaka">
-    <configuration name="fkfkf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.inferencias (1)">
+    <configuration name="inferencias (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AI_SIM-Final-Proyect" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -92,12 +100,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain/agents/new" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new\Testeo\fkfkf.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -200,11 +208,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.inferencias (1)" />
         <item itemvalue="Python.kaka" />
         <item itemvalue="Python.testttt" />
         <item itemvalue="Python.planificar" />
         <item itemvalue="Python.inferencias" />
-        <item itemvalue="Python.fkfkf" />
       </list>
     </recent_temporary>
   </component>
@@ -236,15 +244,7 @@
       <workItem from="1714441583342" duration="16512000" />
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
-      <workItem from="1714683554014" duration="17913000" />
-    </task>
-    <task id="LOCAL-00002" summary="Add Features">
-      <option name="closed" value="true" />
-      <created>1713154711756</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1713154711756</updated>
+      <workItem from="1714683554014" duration="34392000" />
     </task>
     <task id="LOCAL-00003" summary="Stable">
       <option name="closed" value="true" />
@@ -630,7 +630,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714704374337</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="fix_bugs">
+      <option name="closed" value="true" />
+      <created>1714713090777</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1714713090777</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -667,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add Distributor Company" />
     <MESSAGE value="Add Warehouse stock manager" />
     <MESSAGE value="finish Warehouse stock manager&#10;&#10;Add WarehouseReStockSimEvent" />
     <MESSAGE value="reafactor companies" />
@@ -692,7 +699,8 @@
     <MESSAGE value="fix bugs" />
     <MESSAGE value="change msg to agent" />
     <MESSAGE value="fix bugs and create instance agent" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bugs and create instance agent" />
+    <MESSAGE value="fix_bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix_bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -711,59 +719,71 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>9</line>
+          <line>6</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>130</line>
+          <line>137</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>282</line>
+          <line>310</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>281</line>
+          <line>309</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>284</line>
+          <line>312</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>248</line>
+          <line>276</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>234</line>
+          <line>262</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>237</line>
+          <line>265</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>241</line>
+          <line>269</line>
           <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py</url>
+          <line>279</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Company/orders/Sell_order.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$lll.coverage" NAME="lll Coverage Results" MODIFIED="1714603215802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />
-    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kaka.coverage" NAME="kaka Coverage Results" MODIFIED="1714703704201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kaka.coverage" NAME="kaka Coverage Results" MODIFIED="1714708655834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testttt.coverage" NAME="testttt Coverage Results" MODIFIED="1714576316931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$Comunicator.coverage" NAME="Comunicator Coverage Results" MODIFIED="1714714985762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kk.coverage" NAME="kk Coverage Results" MODIFIED="1714324966138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/Company" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$fkfkf.coverage" NAME="fkfkf Coverage Results" MODIFIED="1714576472063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$planificar.coverage" NAME="planificar Coverage Results" MODIFIED="1714618802870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias__1_.coverage" NAME="inferencias (1) Coverage Results" MODIFIED="1714711739137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testtt.coverage" NAME="inferencias Coverage Results" MODIFIED="1714603211261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias.coverage" NAME="inferencias Coverage Results" MODIFIED="1714659544664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$utils.coverage" NAME="utils Coverage Results" MODIFIED="1714703298289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />

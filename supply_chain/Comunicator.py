@@ -30,6 +30,10 @@ class MessageWantProductOffer(Message):
         self.product_want_name: str = product_want_name
 
 
+class MessageWantProductProduceOffer(MessageWantProductOffer):
+    pass
+
+
 class BuyOrderMessage(Message):
     def __init__(self,
                  company_from: str,
@@ -86,6 +90,7 @@ class SellResponseMessage(BuyOrderMessage):
         self.total_cost = total_cost
 
 
+
 class HacerServicioDeDistribucion(Message):
     def __init__(self,
                  matrix_name: str,
@@ -95,10 +100,8 @@ class HacerServicioDeDistribucion(Message):
                  company_destination_type: TypeCompany,
                  product_name: str,
                  count_move: int,
-                 #recibir_producto_desde_name: str,
-                 #recibir_producto_desde_tag: TypeCompany,
-                 #destino_producto_compania_nombre: str,
-                 #destino_producto_compania_tag: TypeCompany,
+                 id_to_recive_company:str,
+
                  time_demora_logistico: int,
                  ):
         super().__init__(company_from=company_from,
@@ -109,12 +112,9 @@ class HacerServicioDeDistribucion(Message):
         self.matrix_name: str = matrix_name
         self.product_name: str = product_name
         self.count_move: int = count_move
-        #self.recibir_producto_desde_name: str = recibir_producto_desde_name
-        #self.recibir_producto_desde_tag: TypeCompany = recibir_producto_desde_tag
-        #self.destino_producto_compania_nombre: str = destino_producto_compania_nombre
-        #self.destino_producto_compania_tag: TypeCompany = destino_producto_compania_tag
         self.products_instance: list[Product] = []
         self.time_demora_logistico: int = time_demora_logistico
+        self. id_to_recive_company:str=id_to_recive_company
 
     def set_list_product(self, products: list[Product]):
         self.products_instance = products

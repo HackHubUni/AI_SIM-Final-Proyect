@@ -1,9 +1,6 @@
-import copy
-from abc import ABC, abstractmethod
-
-from enum import Enum
-
+from supply_chain.agents.Recipy_gestor import RecipeGestor
 from supply_chain.Company.companies_types.manufacturer_company import ManufacturerCompany
+from supply_chain.Company.orders.Sell_order import ProduceOrder
 from supply_chain.Mensajes.Mensajes_de_dar_el_precio_y_cant_a_la_matriz import *
 from supply_chain.agent import Agent, AgentException
 from supply_chain.agents.Sistema_experto import SistExperto
@@ -103,10 +100,10 @@ class AgentWrapped(Agent):
         self.update_implications()
 
     def _get_a_factor_to_a_client(self, from_company_name: str, product_want_name: str,
-                                  class_type: PedirPrecio | PedirCantidad):
+                                  class_type: PedirPrecio | PedirCantidad | PedirBase):
         """Metodo base para que se pueda pedir factor para suplir de pedido y cant de factor de precio"""
         # Ahora pedir el factor del precio
-        price_ask = class_type(from_company_name,product_want_name, "z")
+        price_ask = class_type(from_company_name, product_want_name, "z")
         # Factor a multiplicar el precio
 
         print(price_ask.show())
@@ -234,8 +231,6 @@ class ProducerAgent(AgentWrapped):
 
         temp = self.company.stock_manager.get_count_product_in_stock(product_want_name) * factor_to_buy
 
-
-
         final_count_to_supply = int(temp)
 
         # Enviar la respuesta
@@ -261,7 +256,7 @@ class ProducerAgent(AgentWrapped):
         )
         return response
 
-    def deliver(self, sell_order: SellOrder, time_transport: int):
+    def deliver(self, sell_order: SellOrder, time_transport: int, id_company_destination: str):
 
         a = HacerServicioDeDistribucion(
             matrix_name=sell_order.matrix_name,
@@ -272,6 +267,7 @@ class ProducerAgent(AgentWrapped):
             product_name=sell_order.product_name,
             count_move=sell_order.amount_sold,
             time_demora_logistico=time_transport,
+            id_to_recive_company=id_company_destination
 
         )
 
@@ -279,18 +275,7 @@ class ProducerAgent(AgentWrapped):
 
     # TODO:Implementar la logica de esperar cierto tiempo para enviar
 
-    def going_to_sell(self, msg: BuyOrderMessage):
-        """Cuando te hacen una orden de compra"
-          se la pasa el id que tiene el logistico para dar el tiempo
-        """
-        ofer_id = msg.ofer_id
-
-        if not self.ofer_manager.is_ofer_active(ofer_id):
-            # Responder con cant a vender cero no hay oferta
-            response = self.make_sell_ofert_response(msg, 0)
-            self.send_smg_to_a_agent(response)
-        ofer: ResponseOfertProductMessaage = self.ofer_manager.get_ofer_by_id(ofer_id)
-
+    def _get_sell_order(self, ofer: ResponseOfertProductMessaage, msg: BuyOrderMessage):
         sell_order = SellOrder(product_name=ofer.product_name,
                                matrix_name=ofer.company_from,
                                price_sold=ofer.price_per_unit,
@@ -313,6 +298,19 @@ class ProducerAgent(AgentWrapped):
         # Retornar el sell order
         return sell_order
 
+    def going_to_sell(self, msg: BuyOrderMessage):
+        """Cuando te hacen una orden de compra"
+          se la pasa el id que tiene el logistico para dar el tiempo
+        """
+        ofer_id = msg.ofer_id
+
+        if not self.ofer_manager.is_ofer_active(ofer_id):
+            # Responder con cant a vender cero no hay oferta
+            response = self.make_sell_ofert_response(msg, 0)
+            self.send_smg_to_a_agent(response)
+        ofer: ResponseOfertProductMessaage = self.ofer_manager.get_ofer_by_id(ofer_id)
+        return self._get_sell_order(ofer, msg)
+
     def recive_msg(self, msg: Message):
         # Upgradear la base de conocimiento
         self.update()
@@ -322,110 +320,12 @@ class ProducerAgent(AgentWrapped):
         elif isinstance(msg, BuyOrderMessage):
             sell_order = self.going_to_sell(msg)
             # Enviar el producto
-            self.deliver(sell_order)
+            self.deliver(sell_order, msg.time_logist, msg.id_contract_destination)
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)
 
 
-class ManufacturerAgent(ProducerAgent):
-
-    def __init__(self,
-                 name: str,
-                 company: ManufacturerCompany,
-                 env_visualizer: EnvVisualizer,
-
-                 ):
-        super().__init__(name, company, env_visualizer)
-        self.company: ManufacturerAgent = company
-
-        # Start
-        self.start()
-
-    def recive_msg(self, msg: Message):
-
-        if isinstance(msg, HacerServicioDeDistribucion):
-
-            pass
 
 
-        else:
-            self.lanzar_excepcion_por_no_saber_mensaje(msg)
 
-
-class DistributorAgent(AgentWrapped):
-
-    def __init__(self,
-                 name: str,
-                 company: LogisticCompany,
-                 env_visualizer: EnvVisualizer,
-                 ):
-        super().__init__(name, company, env_visualizer)
-        self.company: LogisticCompany = company
-
-        # Start
-        self.start()
-
-        # Manager de las ofertas
-        self.ofer_manager: GestorOfertas = GestorOfertas(
-            self.env_visualizer.get_time)
-
-        # guid, Respuesta de la peticion de precio
-
-    def get_distance(self, company_from_name: str, company_destination_name: str) -> int:
-
-        return int(self.env_visualizer.get_distance_in_the_map(company_from_name, company_destination_name))
-
-    def create_response_msg(self, msg: HacerServicioDeDistribucion, price: float, count_to_move: int, duration: int):
-
-        a = ResponseLogistic(
-            company_from=self.company.name,
-            company_from_type=self.company.tag,
-            company_destination_name=msg.company_from,
-            company_destination_type=msg.company_from_type,
-            product_name=msg.product_name,
-            count_ask_move=count_to_move,
-            recibir_producto_desde_name=msg.recibir_producto_desde_name,
-            recibir_producto_desde_tag=msg.recibir_producto_desde_tag,
-            destino_producto_compania_nombre=msg.destino_producto_compania_nombre,
-            destino_producto_compania_tag=msg.recibir_producto_desde_tag,
-            price=price,
-            count_can_move=count_to_move,
-            end_time=duration,
-            peticion_instancie=msg
-
-        )
-        self.ofer_manager.add_response_despues_de_negociar_oferta(a)
-        return a
-
-    def hacer_orden_de_servicio(self, msg: HacerServicioDeDistribucion):
-        """
-        Le da la oferta a la matrix y la orden de venta del servicio
-         y se la envia al agente que le pidio y guarda ese contrato para
-         cuando el agente de otra empresa almacen productor o manufacotr
-         le pida le de el tiempo y el precio
-        :param msg:
-        :return:
-        """
-        # Factor por el que multiplicar el precio general del sericio
-        factor = self.get_factor_price_to_a_client(msg.company_from, msg.product_name)
-        # Distancia a recorrer
-        distance = self.get_distance(msg.recibir_producto_desde_name, msg.destino_producto_compania_nombre)
-        # Coste total del servicio
-        total_cost = self.company.get_estimated_cost_by_distance_unit(distance) * factor
-        # Duracion  del servicio
-        duration_time = self.company.get_estimated_time_by_distance_unit(distance)
-        # Mensje de respuesta
-        response_msg = self.create_response_msg(msg, total_cost, msg.count_move, duration_time)
-        # Enviar el mensaje
-        self.send_smg_to_a_agent(response_msg)
-
-    def recive_msg(self, msg: Message):
-
-        if isinstance(msg, HacerServicioDeDistribucion):
-            # Si quiere que haga
-            self.hacer_orden_de_servicio(msg)
-
-
-        else:
-            self.lanzar_excepcion_por_no_saber_mensaje(msg)

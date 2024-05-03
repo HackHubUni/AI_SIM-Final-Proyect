@@ -8,10 +8,6 @@ from supply_chain.products.ingredient import Ingredient
 from supply_chain.Company.companies_types.Producer_Company import *
 
 
-
-
-
-
 class ManufacturerCompany(ProducerCompany):
 
     @property
