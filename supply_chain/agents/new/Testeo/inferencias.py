@@ -259,5 +259,26 @@ def main2():
     print(s)
 
 
+def main3():
+
+
+
+
+
+
+
+        kb0 = FolKB()
+
+        lis = [expr("Product(Water)"), expr("Valoracion_(Matrix_1, Bien)"), expr("Client(Matrix_1)"),
+               expr(
+                   f'( Client(x) &   Valoracion_(x,Bien) &   Product(y) )   ==>  Pedir_precio(x,y,Float_1)')
+
+               ,# f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
+               ]
+        print(lis)
+        for item in lis:
+            kb0.tell(item)
+        print(kb0.ask(expr("Pedir_precio(Matrix_1, Water, x)")))
+
 if __name__ == "__main__":
-    main2()
+    main3()

@@ -30,9 +30,9 @@ class SistExperto(FolKB):
         if len(keys) < 1:
             return True
         # Chequear que el len sea 1 no haya mas de una posibilidad
-        assert len(keys) == 1, f'El len del dicc que devuelve la inferencia tiene len{len(keys)}'
+        assert len(keys) == 3, f'El len del dicc que devuelve la inferencia tiene len{len(keys)}'
 
-        key = keys[0]
+        key = keys[2]
         val = ret[key]
         # Llevar a str
         to_str = str(val)

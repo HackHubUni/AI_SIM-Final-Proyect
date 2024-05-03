@@ -62,6 +62,15 @@ class ResponseOfertProductMessaage(Oferta):
         self.id_ = generate_guid()
         self.end_time: int = end_time
 
+    def _show(self):
+        return f'Producto: {self.product_name} precio por unidad {self.price_per_unit} cuanto puede suplir {self.count_can_supply} el id {self.id_} y finaliza en el {self.end_time}'
+
+    def __str__(self):
+        return self._show()
+
+    def __repr__(self):
+        return self._show()
+
 
 class ResponseLogistic(Oferta):
     def __init__(self,
@@ -75,31 +84,31 @@ class ResponseLogistic(Oferta):
                  recibir_producto_desde_tag: TypeCompany,
                  destino_producto_compania_nombre: str,
                  destino_producto_compania_tag: TypeCompany,
-                 peticion_instancie:HacerServicioDeDistribucion,
+                 peticion_instancie: HacerServicioDeDistribucion,
                  price: float,
                  count_can_move: int,
                  end_time: int,
 
                  ):
         super().__init__(
-           company_from=company_from,
+            company_from=company_from,
             end_time=end_time,
             company_from_type=company_from_type,
             company_destination_type=company_destination_type,
             peticion_instance=peticion_instancie,
             company_destination_name=company_destination_name,
 
-
         )
 
-        self.product_name: str=product_name
-        self.count_ask_move: int=count_ask_move
-        self.recibir_producto_desde_name: str=recibir_producto_desde_name
-        self.recibir_producto_desde_tag: TypeCompany=recibir_producto_desde_tag
-        self.destino_producto_compania_nombre: str=destino_producto_compania_nombre
-        self.destino_producto_compania_tag: TypeCompany=destino_producto_compania_tag
-        self.price: float=price
-        self.count_can_move: int=count_can_move
+        self.product_name: str = product_name
+        self.count_ask_move: int = count_ask_move
+        self.recibir_producto_desde_name: str = recibir_producto_desde_name
+        self.recibir_producto_desde_tag: TypeCompany = recibir_producto_desde_tag
+        self.destino_producto_compania_nombre: str = destino_producto_compania_nombre
+        self.destino_producto_compania_tag: TypeCompany = destino_producto_compania_tag
+        self.price: float = price
+        self.count_can_move: int = count_can_move
+
 
 class GestorOfertas:
     """
@@ -130,12 +139,12 @@ class GestorOfertas:
         # Añadir al dicc
         self._actual_dict[id_] = response_ofert_msg
         # añadir a la lista
-        self._list_actual.append(response_ofert_msg)
+        # self._list_actual.append(response_ofert_msg)
+
+        heapq.heappush(self._list_actual, response_ofert_msg)
 
         assert len(self._list_actual) == len(
             self._actual_dict), f'El len de la lista es:{len(self._list_actual)} es distinto al del dict {len(self._actual_dict)}'
-
-        heapq.heappush(self._list_actual, response_ofert_msg)
 
     def get_ResponseOfertProductMessaages(self) -> list[Oferta]:
         """

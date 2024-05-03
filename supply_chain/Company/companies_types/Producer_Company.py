@@ -164,7 +164,7 @@ class ProducerCompany(CompanyWrapped):
         :return:
         """
 
-        self.stock_manager.is_product_in_stock(product_name)
+        return self.stock_manager.is_product_in_stock(product_name)
 
     def deliver(self,comunication:Callable, delivery_Order: HacerServicioDeDistribucion):
         # TODO:REllenar AÑADir estadísticas

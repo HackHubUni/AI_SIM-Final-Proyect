@@ -21,13 +21,13 @@ def make_valoracion(calificacion: float):
     tag = ValoracionTag.Fatal
     if calificacion > 2:
         tag = ValoracionTag.Mal
-    elif calificacion > 4:
+    if calificacion > 4:
         tag = ValoracionTag.Regular
-    elif calificacion > 6:
+    if calificacion > 6:
         tag = ValoracionTag.Bien
-    elif calificacion > 8:
+    if calificacion > 8:
         tag = ValoracionTag.MuyBien
-    elif calificacion > 9.4:
+    if calificacion > 9.4:
         tag = ValoracionTag.Excelente
     return tag
 
@@ -71,6 +71,8 @@ class AgentWrapped(Agent):
 
     def send_smg_to_a_agent(self, msg: Message):
         """Envia un mensaje a otro agente"""
+        print(msg)
+
         self.env_visualizer.send_msg(msg)
 
     def update_clients(self):
@@ -90,7 +92,7 @@ class AgentWrapped(Agent):
 
             # Creo la figura Valoracion
             valoracion = Valoracion(name, tag)
-
+            print(valoracion.show())
             # Lo añado al sistema experto
             self.sistema_experto.add(valoracion)
 
@@ -104,8 +106,11 @@ class AgentWrapped(Agent):
                                   class_type: PedirPrecio | PedirCantidad):
         """Metodo base para que se pueda pedir factor para suplir de pedido y cant de factor de precio"""
         # Ahora pedir el factor del precio
-        price_ask = class_type(StringWrapped(from_company_name), StringWrapped(product_want_name), "x")
+        price_ask = class_type(from_company_name,product_want_name, "z")
         # Factor a multiplicar el precio
+
+        print(price_ask.show())
+
         factor = self.sistema_experto.ask(price_ask)
 
         if not isinstance(factor, float):
@@ -125,9 +130,14 @@ class AgentWrapped(Agent):
     def tell(info):
         pass
 
+    @abstractmethod
+    def recive_msg(self, msg: Message):
+        pass
+
     def update_implications(self):
 
         for implication in self.logic_implication:
+            print(implication.show())
             self.sistema_experto.add(implication)
 
 
@@ -139,12 +149,15 @@ class ProducerAgent(AgentWrapped):
         for product_name in list_products_init_:
             product = ProductWrapped(product_name)
             # Añadir al sist experto
+            print(product.show())
             self.sistema_experto.add(product)
 
     def update(self):
-        super().update()
+
         # Upgradear los productos
         self.update_products()
+
+        super().update()
 
     def __init__(self,
                  name: str,
@@ -203,7 +216,9 @@ class ProducerAgent(AgentWrapped):
         # Comprobar que hay en stock este producto
         if not self.company.is_product_in_stock(msg.product_want_name):
             # Decirle que no  tengo
+
             self.sent_msg_response_ofer_cant_supply(msg)
+            return
 
         from_company_name = msg.company_from
         product_want_name: str = msg.product_want_name
@@ -215,8 +230,12 @@ class ProducerAgent(AgentWrapped):
         # Cuantas unidades se le puede vender
 
         factor_to_buy = self.get_factor_count_to_sell_producto_to_a_client(from_company_name, product_want_name)
+        print(f'Factor de venta {factor_to_buy}')
 
         temp = self.company.stock_manager.get_count_product_in_stock(product_want_name) * factor_to_buy
+
+
+
         final_count_to_supply = int(temp)
 
         # Enviar la respuesta
