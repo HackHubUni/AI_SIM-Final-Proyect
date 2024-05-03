@@ -59,4 +59,5 @@ def vector_similarity(vector_one: list[float], vector_two: list[float]) -> float
     product = list(one * two for one, two in zip(vector_one, vector_two))
     norm_one = norm(vector_one)
     norm_two = norm(vector_two)
-    return sum(product) / (norm_one * norm_two)
+    res = sum(product) / (norm_one * norm_two)
+    return res * 0.5 + 0.5  # To have the result between 0 and 1
