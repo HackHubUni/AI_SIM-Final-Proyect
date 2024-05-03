@@ -5,6 +5,7 @@ def percentage_normalization(values: list[float]) -> list[float]:
     """Returns a normalization in percentage of the values.
     The sum of all elements in the returned list is 1"""
     total_sum = sum(values)
+    total_sum = total_sum if total_sum > 0 else 1
     return list(value / total_sum for value in values)
 
 
