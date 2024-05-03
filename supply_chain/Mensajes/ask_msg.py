@@ -37,6 +37,8 @@ class MessageWantProductProduceOffer(MessageWantProductOffer):
 class AskPriceWareHouseCompany(MessageWantProductOffer):
     pass
 
+class AskCountProductInStock(AskPriceWareHouseCompany):
+    pass
 
 
 class BuyOrderMessage(Message):

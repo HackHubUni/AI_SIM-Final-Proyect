@@ -92,6 +92,7 @@ class ResponseOfertProduceProductMessage(ResponseOfertMessage):
 
 
 class ResponseOfertProductMessaage(ResponseOfertMessage):
+    """Clase que te brinda la respuesta de una empresa a la matrix"""
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -123,6 +124,13 @@ class ResponseOfertProductMessaage(ResponseOfertMessage):
 
     def __repr__(self):
         return self._show()
+
+class ResponseStorageProductOffer(ResponseOfertProductMessaage):
+    """Clase para responder cuanto espacio se puede asignar"""
+    pass
+
+class ResponseStoreProductInStockNow(ResponseOfertProductMessaage):
+    """Clase para responder cuanto tenemos en stock de un producto"""
 
 
 class ResponseLogistic(Oferta):

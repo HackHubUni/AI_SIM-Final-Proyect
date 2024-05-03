@@ -1,20 +1,6 @@
 from supply_chain.agents.AgentWrapped import *
 
-def make_valoracion(calificacion: float):
-    """define la valoracion tags de empresas"""
-    # INicia siendo mala
-    tag = ValoracionTag.Fatal
-    if calificacion > 2:
-        tag = ValoracionTag.Mal
-    if calificacion > 4:
-        tag = ValoracionTag.Regular
-    if calificacion > 6:
-        tag = ValoracionTag.Bien
-    if calificacion > 8:
-        tag = ValoracionTag.MuyBien
-    if calificacion > 9.4:
-        tag = ValoracionTag.Excelente
-    return tag
+
 
 
 
@@ -51,26 +37,10 @@ class ProducerAgent(AgentWrapped):
         # guid, Respuesta de la peticion de precio
 
     def get_time_demora(self):
-        return 300000
-
-    def sent_msg_response_ofer(self, oferta: MessageWantProductOffer, count_can_supply: int, price_per_unit: float):
-
-        response = ResponseOfertProductMessaage(company_from_type=self.company.tag,
-                                                company_from=self.company.name,
-                                                company_destination_type=oferta.company_from_type,
-                                                company_destination_name=oferta.company_from,
-                                                product_name=oferta.product_want_name,
-                                                price_per_unit=price_per_unit,
-                                                count_can_supply=count_can_supply,
-                                                peticion_instance=oferta,
-                                                end_time=self.get_time_demora()
-
-                                                )
-
-        self.ofer_manager.add_response_despues_de_negociar_oferta(response)
+        return 3000009
 
     def sent_msg_response_ofer_cant_supply(self, oferta: MessageWantProductOffer):
-        self.sent_msg_response_ofer(oferta, 0, -1.1)
+        self.sent_msg_response_ofer(oferta, 0, -1.1, self.get_time_demora())
 
     def get_factor_count_to_sell_producto_to_a_client(self, from_company_name: str, product_want_name: str) -> float:
         """
@@ -115,7 +85,7 @@ class ProducerAgent(AgentWrapped):
 
         # Enviar la respuesta
 
-        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price)
+        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price, self.get_time_demora())
 
     def make_sell_ofert_response(self, msg: BuyOrderMessage, count_to_sell: int):
         """
@@ -179,7 +149,7 @@ class ProducerAgent(AgentWrapped):
         return sell_order
 
     def going_to_sell(self, msg: BuyOrderMessage):
-        """Cuando te hacen una orden de compra"
+        """Cuando te hacen una orden de compra
           se la pasa el id que tiene el logistico para dar el tiempo
         """
         ofer_id = msg.ofer_id
@@ -204,8 +174,3 @@ class ProducerAgent(AgentWrapped):
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)
-
-
-
-
-

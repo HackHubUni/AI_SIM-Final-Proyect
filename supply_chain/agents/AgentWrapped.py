@@ -9,9 +9,21 @@ from supply_chain.Company.companies_types.Producer_Company import *
 
 
 
-class TypeCompany:
-    pass
-
+def make_valoracion(calificacion: float):
+    """define la valoracion tags de empresas"""
+    # INicia siendo mala
+    tag = ValoracionTag.Fatal
+    if calificacion > 2:
+        tag = ValoracionTag.Mal
+    if calificacion > 4:
+        tag = ValoracionTag.Regular
+    if calificacion > 6:
+        tag = ValoracionTag.Bien
+    if calificacion > 8:
+        tag = ValoracionTag.MuyBien
+    if calificacion > 9.4:
+        tag = ValoracionTag.Excelente
+    return tag
 
 class AgentWrapped(Agent):
 
@@ -83,6 +95,9 @@ class AgentWrapped(Agent):
         # Upgradear las implicaciones
         self.update_implications()
 
+    def get_time_demora(self):
+        return 300000
+
     def _get_a_factor_to_a_client(self, from_company_name: str, product_want_name: str,
                                   class_type: PedirPrecio | PedirCantidad | PedirBase):
         """Metodo base para que se pueda pedir factor para suplir de pedido y cant de factor de precio"""
@@ -111,6 +126,27 @@ class AgentWrapped(Agent):
     def tell(info):
         pass
 
+    def sent_msg_response_ofer(self, oferta: MessageWantProductOffer | AskPriceWareHouseCompany, count_can_supply: int,
+                               price_per_unit: float, time_demora,
+                               instance=ResponseOfertProductMessaage):
+
+        response = instance(company_from_type=self.company.tag,
+                            company_from=self.company.name,
+                            company_destination_type=oferta.company_from_type,
+                            company_destination_name=oferta.company_from,
+                            product_name=oferta.product_want_name,
+                            price_per_unit=price_per_unit,
+                            count_can_supply=count_can_supply,
+                            peticion_instance=oferta,
+                            end_time=time_demora
+
+                            )
+
+        self.ofer_manager.add_response_despues_de_negociar_oferta(response)
+
+        # Enviar
+        self.send_smg_to_a_agent(response)
+
     @abstractmethod
     def recive_msg(self, msg: Message):
         pass
@@ -120,4 +156,3 @@ class AgentWrapped(Agent):
         for implication in self.logic_implication:
             print(implication.show())
             self.sistema_experto.add(implication)
-

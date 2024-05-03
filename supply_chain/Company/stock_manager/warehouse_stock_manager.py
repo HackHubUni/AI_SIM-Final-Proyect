@@ -313,6 +313,8 @@ class WarehouseStockManager(CompanyStockBase):
         :return:
         """
 
+
+
         if matrix_name in self._stock_by_company:
 
             return self._stock_by_company[matrix_name]
@@ -390,6 +392,22 @@ class WarehouseStockManager(CompanyStockBase):
             return False
 
         return True
+
+
+    def get_how_can_storage_a_company(self,matrix_name:str,product_name:str)->int:
+        """
+        Devuelve 0 Si no hay en stock
+        :param matrix_name:
+        :param product_name:
+        :return:
+        """
+
+        dict_company=self._get_dicc_stock_by_company(matrix_name)
+
+        if not product_name in dict_company:
+            return 0
+
+        return len(dict_company[product_name])
 
     def get_list_products_by_company(self, matrix_name: str, product_name: str):
         if not matrix_name in self._stock_by_company:

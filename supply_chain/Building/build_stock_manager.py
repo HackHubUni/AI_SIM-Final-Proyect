@@ -1,7 +1,9 @@
 # %%
 from supply_chain.Company.stock_manager.productor_stock_manager import *
-
+from supply_chain.Company.stock_manager.manufacturing_stock_manager import *
 product_name = 'pizza'
+
+import random
 
 
 
@@ -80,3 +82,39 @@ class BuildProductorStockManager:
                                      get_time=self.get_time,
 
                                      )
+
+
+                 products_min_stock: dict[str, int],
+                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                 supply_distribution: Dict[str, Callable[[], int]],
+                 sale_price_distribution: dict[str, Callable[[], float]],
+                 time_restock_distribution: Callable[[], int],
+                 get_time: Callable[[], int],
+                 recipe_dic: dict[str, Recipe],
+                 price_produce_product_per_unit: dict[str, float]
+
+
+
+class BuildingmanufacterStockManager:
+
+    def __init__(self,
+                 list_products: list[Product]
+                 ):
+        self.list_products:list[Product]=list_products
+
+        self.products_names=map(lambda x:x.name,self.list_products)
+
+
+    def create_products_max_stock(self)->dict[str, int]:
+        dict_return={}
+        rand_int=random.randint(3001,8564)
+
+
+
+
+
+
+
+
+
+

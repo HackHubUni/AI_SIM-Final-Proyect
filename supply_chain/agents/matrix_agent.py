@@ -1,24 +1,30 @@
-from abc import ABC, abstractmethod
+from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany
+from supply_chain.agents.AgentWrapped import *
+from supply_chain.Building.create_planner import *
 
-from new.logic import *
+class MatrixAgent(AgentWrapped):
+    def __init__(self,
+                 name: str,
+                 company: MatrixCompany,
+                 env_visualizer: EnvVisualizer,
 
-from enum import Enum
-
-from supply_chain.agent import Agent
-
-from supply_chain.sim_environment import SimEnvironment
-
-from supply_chain.Company.companies_types.Producer_Company import *
-
-
-class MatrixAgent(Agent):
-    def __init__(self, name: str, company):
-        super().__init__(name)
+                 ):
+        super().__init__(name,company,env_visualizer)
+        self.company:MatrixCompany=company
+        self.planner:PlanningProblem=get_planing_Type()
 
 
+    def computate_msg(self,msg):
+        self.planner.convert(msg)
 
 
 
-    def ask_productor(self,product_name:str):
+    def recive_msg(self, msg: Message):
 
-        pass
+        if isinstance(msg, ResponseOfertProductMessaage):
+
+         self.msg = self.computate_msg(msg)
+        else:
+            self.lanzar_excepcion_por_no_saber_mensaje(msg)
+
+

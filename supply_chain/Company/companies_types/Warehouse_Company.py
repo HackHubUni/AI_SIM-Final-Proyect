@@ -47,4 +47,14 @@ class WarehouseCompany(CompanyWrapped):
         self.stock_manager.add_products(matrix_name, list_product)
 
     def get_list_products_by_company(self, matrix_name: str, product_name: str):
-        return self.get_list_products_by_company(matrix_name, product_name)
+        """
+
+        :param matrix_name:
+        :param product_name:
+        :return:
+        """
+        return self.stock_manager.get_list_products_by_company(matrix_name, product_name)
+
+    def get_how_can_storage_a_company(self, matrix_name: str, product_name: str):
+        """Devuelve cero si no hay en stock"""
+        return self.stock_manager.get_how_can_storage_a_company(matrix_name, product_name)

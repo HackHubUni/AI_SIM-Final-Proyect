@@ -22,8 +22,4 @@ class Agent(ABC):
     def recive_msg(self, msg: Message):
         pass
 
-    @abstractmethod
-    def tell(info):
-        # TODO: Carla must type the info variable because every body in the repo
-        # should know how to pass info to the agent
-        pass
+
