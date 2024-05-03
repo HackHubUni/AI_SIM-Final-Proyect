@@ -60,6 +60,20 @@ class ConsumerAgent:
         ]
         selected_product = rnd.choices(product_list, weights)[0]
         # TODO: Select the number of units to ask
+        amount = self.amount_selection()
+
+
+def generate_basic_consumer_agent(
+    get_time: Callable[[], int],
+    add_event: Callable[[SimEvent], None],
+):
+    """Generates a basic consumer agent"""
+    return ConsumerAgent(
+        get_time,
+        add_event,
+        lambda: rnd.randrange(50, 50 * 3),
+        lambda: rnd.randrange(3, 8),
+    )
 
 
 def generate_consumer_body() -> ConsumerBody:

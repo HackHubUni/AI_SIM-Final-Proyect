@@ -3,6 +3,9 @@ from sim_map import SimMap
 from company import Company
 from agent import Agent
 from Message import Message
+from .utils.utility_functions import *
+from .map_search_problem import *
+from .sim_ai.search_problem.search_algorithms import *
 
 
 class SimEnvironment:
@@ -72,6 +75,32 @@ class SimEnvironment:
             company for company in self.matrix_companies if condition(company)
         ]
         return result
+
+    def get_minimum_distance(self, company1: str, company2: str) -> float:
+        """Get the minimum distance between 2 companies in the map"""
+        cp1 = self.get_companies_in_map(lambda comp: comp.name == company1)[0]
+        cp2 = self.get_companies_in_map(lambda comp: comp.name == company2)[0]
+
+        def map_heuristic(
+            actual_position: tuple[float, float], final_position: tuple[float, float]
+        ) -> float:
+            return distance_between_points(actual_position, final_position)
+
+        initial_position, final_position = (
+            cp1.get_position_in_map(),
+            cp2.get_position_in_map(),
+        )
+        map_problem = MapSearchProblem(
+            initial_position=initial_position,
+            final_position=final_position,
+            city_map=self.sim_map,
+        )
+        found, final_node = a_star_search(
+            map_problem, lambda node: map_heuristic(node.state, final_position)
+        )
+        if not found:
+            return -1
+        return final_node.path_cost
 
     def get_agent(self, condition: Callable[[Agent], bool]) -> Agent:
         """Returns the first agent that match the condition. If no agent match the condition then None is returned"""
