@@ -53,6 +53,8 @@ class WarehouseStockManager(CompanyStockBase):
         self._stock_by_company: dict[str, dict[str, list[Product]]] = {}
         """Diccionario que por cada matrix que tenga algo guardado algo aca"""
 
+        self._product_price_stock: dict[str, float] = {}
+
     def _check_names(self):
         set_company_product_time_count_supply_magic_distribution = set(
             self.company_product_time_count_supply_magic_distribution.keys())
@@ -181,6 +183,13 @@ class WarehouseStockManager(CompanyStockBase):
                                          company_name=company_name)
         self.add_event(event)
 
+    def get_cost_by_product_and_unit_time(self,product_name:str):
+
+        if product_name not in self._product_price_stock:
+            return -1
+
+        return self._product_price_stock[product_name]
+
     def _restock_product_in_a_company(self, company_name: str, product_name: str):
         """
         Dado una compañia y un producto reabastece de este
@@ -251,7 +260,12 @@ class WarehouseStockManager(CompanyStockBase):
         # TODO:Añadir a las estadísticas
         cost_lambda = company_cost_product_distribution[product_name]
         # Coste en este reabastecimiento
-        cost_price = cost_lambda() * count_want
+        cost_now = cost_lambda()
+
+        self._product_price_stock[product_name]=cost_now
+
+        # TODO: ACAAAAAAAAAAAAAAAAAAA
+        cost_price = cost_now * count_want
 
         # Añadir la nueva lista
         company_stock[product_name] = lis_product_stock
@@ -359,8 +373,37 @@ class WarehouseStockManager(CompanyStockBase):
 
         # Por cada producto guardarlos en sus stock
         for product in list_Products:
-            self._add_product_to_and_check_balance_it_s_ok(product,company_stock_dicc)
+            self._add_product_to_and_check_balance_it_s_ok(product, company_stock_dicc)
 
+    def is_product_in_this_company_subStorage(self, matrix_name: str, product_name: str) -> bool:
 
+        if not matrix_name in self._stock_by_company:
+            return False
 
+        dict_company = self._stock_by_company[matrix_name]
+        if not product_name in dict_company:
+            return False
 
+        lis_product = dict_company[product_name]
+
+        if len(lis_product) < 1:
+            return False
+
+        return True
+
+    def get_list_products_by_company(self, matrix_name: str, product_name: str):
+        if not matrix_name in self._stock_by_company:
+            return []
+
+        dict_company = self._stock_by_company[matrix_name]
+        if not product_name in dict_company:
+            return []
+
+        lis_product = dict_company[product_name]
+
+        if len(lis_product) < 1:
+            return []
+        return_list = lis_product[:1]
+        new_list = lis_product[1:]
+        dict_company = new_list
+        return lis_product[0:]

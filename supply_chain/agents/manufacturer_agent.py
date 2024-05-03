@@ -1,4 +1,7 @@
+from supply_chain.Company.companies_types.manufacturer_company import ManufacturerCompany
+from supply_chain.Company.orders.Sell_order import ProduceOrder
 from supply_chain.agents.Producer_Agent import *
+from supply_chain.agents.Recipy_gestor import RecipeGestor
 
 
 class ManufacturerAgent(ProducerAgent):

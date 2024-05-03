@@ -46,6 +46,9 @@ class DistributorAgent(AgentWrapped):
         self.ofer_manager.add_response_despues_de_negociar_oferta(a)
         return a
 
+    def _factor_as_not_in_this_city(self):
+        return 5000
+
     def hacer_orden_de_servicio(self, msg: HacerServicioDeDistribucion):
         """
         Le da la oferta a la matrix y la orden de venta del servicio
@@ -57,6 +60,9 @@ class DistributorAgent(AgentWrapped):
         """
         # Factor por el que multiplicar el precio general del sericio
         factor = self.get_factor_price_to_a_client(msg.company_from, msg.product_name)
+        if factor < 0:
+            factor = self._factor_as_not_in_this_city()
+
         # Distancia a recorrer
         distance = self.get_distance(msg.recibir_producto_desde_name, msg.destino_producto_compania_nombre)
         # Coste total del servicio

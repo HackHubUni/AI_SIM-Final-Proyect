@@ -25,7 +25,7 @@ class WareHouseAgente(AgentWrapped):
         # Factor por el que multiplicar el precio general del servicio
         factor = self.get_factor_price_to_a_client(company_from_name, product_want_name)
         # Coste total del servicio
-        total_cost = self.co
+        total_cost = self.company.get_cost_by_product_and_unit_time(product_want_name)
     def recive_msg(self, msg: Message):
         if isinstance(msg, AskPriceWareHouseCompany):
             self._process_ask_price(msg)
