@@ -34,6 +34,8 @@ class Company(ABC):
         """The lambda to add a event to a env """
         self.position_in_map: tuple[float, float] = (0, 0)
         """The position of this company in te map"""
+        self.agent_name: str = ""
+        """The name of the agent that rules this company"""
 
     @property
     @abstractmethod
@@ -61,12 +63,9 @@ class Company(ABC):
         pass
 
     @property
-
     def time(self) -> int:
         """
         Retorna el tiempo actual en que se está
         :return:
         """
         return self.get_time()
-
-
