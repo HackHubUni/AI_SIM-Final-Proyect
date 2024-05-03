@@ -4,9 +4,10 @@ from ...product import *
 class Pizza(Product):
     def __init__(
         self,
-        name: str,
-        flavor: Flavor,
-        nutritive_properties: NutritiveProperties,
         initial_quality: float,
     ) -> None:
-        super().__init__(name, flavor, nutritive_properties, initial_quality)
+        flavor = Flavor(10, 30, 20, 0, 40)
+        nutritive_properties = NutritiveProperties(30, 50, 20)
+        super().__init__(
+            "Pizza de Queso", flavor, nutritive_properties, initial_quality
+        )

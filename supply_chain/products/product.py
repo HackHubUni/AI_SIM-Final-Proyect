@@ -24,9 +24,13 @@ class Product(ABC):
         self.initial_quality: float = initial_quality
         """The initial quality of the product"""
 
-    @abstractmethod
     def get_quality(self, time: int) -> float:
         """This function returns the quality of the product at a specific point in time"""
+        live_time = 60 * 60 * 24 * 3
+        return self.initial_quality - time * (self.initial_quality / live_time)
+
+    @staticmethod
+    def get_static_name() -> str:
         pass
 
     def get_name(self) -> str:

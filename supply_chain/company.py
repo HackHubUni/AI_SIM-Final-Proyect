@@ -28,10 +28,10 @@ class Company(ABC):
         super().__init__()
         self.name: str = name
         """The name of the company"""
-        self.get_time: Callable = get_time
-        """The reference to the environment of the simulation"""
+        self.get_time: Callable[[], int] = get_time
+        """A function that let you get the current time of the simulation"""
         self.add_event: Callable[[SimEvent], None] = add_event
-        """The lambda to add a event to a env """
+        """The function for add an event to the environment"""
         self.position_in_map: tuple[float, float] = (0, 0)
         """The position of this company in te map"""
         self.agent_name: str = ""

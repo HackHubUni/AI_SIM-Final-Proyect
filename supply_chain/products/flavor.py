@@ -1,5 +1,6 @@
 from typing import *
 from supply_chain.utils.utility_functions import *
+import random as rnd
 
 
 class Flavor:
@@ -7,11 +8,11 @@ class Flavor:
 
     def __init__(
         self,
-        sweet: int,
-        salty: int,
-        acid: int,
-        bitter: int,
-        spicy: int,
+        sweet: float,
+        salty: float,
+        acid: float,
+        bitter: float,
+        spicy: float,
     ) -> None:
         flavors = percentage_normalization([sweet, salty, acid, bitter, spicy])
         self.sweet: float = flavors[0]
@@ -30,3 +31,11 @@ class Flavor:
         my_vector: list[float] = self.get_flavor_as_vector()
         other_vector: list[float] = other_flavor.get_flavor_as_vector()
         return vector_similarity(my_vector, other_vector)
+
+    def get_random_similar_flavor(
+        self,
+    ) -> Self:
+        original = self.get_flavor_as_vector()
+        mod = lambda x: max(0, rnd.uniform(0, x * 100))
+        new = [mod(val) for val in original]
+        return Flavor(*new)

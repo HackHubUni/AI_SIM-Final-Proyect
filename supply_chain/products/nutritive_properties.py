@@ -1,5 +1,6 @@
 from typing import *
 from supply_chain.utils.utility_functions import *
+import random as rnd
 
 
 class NutritiveProperties:
@@ -7,9 +8,9 @@ class NutritiveProperties:
 
     def __init__(
         self,
-        fat: int,
-        carbohydrates: int,
-        proteins: int,
+        fat: float,
+        carbohydrates: float,
+        proteins: float,
     ) -> None:
         nutrition = percentage_normalization([fat, carbohydrates, proteins])
         self.fat: float = nutrition[0]
@@ -26,3 +27,11 @@ class NutritiveProperties:
         my_vector: list[float] = self.get_nutrition_as_vector()
         other_vector: list[float] = other_nutritive.get_nutrition_as_vector()
         return vector_similarity(my_vector, other_vector)
+
+    def get_random_similar_flavor(
+        self,
+    ) -> Self:
+        original = self.get_nutrition_as_vector()
+        mod = lambda x: max(0, rnd.uniform(0, x * 100))
+        new = [mod(val) for val in original]
+        return NutritiveProperties(*new)
