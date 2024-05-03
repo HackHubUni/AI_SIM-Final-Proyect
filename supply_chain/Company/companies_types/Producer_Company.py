@@ -1,22 +1,17 @@
 from typing import Callable, List
 
+
+from supply_chain.Company.stock_manager.productor_stock_manager import *
+
 from supply_chain.Company.orders.Sell_order import SellOrder
-from supply_chain.Company.orders.delivery_order import DeliveryOrder
+
+from supply_chain.Company.companies_types.company_wrapped import *
+from supply_chain.Company.registrers.product_history import *
+
 from supply_chain.Company.stock_manager.productor_stock_manager import ProductorCompanyStock
 from supply_chain.Comunicator import HacerServicioDeDistribucion
 from supply_chain.events.RecibirProductosEvent import SendProductEvent
 from supply_chain.sim_event import SimEvent
-
-try:
-    from supply_chain.agents.old.order import Order
-    from supply_chain.sim_environment import SimEnvironment
-    from supply_chain.products.product import Product
-    from supply_chain.Company.registrers.registers import *
-    from supply_chain.company import Company, TypeCompany
-    from supply_chain.Company.companies_types.company_wrapped import *
-except:
-
-    pass
 
 
 class ProducerCompany(CompanyWrapped):

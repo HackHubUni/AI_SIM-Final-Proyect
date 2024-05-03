@@ -9,6 +9,9 @@ class SistExperto(FolKB):
 
     def add(self, wrapped: LogicWrapped):
         """Se añade uno de los wrapped """
+        if not isinstance(wrapped,LogicWrapped):
+            raise Exception(f'wrapped no es instancia de LogicWrapped es de {type(wrapped)} ')
+
         self.tell(expr(wrapped.show()))
 
     def ask(self, query: LogicWrapped) -> bool | str | float:

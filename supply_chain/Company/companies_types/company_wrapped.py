@@ -1,21 +1,14 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Callable
-
+from supply_chain.Company.registrers.registers import Registry
 from supply_chain.Company.stock_manager.stock_manager import CompanyStockBase
 from supply_chain.sim_event import SimEvent
-
-try:
-    from supply_chain.agents.old.order import Order
-    from supply_chain.sim_environment import SimEnvironment
-    from supply_chain.products.product import Product
-    from supply_chain.Company.registrers.registers import *
-    from supply_chain.company import Company, TypeCompany
-except:
-
-    pass
+from supply_chain.company import Company, TypeCompany
 
 
-class CompanyWrapped(Company, ABC):
+
+
+class CompanyWrapped(Company):
 
     def __init__(self,
                  name: str,
@@ -42,7 +35,21 @@ class CompanyWrapped(Company, ABC):
         """
         return self.get_time()
 
+    @abstractmethod
     def start(self):
+        """
+        Esta función es para inicializar las acciones de la empresa
+        :return:
+        """
+        pass
+
+    @property
+    @abstractmethod
+    def tag(self) -> TypeCompany:
+        """
+        Devuelve el tag del tipo de compañía que es
+        :return:
+        """
         pass
 
 

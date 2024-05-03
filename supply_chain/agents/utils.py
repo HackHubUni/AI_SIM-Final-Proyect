@@ -6,13 +6,16 @@ from enum import Enum
 
 import uuid
 
+
 def generate_guid():
     return str(uuid.uuid4())
+
 
 def float_to_string(float_number):
     return str(float_number).replace('.', '_')
 
-def convert_to_float(input_string:str):
+
+def convert_to_float(input_string: str):
     """
     Convierte del lenguaje que se hace las inferencias que devuelve un string
     a un float
@@ -27,10 +30,12 @@ def convert_to_float(input_string:str):
     else:
         return None  # Return None if the string does not start with "Float_"
 
+
 # Usage
 input_string = "Float_3_14159"
 output = convert_to_float(input_string)
 print(output)  # Output: 3.14159
+
 
 class ValoracionTag(Enum):
     Fatal = 'Fatal'
@@ -119,7 +124,7 @@ class NumberWrapped(StringWrapped):
         self.name = str(float_number).replace('.', '_')
 
     def __init__(self,
-                 value:  float):
+                 value: float):
         super().__init__(value)
         self.number_inst = value
         self.float_to_string(value)
@@ -222,16 +227,17 @@ class Valoracion(LogicWrapped):
         return f'{self.tag}_({self.client_name},{self.valoracion_str})'
 
 
-
-
-
 class LogicOperatorsWrapped(LogicWrapped):
     def _get_the_show_str(self):
         s = ''
-
-        for expr in self.list_wrapped_original:
+        len_lis=len(self.list_wrapped_original)
+        for i, expr in enumerate(self.list_wrapped_original,1):
             str_expr = expr.show()
-            s += f' {str_expr} {self.tag}  '
+            if i<len_lis:
+
+                s += f' {str_expr} {self.tag}  '
+            else:
+                s += f' {str_expr}'
 
         return s
 
@@ -247,24 +253,24 @@ class LogicOperatorsWrapped(LogicWrapped):
     def tag(self) -> str:
         pass
 
-    @abstractmethod
     def show(self):
         return self.string_
 
 
 class NotLogicWrapped(LogicOperatorsWrapped):
+    @property
     def tag(self) -> str:
         return '~'
 
 
 class AndLogicWrapped(LogicOperatorsWrapped):
-
+    @property
     def tag(self) -> str:
         return '&'
 
 
 class OrLogicWrapped(LogicOperatorsWrapped):
-
+    @property
     def tag(self) -> str:
         return '|'
 
@@ -288,10 +294,10 @@ class ImplicationLogicWrapped(LogicWrapped):
         self.string_: str = f'{self.to_str(self.left_part)} {self.tag} {self.to_str(self.right_part)}'
 
     @property
-    @abstractmethod
+
     def tag(self) -> str:
         return '==>'
 
-    @abstractmethod
+
     def show(self):
         return self.string_

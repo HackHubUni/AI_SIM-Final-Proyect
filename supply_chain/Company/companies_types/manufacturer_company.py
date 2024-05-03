@@ -4,18 +4,10 @@ from supply_chain.Company.orders.Sell_order import ProduceOrder
 from supply_chain.Company.stock_manager.manufacturing_stock_manager import ManufacturingStock
 
 from supply_chain.products.ingredient import Ingredient
-from supply_chain.sim_event import SimEvent
 
-try:
-    from supply_chain.agents.old.order import Order
-    from supply_chain.sim_environment import SimEnvironment
-    from supply_chain.products.product import Product
-    from supply_chain.Company.registrers.registers import *
-    from supply_chain.company import Company, TypeCompany
-    from supply_chain.Company.companies_types.Producer_Company import *
-except:
+from supply_chain.Company.companies_types.Producer_Company import *
 
-    pass
+
 
 
 

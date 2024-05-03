@@ -4,17 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix bugs">
-      <change afterPath="$PROJECT_DIR$/Building/build_stock_manager.py" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="change msg to agent">
+      <change afterPath="$PROJECT_DIR$/supply_chain/Building/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/company_wrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/company_wrapped.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/manufacturer_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/registrers/registers.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/registrers/registers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/manufacturing_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/manufacturing_stock_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/productor_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/productor_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/stock_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/sim_environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/sim_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_event.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/simulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Sistema_experto.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Sistema_experto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/products/ingredient.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/products/ingredient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/products/recipe.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/products/recipe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/products/specific_products/base_products/water.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/products/specific_products/base_products/water.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev_Paco" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,7 +71,7 @@
     "Python.utils.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "testing",
     "last_opened_file_path": "C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/agents/new",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -82,11 +90,11 @@
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new\Testeo" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\old" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company\companies_types" />
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company\stock_manager" />
-      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company\orders" />
     </key>
   </component>
   <component name="RunManager">
@@ -220,7 +228,7 @@
       <workItem from="1714441583342" duration="16512000" />
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
-      <workItem from="1714683554014" duration="7546000" />
+      <workItem from="1714683554014" duration="14406000" />
     </task>
     <task id="LOCAL-00001" summary="Add">
       <option name="closed" value="true" />
@@ -606,7 +614,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714685691170</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="change msg to agent">
+      <option name="closed" value="true" />
+      <created>1714696311628</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1714696311628</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -643,7 +659,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finish Base and secundary Company" />
     <MESSAGE value="add delivery order" />
     <MESSAGE value="Add Distributor Company" />
     <MESSAGE value="Add Warehouse stock manager" />
@@ -668,7 +683,36 @@
     <MESSAGE value="Try instance" />
     <MESSAGE value="change values" />
     <MESSAGE value="fix bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
+    <MESSAGE value="change msg to agent" />
+    <option name="LAST_COMMIT_MESSAGE" value="change msg to agent" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Message.py</url>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/company_wrapped.py</url>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Mensajes/Mensajes_de_dar_el_precio_y_cant_a_la_matriz.py</url>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
+          <line>130</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$lll.coverage" NAME="lll Coverage Results" MODIFIED="1714603215802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />

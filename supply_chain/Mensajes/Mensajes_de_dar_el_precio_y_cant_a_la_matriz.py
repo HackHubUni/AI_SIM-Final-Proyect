@@ -1,5 +1,5 @@
 from typing import Callable
-from typing_extensions import Self
+
 import heapq
 from supply_chain.Comunicator import Message, MessageWantProductOffer, HacerServicioDeDistribucion
 from supply_chain.agents.utils import generate_guid

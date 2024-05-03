@@ -1,17 +1,14 @@
 import copy
 from abc import ABC, abstractmethod
 
-from new.logic import *
-
 from enum import Enum
 
+from supply_chain.Company.companies_types.manufacturer_company import ManufacturerCompany
 from supply_chain.Mensajes.Mensajes_de_dar_el_precio_y_cant_a_la_matriz import *
 from supply_chain.agent import Agent, AgentException
 from supply_chain.agents.Sistema_experto import SistExperto
-from supply_chain.agents.old.agent import ManufacturerAgent
+
 from supply_chain.agents.utils import *
-
-
 
 from supply_chain.Company.companies_types.Producer_Company import *
 
@@ -49,8 +46,6 @@ class AgentWrapped(Agent):
     def time(self):
         return self.env_visualizer.get_time()
 
-
-
     def __init__(self,
                  name: str,
                  company: Company,
@@ -66,12 +61,12 @@ class AgentWrapped(Agent):
             self.env_visualizer.get_time)
         self.start()
 
-
     def lanzar_excepcion_por_no_saber_mensaje(self, msg: Message):
         raise AgentException(
             f'El mensaje {msg} de typo {type(msg)} no puede ser recibido en esta compañia en {self.name}, {self.company.tag}')
 
     def start(self):
+        self.company.agent_name = self.name
         self.update()
 
     def send_smg_to_a_agent(self, msg: Message):
@@ -318,7 +313,7 @@ class ManufacturerAgent(ProducerAgent):
 
     def __init__(self,
                  name: str,
-                 company: ManufacturerAgent,
+                 company: ManufacturerCompany,
                  env_visualizer: EnvVisualizer,
 
                  ):

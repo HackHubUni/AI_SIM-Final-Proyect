@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from ingredient import Ingredient, Product
-from product import *
-import numpy as np
+from supply_chain.products.ingredient import Ingredient
+from supply_chain.products.product import *
+
 
 
 class Recipe:

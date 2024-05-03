@@ -1,4 +1,14 @@
-from stock_manager import *
+import copy
+
+import numpy as np
+
+from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
+from supply_chain.products.product import Product
+
+try:
+    from .stock_manager import *
+except:
+    from supply_chain.Company.stock_manager.stock_manager import *
 
 
 class ProductorCompanyStock(CompanyStockBase):
@@ -138,6 +148,9 @@ class ProductorCompanyStock(CompanyStockBase):
         # Actualizar los costos
         self._actualizar_costos(product_name)
 
+        if len(self._stock)<1:
+            raise Exception("El len del stock no puede ser cero despues de abastecer ")
+
         return True
 
     def _restock_with_exists(self, product_name: str) -> bool:
@@ -147,6 +160,8 @@ class ProductorCompanyStock(CompanyStockBase):
         :param product_name:
         :return: True:Si se reabasteció, False: Si no se reabasteció
         """
+        if product_name is None:
+            raise Exception("El no nombre del producto no puede ser None")
         count_in_stock = len(self._stock[product_name])
 
         # Si todavía no hay que reabastecer

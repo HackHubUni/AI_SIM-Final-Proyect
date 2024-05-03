@@ -1,9 +1,21 @@
 from supply_chain.Company.registrers.product_history import ProductRecords
+from supply_chain.company import TypeCompany
+class Record:
+    """Base class for all the information records of the simulation"""
 
-try:
-    from supply_chain.company import TypeCompany
-except:
-    pass
+    def __init__(self, time: int = 0) -> None:
+        self.time = time
+class StockRecord(Record):
+    """This record store the information of the number of units of the product in storage at a time"""
+
+    def __init__(self, time: int, amount: int) -> None:
+        super().__init__(time)
+        self.amount: int = amount
+        """The number of units of the product that are available in the store"""
+
+    def __str__(self) -> str:
+        return f"StockRecord (time = {self.time}, stock amount = {self.amount})"
+
 
 
 class Registry:
@@ -81,11 +93,7 @@ class Registry:
         self.pay_holding_registry[time] = record
 
 
-class Record:
-    """Base class for all the information records of the simulation"""
 
-    def __init__(self, time: int = 0) -> None:
-        self.time = time
 
 
 class SellRecord(Record):
@@ -148,17 +156,6 @@ class SellRecord(Record):
         # TODO:COmpletar esto
         return f"SellRecord (time = {self.time}, amount asked = {self.amount_asked}, amount sold = {self.amount_sold})"
 
-
-class StockRecord(Record):
-    """This record store the information of the number of units of the product in storage at a time"""
-
-    def __init__(self, time: int, amount: int) -> None:
-        super().__init__(time)
-        self.amount: int = amount
-        """The number of units of the product that are available in the store"""
-
-    def __str__(self) -> str:
-        return f"StockRecord (time = {self.time}, stock amount = {self.amount})"
 
 
 class BuyRecord(Record):
