@@ -1,10 +1,12 @@
 # %%
 from supply_chain.Company.stock_manager.productor_stock_manager import *
 from supply_chain.Company.stock_manager.manufacturing_stock_manager import *
+from supply_chain.products.specific_products.recipes.pizza_recipe import PizzaRecipe
 
 product_name = 'pizza'
 
 import random
+
 
 
 class BuildProductorStockManager:
@@ -83,31 +85,72 @@ class BuildProductorStockManager:
 
                                      )
 
-        # products_min_stock: dict[str, int],
-        # create_product_lambda: Dict[str, Callable[[int], List[Product]]],
-        # supply_distribution: Dict[str, Callable[[], int]],
-        # sale_price_distribution: dict[str, Callable[[], float]],
-        # time_restock_distribution: Callable[[], int],
-        # get_time: Callable[[], int],
-        # recipe_dic: dict[str, Recipe],
-        # price_produce_product_per_unit: dict[str, float]
+
+                 #products_min_stock: dict[str, int],
+                 #create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                 #supply_distribution: Dict[str, Callable[[], int]],
+                 #sale_price_distribution: dict[str, Callable[[], float]],
+                 #time_restock_distribution: Callable[[], int],
+                 #get_time: Callable[[], int],
+                 #recipe_dic: dict[str, Recipe],
+                 #price_produce_product_per_unit: dict[str, float]
+
 
 
 class BuildingmanufacterStockManager:
 
     def __init__(self,
-                 list_products: list[Product]
+                 list_products: list[str],
+                 get_time: Callable[[], int]
+
                  ):
-        self.list_products: list[Product] = list_products
+        self.list_products:list[Product]=list_products
 
-        self.products_names = map(lambda x: x.name, self.list_products)
-
-    def create_products_max_stock(self) -> dict[str, int]:
-        dict_return = {}
-        rand_int = random.randint(3001, 8564)
+        self.products_names=map(lambda x:x.name,self.list_products)
 
 
+    def create_products_max_stock(self)->dict[str, int]:
+        dict_return={}
+        rand_int=random.randint(3001,8564)
+        for i in self.list_products and len(dict_return)<= rand_int+1:
+            if not i in dict_return :
+                dict_return[i] = random.randint(100,3001)
+            else:
+                continue
 
+        return dict_return
+
+
+    def create_products_min_stock(self)->dict[str, int]:
+        dic = {}
+        ran = random.randint(50,3000)
+        for i in self.list_products and len(dic)<= ran+1:
+            if not i in dic :
+                dic[i] = random.randint(50,3000)
+            else:
+                continue
+        return dic
+
+    def create_price_produce_product_per_unit(self)->dict[str, float]:
+        dic = {}
+        ran = random.randint(50, 3000)
+        for i in self.list_products and len(dic) <= ran + 1:
+            if not i in dic:
+                dic[i] = random.randint(50, 200)
+            else:
+                continue
+        return dic
+
+    def create_recipe_dic(self)-> dict[str, Recipe]:
+        dic ={}
+        for product in self.list_products:
+            if not product in dic:
+                if product == PizzaRecipe.name:
+                    dict[product] = PizzaRecipe
+
+                else:
+                    dict[product] = None
+        return dic
 
 
 

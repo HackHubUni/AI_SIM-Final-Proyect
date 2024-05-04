@@ -7,11 +7,11 @@ class Product(ABC):
     """This is the base class for all the products in the simulation. Tha BaseProduct and CreatedProduct inherits from this class"""
 
     def __init__(
-        self,
-        name: str,
-        flavor: Flavor,
-        nutritive_properties: NutritiveProperties,
-        initial_quality: float,
+            self,
+            name: str,
+            flavor: Flavor,
+            nutritive_properties: NutritiveProperties,
+            initial_quality: float,
     ) -> None:
         super().__init__()
         self.name: str = name
@@ -24,14 +24,10 @@ class Product(ABC):
         self.initial_quality: float = initial_quality
         """The initial quality of the product"""
 
+    # @abstractmethod
     def get_quality(self, time: int) -> float:
         """This function returns the quality of the product at a specific point in time"""
-        live_time = 60 * 60 * 24 * 3
-        return self.initial_quality - time * (self.initial_quality / live_time)
-
-    @staticmethod
-    def get_static_name() -> str:
-        pass
+        return self.initial_quality - 1
 
     def get_name(self) -> str:
         """Returns the name of the product"""
@@ -52,3 +48,129 @@ class Product(ABC):
         if isinstance(value, Product):
             return self.name == value.name
         return False
+
+
+class Pizza(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Dough(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class TomatoSauce(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Cheese(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Flour(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Water(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Salt(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Yeast(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class OliveOil(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Tomato(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Pepper(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Onion(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Milk(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
+
+
+class Rennet(Product):
+    def __init__(self,
+                 name: str,
+                 flavor: Flavor,
+                 nutritive_properties: NutritiveProperties,
+                 initial_quality: float, ) -> None:
+        super().__init__(name, flavor, nutritive_properties, initial_quality)
