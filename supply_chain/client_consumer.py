@@ -5,6 +5,7 @@ from .products.flavor import Flavor
 from .products.nutritive_properties import NutritiveProperties
 from .products.product import Product
 from .sim_event import SimEvent
+from .events.shop_sell_event import ShopSellEvent
 
 
 class ConsumerBody:
@@ -50,17 +51,19 @@ class ConsumerAgent:
         self.amount_selection: Callable[[], int] = amount_selection
         """This method represents the amount of units of a product this client will select"""
 
-    def decide(self, product_list: list[tuple[Product, int]]) -> tuple[Product, int]:
+    def decide(self, product_list: list[Product]):
         # TODO: This method should add a ShopSellEvent
         if len(product_list) == 0:
             raise Exception(f"The product list is empty. This should not happen")
         weights = [
-            self.consumer_body.how_good_is_product(product)
-            for product, _ in product_list
+            self.consumer_body.how_good_is_product(product) for product in product_list
         ]
         selected_product = rnd.choices(product_list, weights)[0]
         # TODO: Select the number of units to ask
         amount = self.amount_selection()
+        current_time = self.get_simulation_time()
+        decision_delay = self.attending_time()
+        sell_time = current_time + decision_delay
 
 
 def generate_basic_consumer_agent(
