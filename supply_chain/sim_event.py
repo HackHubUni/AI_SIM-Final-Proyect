@@ -3,7 +3,7 @@ from typing import *
 
 
 
-class SimEvent:
+class SimEvent(ABC):
     """This is the base class for all the events in the simulation"""
 
     def __init__(self, time: int, priority: int) -> None:

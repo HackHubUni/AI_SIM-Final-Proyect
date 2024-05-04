@@ -18,7 +18,7 @@ def get_solution(problem):
     return lis
 
 
-def new__():
+def planing():
     return PlanningProblem(initial='Pedir(Pizza,Primera)',
                            goals='Abastecer(Pizza,Primera) ',
                            actions=[Action('Abastecida_tienda(x,y) ',
@@ -82,6 +82,8 @@ def new__():
 
                            domain='Tienda(Primera) & Producto(Pizza) & Manufacturera(Manu) & Distribuidor(Dist) ')
 
+def example():
+    get_solution(planing())
 
 if __name__ == '__main__':
-    print(get_solution(new__()))
+    print(example())

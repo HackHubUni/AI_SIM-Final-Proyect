@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="add changes">
-      <change afterPath="$PROJECT_DIR$/supply_chain/Building/create_planner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Matrix_Company.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supply_chain/agents/Company_Agent.py" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="last changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/kk.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/warehouse_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/warehouse_stock_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/planificar.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/planificar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/ware_house_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/ware_house_agent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,35 +43,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Python.Comunicator.executor": "Run",
-    "Python.create_planner.executor": "Run",
-    "Python.fkfkf.executor": "Run",
-    "Python.inferencias (1).executor": "Run",
-    "Python.inferencias.executor": "Run",
-    "Python.kaka.executor": "Run",
-    "Python.kk.executor": "Run",
-    "Python.lll.executor": "Run",
-    "Python.planificar (1).executor": "Run",
-    "Python.planificar.executor": "Run",
-    "Python.testtt.executor": "Debug",
-    "Python.testttt.executor": "Run",
-    "Python.utils.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "testing",
-    "last_opened_file_path": "C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/agents/new",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.Comunicator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_planner.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fkfkf.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inferencias (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.inferencias.executor&quot;: &quot;Run&quot;,
+    &quot;Python.kaka.executor&quot;: &quot;Run&quot;,
+    &quot;Python.kk.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lll.executor&quot;: &quot;Run&quot;,
+    &quot;Python.planificar (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.planificar.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testtt.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.testttt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.utils.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;testing&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/agents/new&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new" />
@@ -255,15 +241,7 @@
       <workItem from="1714441583342" duration="16512000" />
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
-      <workItem from="1714683554014" duration="51617000" />
-    </task>
-    <task id="LOCAL-00007" summary="add get method">
-      <option name="closed" value="true" />
-      <created>1713904469000</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1713904469000</updated>
+      <workItem from="1714683554014" duration="52308000" />
     </task>
     <task id="LOCAL-00008" summary="Add Company Interfaces to Carla">
       <option name="closed" value="true" />
@@ -649,7 +627,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714740265718</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="last changes">
+      <option name="closed" value="true" />
+      <created>1714755265143</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1714755265143</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,7 +672,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor companies" />
     <MESSAGE value="refactor companies: Change names" />
     <MESSAGE value="add add product to the ware house in thier stock manager" />
     <MESSAGE value="add new agents" />
@@ -711,7 +696,8 @@
     <MESSAGE value="refactor" />
     <MESSAGE value="add new thinks" />
     <MESSAGE value="add changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="add changes" />
+    <MESSAGE value="last changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="last changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
