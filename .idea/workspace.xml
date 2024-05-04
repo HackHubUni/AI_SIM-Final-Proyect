@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="last changes">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_04_2024_10_51_p__m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_04_2024_10_51_p__m___Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_27_04_2024_12_29_p__m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_27_04_2024_12_29_p__m___Changes_.xml" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix bugs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Company_Agent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,14 +241,6 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-    </task>
-    <task id="LOCAL-00008" summary="Add Company Interfaces to Carla">
-      <option name="closed" value="true" />
-      <created>1713930381316</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1713930381316</updated>
     </task>
     <task id="LOCAL-00009" summary="dont finish">
       <option name="closed" value="true" />
@@ -640,7 +626,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714755265143</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1714850282171</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1714850282172</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +687,6 @@
     <MESSAGE value="subir" />
     <MESSAGE value="Try instance" />
     <MESSAGE value="change values" />
-    <MESSAGE value="fix bugs" />
     <MESSAGE value="change msg to agent" />
     <MESSAGE value="fix bugs and create instance agent" />
     <MESSAGE value="fix_bugs" />
@@ -702,7 +695,8 @@
     <MESSAGE value="add new thinks" />
     <MESSAGE value="add changes" />
     <MESSAGE value="last changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="last changes" />
+    <MESSAGE value="fix bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
