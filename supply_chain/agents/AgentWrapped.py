@@ -1,7 +1,6 @@
 from supply_chain.Mensajes.offer_msg import *
 from supply_chain.Mensajes.ask_msg import *
 from supply_chain.agent import Agent, AgentException
-from supply_chain.agents.Producer_Agent import make_valoracion
 from supply_chain.agents.Sistema_experto import SistExperto
 from supply_chain.agents.enviroment_visulizer import EnvVisualizer
 from supply_chain.agents.utils import *

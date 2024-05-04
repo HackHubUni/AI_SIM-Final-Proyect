@@ -84,14 +84,14 @@ class BuildProductorStockManager:
                                      )
 
 
-                 products_min_stock: dict[str, int],
-                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
-                 supply_distribution: Dict[str, Callable[[], int]],
-                 sale_price_distribution: dict[str, Callable[[], float]],
-                 time_restock_distribution: Callable[[], int],
-                 get_time: Callable[[], int],
-                 recipe_dic: dict[str, Recipe],
-                 price_produce_product_per_unit: dict[str, float]
+                 #products_min_stock: dict[str, int],
+                 #create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                 #supply_distribution: Dict[str, Callable[[], int]],
+                 #sale_price_distribution: dict[str, Callable[[], float]],
+                 #time_restock_distribution: Callable[[], int],
+                 #get_time: Callable[[], int],
+                 #recipe_dic: dict[str, Recipe],
+                 #price_produce_product_per_unit: dict[str, float]
 
 
 
