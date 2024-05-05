@@ -33,5 +33,11 @@ class BuilderBase(ABC):
 
 
     def get_random_float(self,min_value:float,max_value:float):
+        """
+        Retorna un float con los valores de esta clase
+        :param min_value:
+        :param max_value:
+        :return:
+        """
         # Genera un número flotante aleatorio entre 1.0 y 10.0
         return self._random.uniform(min_value,max_value)

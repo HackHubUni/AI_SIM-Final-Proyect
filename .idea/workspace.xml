@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="merge to new genetic alg">
-      <change afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/enviroment_visulizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/enviroment_visulizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="Refactor Producer StockManger">
+      <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_base.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,30 +240,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-    </task>
-    <task id="LOCAL-00011" summary="have bugs">
-      <option name="closed" value="true" />
-      <created>1714229665804</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1714229665804</updated>
-    </task>
-    <task id="LOCAL-00012" summary="have bugs">
-      <option name="closed" value="true" />
-      <created>1714229726422</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1714229726422</updated>
-    </task>
-    <task id="LOCAL-00013" summary="merge from dev, change in execute from SimEvent">
-      <option name="closed" value="true" />
-      <created>1714235495539</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1714235495539</updated>
+      <workItem from="1714936845293" duration="1997000" />
     </task>
     <task id="LOCAL-00014" summary="add new changes: we don´t have the env now, only a lambda to get the time">
       <option name="closed" value="true" />
@@ -640,15 +610,49 @@
       <option name="project" value="LOCAL" />
       <updated>1714931289236</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Add Builder Base">
+      <option name="closed" value="true" />
+      <created>1714937466647</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1714937466648</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Refactor Producer StockManger">
+      <option name="closed" value="true" />
+      <created>1714938725754</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1714938725754</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Refactor Producer StockManger">
+      <option name="closed" value="true" />
+      <created>1714938732274</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1714938732274</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="446c54c1-0d05-4cce-a31d-6eed3e8ea016" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="446c54c1-0d05-4cce-a31d-6eed3e8ea016">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -677,8 +681,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add new agents" />
-    <MESSAGE value="now" />
     <MESSAGE value="FInalizado modulo para infernecias logicas y para planificacion" />
     <MESSAGE value="Create the Sist experto" />
     <MESSAGE value="añadir explicacion SE agente" />
@@ -702,7 +704,9 @@
     <MESSAGE value="fix bugs" />
     <MESSAGE value="add random ware_house_stock_manager" />
     <MESSAGE value="merge to new genetic alg" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge to new genetic alg" />
+    <MESSAGE value="Add Builder Base" />
+    <MESSAGE value="Refactor Producer StockManger" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor Producer StockManger" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

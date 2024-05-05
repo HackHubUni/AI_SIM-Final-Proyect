@@ -316,7 +316,7 @@ class BuildingmanufacterStockManager:
 
 
 
-class BuildWareHouseStockManager:
+class BuildWareHouseStockManager(BuilderBase):
 
     def __init__(self,
                  products_name: list[str],
@@ -361,14 +361,14 @@ class BuildWareHouseStockManager:
         dic = {}
 
         for product_name in self.products_name:
-            dic[product_name] = random.randint(self.min_random, self.max_random)
+            dic[product_name] =self.get_random_int(self.min_random, self.max_random)
 
         return dic
 
     def _create_random_supply_distribution(self, min: int, max: int) -> Callable[[], int]:
 
         def _random_supply():
-            return random.randint(min, max)
+            return self.get_random_int(min, max)
 
         return _random_supply
 
