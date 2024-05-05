@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="build manu" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="build manuhh" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -256,15 +256,7 @@
       <workItem from="1714854904956" duration="70000" />
       <workItem from="1714854994491" duration="378000" />
       <workItem from="1714855404491" duration="3313000" />
-      <workItem from="1714930877068" duration="2784000" />
-    </task>
-    <task id="LOCAL-00009" summary="dont finish">
-      <option name="closed" value="true" />
-      <created>1713970611523</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1713970611523</updated>
+      <workItem from="1714930877068" duration="3328000" />
     </task>
     <task id="LOCAL-00010" summary="add changes">
       <option name="closed" value="true" />
@@ -650,7 +642,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714933561830</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="build manuhh">
+      <option name="closed" value="true" />
+      <created>1714934178882</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1714934178882</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -697,7 +697,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add add product to the ware house in thier stock manager" />
     <MESSAGE value="add new agents" />
     <MESSAGE value="now" />
     <MESSAGE value="FInalizado modulo para infernecias logicas y para planificacion" />
@@ -722,7 +721,8 @@
     <MESSAGE value="add changes" />
     <MESSAGE value="last changes" />
     <MESSAGE value="build manu" />
-    <option name="LAST_COMMIT_MESSAGE" value="build manu" />
+    <MESSAGE value="build manuhh" />
+    <option name="LAST_COMMIT_MESSAGE" value="build manuhh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -741,37 +741,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>310</line>
+          <line>325</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>309</line>
+          <line>324</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>312</line>
+          <line>327</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>276</line>
+          <line>291</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>262</line>
+          <line>277</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>265</line>
+          <line>280</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/utils.py</url>
-          <line>269</line>
+          <line>284</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -783,10 +783,6 @@
           <url>file://$PROJECT_DIR$/supply_chain/Company/orders/Sell_order.py</url>
           <line>41</line>
           <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Sistema_experto.py</url>
-          <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/enviroment_visulizer.py</url>
