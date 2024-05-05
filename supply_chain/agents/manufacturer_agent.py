@@ -11,6 +11,7 @@ class ManufacturerAgent(ProducerAgent):
                  company: ManufacturerCompany,
                  env_visualizer: EnvVisualizer,
 
+
                  ):
         super().__init__(name, company, env_visualizer)
         self.company: ManufacturerCompany = company
@@ -43,8 +44,6 @@ class ManufacturerAgent(ProducerAgent):
         """
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirProducirPrecio)
 
-    def end_time_process_product_ofert(self):
-        return 30000
 
     def send_msg_response_ofer_produce_product(self, msg: MessageWantProductProduceOffer, final_price: float):
 
@@ -57,7 +56,7 @@ class ManufacturerAgent(ProducerAgent):
             product_name=msg.product_want_name,
             price_per_unit=final_price,
             peticion_instance=msg,
-            end_time=self.end_time_process_product_ofert(),
+            end_time=self.get_delay_time(),
             list_ingredients_recipe=ingredients
 
         )

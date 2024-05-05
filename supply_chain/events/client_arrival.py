@@ -1,7 +1,4 @@
-from ..sim_event import *
 from ..client_consumer import *
-from ..Company.companies_types.shop_company import StoreCompany
-
 
 
 class ClientArrival(SimEvent):

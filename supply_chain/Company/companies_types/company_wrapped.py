@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+
+
 from typing import Callable
 from supply_chain.Company.registrers.registers import Registry
 from supply_chain.Company.stock_manager.stock_manager import CompanyStockBase

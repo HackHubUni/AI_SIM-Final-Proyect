@@ -1,6 +1,6 @@
-# %%
-from supply_chain.Company.stock_manager.productor_stock_manager import *
+
 from supply_chain.Company.stock_manager.manufacturing_stock_manager import *
+from supply_chain.Company.stock_manager.warehouse_stock_manager import WarehouseStockManager
 
 product_name = 'pizza'
 
@@ -107,10 +107,6 @@ class BuildingmanufacterStockManager:
         rand_int = random.randint(3001, 8564)
 
 
-
-
-
-
 class BuildWareHouseStockManager:
 
     def __init__(self,
@@ -120,19 +116,14 @@ class BuildWareHouseStockManager:
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int],
 
-                 min_stock_random:int=500,
-                 max_stock_random:int=6000,
-                 company_magic_stock_min_random:int=300,
-                 company_magic_stock_max_random:int=3500,
+                 min_stock_random: int = 500,
+                 max_stock_random: int = 6000,
+                 company_magic_stock_min_random: int = 300,
+                 company_magic_stock_max_random: int = 3500,
                  company_time_stock_min_time: int = 60 * 60 * 24,
-                 company_time_stock_max_time:int= 60 * 60 * 24*3,
-                 company_price_min_restock:int=20,
-                 company_price_max_restock:int=650,
-
-
-
-
-
+                 company_time_stock_max_time: int = 60 * 60 * 24 * 3,
+                 company_price_min_restock: int = 20,
+                 company_price_max_restock: int = 650,
 
                  ):
         self.name = ''
@@ -140,22 +131,23 @@ class BuildWareHouseStockManager:
 
         self.matrixs_names: list[str] = matrix_names
 
-        self.create_product_lambda: dict[str, Callable[[int], list[Product]]]=create_product_lambda
+        self.create_product_lambda: dict[str, Callable[[int], list[Product]]] = create_product_lambda
 
-        self.add_event: Callable[[SimEvent], None]=add_event
-        self.get_time: Callable[[], int]=get_time
+        self.add_event: Callable[[SimEvent], None] = add_event
+        self.get_time: Callable[[], int] = get_time
 
         self.min_random = min_stock_random
         self.max_random = max_stock_random
 
-        self.company_magic_stock_min_random:int=company_magic_stock_min_random
-        self.company_magic_stock_max_random:int=company_magic_stock_max_random
+        self.company_magic_stock_min_random: int = company_magic_stock_min_random
+        self.company_magic_stock_max_random: int = company_magic_stock_max_random
 
         self.company_time_stock_min_time: int = company_time_stock_min_time
         self.company_time_stock_max_time: int = company_time_stock_max_time
 
-        self.company_price_min_restock=company_price_min_restock
+        self.company_price_min_restock = company_price_min_restock
         self.company_price_max_restock: int = company_price_max_restock
+
     def create_product_max_stock(self) -> dict[str, int]:
         dic = {}
 
@@ -164,37 +156,54 @@ class BuildWareHouseStockManager:
 
         return dic
 
-    def _create_random_supply_distribution(self,min:int,max:int) -> Callable[[], int]:
+    def _create_random_supply_distribution(self, min: int, max: int) -> Callable[[], int]:
 
         def _random_supply():
-            return random.randint(min,max)
+            return random.randint(min, max)
 
         return _random_supply
 
-
-
-
-
-    def _create_company_product_magic_distribution(self,min_restock_random:int,max_restock_random:int) -> dict[str, dict[str, Callable[[], int]]]:
-        dict_:dict[str, dict[str, Callable[[], int]]] = {}
+    def _create_company_product_magic_distribution(self, min_restock_random: int, max_restock_random: int) -> dict[
+        str, dict[str, Callable[[], int]]]:
+        dict_: dict[str, dict[str, Callable[[], int]]] = {}
         for matrix_name in self.matrixs_names:
-            temp_dict: dict[str, Callable[[], int]]={}
+            temp_dict: dict[str, Callable[[], int]] = {}
             for product_name in self.products_name:
+                temp_dict[product_name] = self._create_random_supply_distribution(
+                    min_restock_random, max_restock_random)
 
-                dict_[matrix_name]=temp_dict[product_name]=self._create_random_supply_distribution(min_restock_random,max_restock_random)
+            dict_[matrix_name] =temp_dict
 
         return dict_
 
+    def create_company_product_count_supply_magic_distribution(self) -> dict[str, dict[str, Callable[[], int]]]:
+
+        return self._create_company_product_magic_distribution(self.company_magic_stock_min_random,
+                                                               self.company_magic_stock_max_random)
+
+    def create_company_product_time_count_supply_magic_distribution(self) -> dict[str, dict[str, Callable[[], int]]]:
+        return self._create_company_product_magic_distribution(self.company_time_stock_min_time,
+                                                               self.company_time_stock_max_time)
+
+    def create_company_product_price_supply_magic_distribution(self) -> dict[str, dict[str, Callable[[], float]]]:
+        return self._create_company_product_magic_distribution(self.company_price_min_restock,
+                                                               self.company_price_max_restock)
 
 
-    def create_company_product_count_supply_magic_distribution(self)-> dict[str, dict[str, Callable[[], int]]]:
-
-        return self._create_company_product_magic_distribution(self.company_magic_stock_min_random, self.company_magic_stock_max_random)
 
 
-    def create_company_product_time_count_supply_magic_distribution(self)-> dict[str, dict[str, Callable[[], int]]]:
-        return self._create_company_product_magic_distribution(self.company_time_stock_min_time,self.company_time_stock_max_time)
+    def get_ware_house_stock_manager(self):
 
-    def create_company_product_price_supply_magic_distribution(self)-> dict[str, dict[str, Callable[[], float]]]:
-        return self._create_company_product_magic_distribution(self.company_price_min_restock,self.company_price_max_restock)
+        ret=WarehouseStockManager(
+            product_max_stock=self.create_product_max_stock(),
+            company_product_count_supply_magic_distribution=self.create_company_product_count_supply_magic_distribution(),
+            company_product_price_supply_magic_distribution=self.create_company_product_time_count_supply_magic_distribution(),
+            create_product_lambda=self.create_product_lambda,
+            add_event=self.add_event,
+            get_time=self.get_time,
 
+
+
+
+        )
+        return ret
