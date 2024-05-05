@@ -30,7 +30,33 @@ class AskPriceWareHouseCompany(MessageWantProductOffer):
     pass
 
 class AskCountProductInStock(AskPriceWareHouseCompany):
+    """
+    Preguntar al agente alamacen cuanto productos tiene de una compañia matriz
+    """
     pass
+
+
+class StoreWantRestock(MessageWantProductOffer):
+    """
+    Pedir a la matriz reabastecerse
+    """
+
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 product_want_name: str,
+                 count_want_restock: int
+                 ):
+        self.company_from: str = company_from
+        self.company_from_type: TypeCompany = company_from_type
+        self.company_destination_name: str = company_destination_name
+        self.company_destination_type: TypeCompany = company_destination_type
+        self.product_want_name: str = product_want_name
+        self.count_want_restock: int = count_want_restock
+
+
 
 
 class AskPriceDistributor(Message):

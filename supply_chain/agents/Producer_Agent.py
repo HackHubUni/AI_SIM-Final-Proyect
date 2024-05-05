@@ -1,3 +1,5 @@
+from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
+from supply_chain.Company.orders.Sell_order import SellOrder
 from supply_chain.agents.AgentWrapped import *
 
 
