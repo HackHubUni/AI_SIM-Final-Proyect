@@ -15,7 +15,7 @@ class BuildProductorStockManager(BuilderBase):
     def _check(self):
         # Chequear que el min del minimo del del max stock sea mayor= que el minimo
         # del minimo restock
-        if self.min_of_the_max_stock >= self.max_of_the_min_stock:
+        if not self.min_of_the_max_stock >= self.max_of_the_min_stock:
             msg = (
                 f'No se puede crear dado que el minimo valor que puede tener la cant maxima de stock es de {self.min_of_the_max_stock} y la cant maxima que puede tener el minimo restock es de  {self.max_of_the_min_stock}'
             )
@@ -49,7 +49,7 @@ class BuildProductorStockManager(BuilderBase):
         super().__init__(seed=seed)
         # Chequear
 
-        self._check()
+
 
         self.create_product_lambda: dict[str, Callable[[int], list[Product]]] = create_product_lambda
         """Lambda para crear el producto"""
@@ -103,7 +103,7 @@ class BuildProductorStockManager(BuilderBase):
         """
         Max tiempo de restock
         """
-
+        self._check()
 
         self.add_event: Callable[[SimEvent], None] = add_event
         self.get_time: Callable[[], int] = get_time

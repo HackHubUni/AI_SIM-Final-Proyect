@@ -1,8 +1,8 @@
-from supply_chain.products.ingredient import Ingredient, Product
+from supply_chain.products.ingredient import Ingredient
 from supply_chain.products.product import Product
-from ...recipe import Recipe
-from ..base_products.pizza_base_products import *
-from ..manufactured_products.pizza import Pizza
+from supply_chain.products.recipe import Recipe
+from supply_chain.products.specific_products.base_products.pizza_base_products import *
+from supply_chain.products.specific_products.manufactured_products.pizza import Pizza
 
 
 class PizzaRecipe(Recipe):

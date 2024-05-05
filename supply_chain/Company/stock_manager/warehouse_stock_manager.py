@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from stock_manager import *
+from supply_chain.Company.stock_manager.stock_manager import *
 from supply_chain.events.SimEventCompany import WarehouseRestockSimEvent
 from supply_chain.products.product import Product
 

@@ -24,7 +24,7 @@ class BuildingProducerAgent(BuilderBase):
 
     def create_Producer_Agent(self, name: str):
         company_ = self.company_builder.create_producer_company(name)
-        ProducerAgent(name, company_, self.env_visualizer)
+        return ProducerAgent(name, company_, self.env_visualizer)
 
 
 class BuildingMatrixAgent(BuilderBase):

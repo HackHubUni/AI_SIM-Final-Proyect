@@ -1,5 +1,5 @@
 from typing import *
-from utils.utility_functions import *
+from supply_chain.utils.utility_functions import *
 import random as rnd
 
 

@@ -1,4 +1,4 @@
-from supply_chain.Building.create_planner import *
+
 from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany
 from supply_chain.agents.AgentWrapped import *
 from supply_chain.agents.enviroment_visulizer import MatrixEnvVisualizer
@@ -15,7 +15,7 @@ class MatrixAgent(AgentWrapped):
         super().__init__(name, company, env_visualizer)
         self.env_visualizer: MatrixEnvVisualizer = env_visualizer
         self.company: MatrixCompany = company
-        self.planner: PlanningProblem = get_planing_Type()
+        #self.planner: PlanningProblem = get_planing_Type()
         self.store_names: list[str] = store_names
 
     @property

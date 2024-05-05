@@ -1,5 +1,5 @@
-from sim_ai.search_problem.problem import SearchProblem
-from sim_map import SimMap, MapNode
+from supply_chain.sim_ai.search_problem.problem import SearchProblem
+from supply_chain.sim_map import SimMap, MapNode
 
 
 class MapSearchProblem(SearchProblem):

@@ -29,19 +29,19 @@ class MatrixEnvVisualizer(EnvVisualizer):
                  get_dict_valoracion_inicial: Callable[[], dict[TypeCompany, dict[str, float]]],
                  get_logic_implication: Callable[[], list[ImplicationLogicWrapped]],
                  get_distance_in_the_map: Callable[[str, str], float],
-                 producers_name: Callable[[], list[str]],
-                 manufacturers_name: Callable[[], list[str]],
-                 warehouses_name: Callable[[], list[str]],
-                 distributor_names: Callable[[], list[str]],
+                 get_producers_name: Callable[[], list[str]],
+                 get_manufacturers_name: Callable[[], list[str]],
+                 get_warehouses_name: Callable[[], list[str]],
+                 get_distributor_names: Callable[[], list[str]],
                  ):
         super().__init__(get_time=get_time,
                          send_msg=send_msg,
                          get_logic_implication=get_logic_implication,
-                         get_dict_valoracion_inicia=get_dict_valoracion_inicial,
+                         get_dict_valoracion_inicial=get_dict_valoracion_inicial,
                          get_distance_in_the_map=get_distance_in_the_map
                          )
 
-        self.get_producers_name: Callable[[],list[str]] = Callable[[], list[str]]
-        self.get_manufacturers_name: Callable[[],list[str]] = Callable[[], list[str]]
-        self.get_warehouses_name: Callable[[],list[str]] = Callable[[], list[str]]
-        self.get_distributor_names: Callable[[],list[str]] = Callable[[], list[str]]
+        self.get_producers_name: Callable[[], list[str]] = get_producers_name
+        self.get_manufacturers_name: Callable[[], list[str]] = get_manufacturers_name
+        self.get_warehouses_name: Callable[[], list[str]] = get_warehouses_name
+        self.get_distributor_names: Callable[[], list[str]] = get_distributor_names
