@@ -20,3 +20,18 @@ class BuilderBase(ABC):
         """
 
         self.start()
+
+    def get_random_int(self,min_value:int,max_value:int)->int:
+        """
+        Retorna una var aleatoria entera generado con la semilla de esta clase
+
+        :param min_value:
+        :param max_value:
+        :return:
+        """
+        return self._random.randint(min_value,max_value)
+
+
+    def get_random_float(self,min_value:float,max_value:float):
+        # Genera un número flotante aleatorio entre 1.0 y 10.0
+        return self._random.uniform(min_value,max_value)
