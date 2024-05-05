@@ -1,9 +1,40 @@
-from typing import List, Dict, Callable
-
 from supply_chain.Building.Builder_base import *
-from supply_chain.products.flavor import Flavor
-from supply_chain.products.nutritive_properties import NutritiveProperties
-from supply_chain.products.product import Product
+from supply_chain.products.specific_products.base_products.pizza_base_products import *
+from supply_chain.products.specific_products.manufactured_products.pizza import Pizza
+
+
+class ExampleBuilderProduct(BuilderBase):
+    def __init__(self, seed: int):
+        super().__init__(seed)
+
+    def _finals_products_lambda(self):
+        def get_pizzas(count: int):
+            return [Pizza(self.get_random_float(1, 100)) for _ in range(count)]
+
+        return get_pizzas
+
+    def create_dict_final_products(self):
+        """
+        Devuelve el diccionario con los productos manufacturados o finales
+        :return:
+        """
+        return {Pizza.get_the_name(): self._finals_products_lambda()}
+
+    def create_dict_base_products(self):
+        """
+        Devuelve un diccionario con los productos bases como nombnre y sus lambdas para crear
+        :return:
+        """
+        dict_ret = {}
+
+        dict_ret[Cheese.get_the_name()] = lambda x: [Cheese(self.get_random_int(1, 100)) for _ in range(x)]
+        dict_ret[TomatoSauce.get_the_name()] = lambda x: [TomatoSauce(self.get_random_int(1, 100)) for _ in range(x)]
+        dict_ret[Salt.get_the_name()] = lambda x: [Salt(self.get_random_int(1, 100)) for _ in range(x)]
+        dict_ret[PizzaDough.get_the_name()] = lambda x: [Cheese(self.get_random_int(1, 100)) for _ in range(x)]
+
+        return dict_ret
+
+
 
 
 class BuilderProduct(BuilderBase):

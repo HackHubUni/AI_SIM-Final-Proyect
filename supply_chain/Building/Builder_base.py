@@ -9,7 +9,7 @@ class BuilderBase(ABC):
 
 
 
-    def __init__(self, seed: int):
+    def __init__(self, seed: int,):
         self.seed: int = seed
         """
         Semilla para la variable aleatoria

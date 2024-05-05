@@ -10,6 +10,10 @@ class Cheese(Product):
         nutritive_properties = NutritiveProperties(10, 10, 10)
         super().__init__("Cheese", flavor, nutritive_properties, initial_quality)
 
+    @staticmethod
+    def get_the_name():
+        return 'Cheese'
+
 
 class TomatoSauce(Product):
     def __init__(
@@ -19,6 +23,10 @@ class TomatoSauce(Product):
         flavor = Flavor(40, 30, 0, 0, 0)
         nutritive_properties = NutritiveProperties(10, 10, 10)
         super().__init__("Tomato Sauce", flavor, nutritive_properties, initial_quality)
+
+    @staticmethod
+    def get_the_name():
+        return 'TomatoSauce'
 
 
 class Salt(Product):
@@ -30,6 +38,10 @@ class Salt(Product):
         nutritive_properties = NutritiveProperties(0, 0, 0)
         super().__init__("Salt", flavor, nutritive_properties, initial_quality)
 
+    @staticmethod
+    def get_the_name():
+        return 'Salt'
+
 
 class PizzaDough(Product):
 
@@ -40,3 +52,7 @@ class PizzaDough(Product):
         flavor = Flavor(20, 20, 0, 10, 0)
         nutritive_properties = NutritiveProperties(10, 10, 2)
         super().__init__("Pizza Dough", flavor, nutritive_properties, initial_quality)
+
+    @staticmethod
+    def get_the_name():
+        return 'PizzaDough'

@@ -170,7 +170,7 @@ class BuildProductorStockManager(BuilderBase):
 
 
 
-class BuildingmanufacterStockManager:
+class BuildingManufacterStockManager:
 
     def __init__(self,
                 list_manufactore_products: list[str],
@@ -238,8 +238,8 @@ class BuildingmanufacterStockManager:
         self.create_product_lambda: dict[str, Callable[[int], list[Product]]] = create_product_lambda
     def create_products_max_stock(self)->dict[str, int]:
         dict_return={}
-        rand_int=random.randint(self.min_stock_random,self.max_stock_random)
-        for i in self.list_manufactor_products and len(dict_return)<= rand_int+1:
+
+        for i in self.list_manufactor_products:
             if not i in dict_return :
                 dict_return[i] = random.randint(self.min_product_amount, self.min_stock_random)
             else:
@@ -249,8 +249,8 @@ class BuildingmanufacterStockManager:
 
     def create_products_min_stock(self)->dict[str, int]:
         dic = {}
-        ran = random.randint(self.min_stock_random, self.max_stock_random)
-        for i in self.list_manufactor_products and len(dic)<= ran+1:
+
+        for i in self.list_manufactor_products:
             if not i in dic :
                 dic[i] = random.randint(self.min_product_amount,self.min_stock_random)
             else:
@@ -259,8 +259,8 @@ class BuildingmanufacterStockManager:
 
     def create_price_produce_product_per_unit(self)->dict[str, float]:
         dic = {}
-        ran = random.randint(50, 3000)
-        for i in self.list_manufactor_products and len(dic) <= ran + 1:
+
+        for i in self.list_manufactor_products:
             if not i in dic:
                 dic[i] = random.randint(50, 200)
             else:
@@ -287,7 +287,7 @@ class BuildingmanufacterStockManager:
         def func():
             return random.randint(self.min_price, self.max_price)
 
-        for product_name in self.list_products:
+        for product_name in self.list_manufactor_products:
             dict_return[product_name] = func
 
         return dict_return
@@ -298,7 +298,7 @@ class BuildingmanufacterStockManager:
         def func():
             return random.randint(self._distribution)
 
-        for product_name in self.list_products:
+        for product_name in self.list_manufactor_products:
             dict_return[product_name] = func
 
         return dict_return
