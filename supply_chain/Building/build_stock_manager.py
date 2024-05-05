@@ -100,33 +100,43 @@ class BuildProductorStockManager:
 class BuildingmanufacterStockManager:
 
     def __init__(self,
-                 list_products: list[str],
-                 get_time: Callable[[], int]
-
+                list_products: list[str],
+                create_product_lambda: Dict[str, Callable[[int], List[Product]]],
+                get_time: Callable[[], int],
+                min_product_amount:int = 100,
+                min_stock_random: int = 3000,
+                max_stock_random: int = 9000,
+                min_price: int = 50,
+                max_price: int = 200,
+                distribution = 20
                  ):
-        self.list_products:list[Product]=list_products
-
+        self.list_products:list[str]=list_products
+        self.distribution = distribution
         self.products_names=map(lambda x:x.name,self.list_products)
-
-
+        self.get_time: Callable[[], int] = get_time
+        self.min_product_amount: int = min_product_amount
+        self.min_stock_random: int = min_stock_random
+        self.max_stock_random: int = max_stock_random
+        self.min_price = min_price
+        self.max_price = max_price
+        self.create_product_lambda = create_product_lambda
     def create_products_max_stock(self)->dict[str, int]:
         dict_return={}
-        rand_int=random.randint(3001,8564)
+        rand_int=random.randint(self.min_stock_random,self.max_stock_random)
         for i in self.list_products and len(dict_return)<= rand_int+1:
             if not i in dict_return :
-                dict_return[i] = random.randint(100,3001)
+                dict_return[i] = random.randint(self.min_product_amount,self.min_stock_random)
             else:
                 continue
 
         return dict_return
-
 
     def create_products_min_stock(self)->dict[str, int]:
         dic = {}
         ran = random.randint(50,3000)
         for i in self.list_products and len(dic)<= ran+1:
             if not i in dic :
-                dic[i] = random.randint(50,3000)
+                dic[i] = random.randint(self.min_product_amount,self.min_stock_random)
             else:
                 continue
         return dic
@@ -151,6 +161,46 @@ class BuildingmanufacterStockManager:
                 else:
                     dict[product] = None
         return dic
+
+    def create_time_restock_distribution(self)->Callable[[], int]:
+        def distribution():
+            return random.randint(1,60)
+
+        return distribution
+
+    def create_sale_price_distribution(self)->dict[str, Callable[[], float]]:
+
+        dict_return = {}
+
+        def func():
+            return random.randint(self.min_price, self.max_price)
+
+        for product_name in self.list_products:
+            dict_return[product_name] = func
+
+        return dict_return
+
+    def create_supply_distribution(self)-> Dict[str, Callable[[], int]]:
+        dict_return = {}
+
+        def func():
+            return random.randint(self.distribution)
+
+        for product_name in self.list_products:
+            dict_return[product_name] = func
+
+        return dict_return
+
+    def create_ManufactureStock(self):
+        return ManufacturingStock(self.create_products_max_stock(),
+                                  self.create_products_min_stock(),
+                                  self.create_product_lambda,
+                                  self.create_supply_distribution(),
+                                  self.create_sale_price_distribution(),
+                                  self.create_time_restock_distribution(),
+                                  self.get_time,
+                                  self.create_recipe_dic(),
+                                  self.create_price_produce_product_per_unit())
 
 
 
