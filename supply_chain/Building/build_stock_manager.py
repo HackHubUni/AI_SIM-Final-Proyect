@@ -1,6 +1,7 @@
 # %%
 from supply_chain.Building.Builder_base import BuilderBase
 from supply_chain.Company.stock_manager.manufacturing_stock_manager import *
+from supply_chain.Company.stock_manager.store_stock_manager import ShopStockManager
 from supply_chain.Company.stock_manager.warehouse_stock_manager import WarehouseStockManager
 from supply_chain.products.specific_products.recipes.pizza_recipe import PizzaRecipe
 
@@ -416,3 +417,60 @@ class BuildWareHouseStockManager(BuilderBase):
 
         )
         return ret
+
+
+
+class BuilderStoreStockManager(BuilderBase):
+
+    def __init__(self,
+                 list_products: list[str],
+                 add_event: Callable[[SimEvent], None],
+                 get_time: Callable[[], int],
+                 init_products: dict[str, list[Product]],
+                 min_stock_random: int = 3000,
+                 max_stock_random: int = 9000,
+                 min_price: int = 50,
+                 max_price: int = 200,
+                 ):
+        self.list_products: list[str] = list_products
+        """
+        Nombre de los productos 
+        """
+        self.add_event: Callable[[SimEvent], None] = add_event
+        self.get_time: Callable[[], int]    = get_time
+        self.init_products: dict[str, list[Product]] = init_products
+        """
+        Productos iniciales
+        """
+        self.min_stock_random: int = min_stock_random
+        """
+        Cota inferior de stock
+        """
+        self.max_stock_random: int = max_stock_random
+        """
+        Cota superior de stock
+        """
+        self.min_price: int = min_price
+        """
+        Precio minimo
+        """
+        self.max_price: int = max_price
+        """
+        Precio maximo
+        """
+
+    def create_price_product(self) -> dict[str, int]:
+        dic = {}
+        for product_name in self.list_products:
+            dic[product_name] = self.get_random_int(self.min_price, self.max_price)
+        return dic
+
+    def create_ShopStockManager(self):
+        return ShopStockManager(
+            add_event=self.add_event,
+            get_time=self.get_time,
+            init_products=self.init_products,
+            max_product_stock=self.create_price_product(),
+            min_product_stock=self.create_price_product(),
+            price_product=self.create_price_product()
+        )
