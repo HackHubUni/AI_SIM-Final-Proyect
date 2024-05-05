@@ -1,9 +1,10 @@
-from typing import *
 from typing import Callable
-from ...sim_event import SimEvent
-from ...company import Company, TypeCompany
+
+from ..stock_manager.store_stock_manager import ShopStockManager
 from ...client_consumer import ConsumerAgent, generate_basic_consumer_agent
+from ...company import Company, TypeCompany
 from ...events.client_arrival import ClientArrival
+from ...sim_event import SimEvent
 
 
 class StoreCompany(Company):
@@ -15,11 +16,15 @@ class StoreCompany(Company):
         add_event: Callable[[SimEvent], None],
         next_client_distribution: Callable[[], int],
         # create_client
+            store_stock_manager: ShopStockManager,
     ) -> None:
         super().__init__(name, get_time, add_event)
         self.next_client_distribution: Callable[[], int] = next_client_distribution
         """This function computes the amount of time to wait for the next client arrival"""
         self.consumer_queue: list[ConsumerAgent] = []
+
+        self.store_stock_manager: ShopStockManager = store_stock_manager
+
         self.actual_client: ConsumerAgent = None
 
     @property
@@ -29,7 +34,7 @@ class StoreCompany(Company):
     def start(self):
         self.create_next_client_arrival()
 
-    def add_client(self, consumer_client: ConsumerAgent) -> None:
+    def _add_client(self, consumer_client: ConsumerAgent) -> None:
         # TODO: Adds a client to the store queue
         self.consumer_queue.append(consumer_client)
 
@@ -47,6 +52,6 @@ class StoreCompany(Company):
                 self.get_time,
                 self.add_event,
             ),
-            self.add_client,
+            self._add_client,
         )
         self.add_event(client_arrival_event)

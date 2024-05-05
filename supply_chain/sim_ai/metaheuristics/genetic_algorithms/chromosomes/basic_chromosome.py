@@ -2,83 +2,77 @@ from ..chromosome import *
 import random as rnd
 
 
-class BasicChromosome(Chromosome):
-    """This chromosome mates with the single point strategy"""
+class SimpleChromosome(Chromosome):
+    """This chromosome performs random single point crossover and random simple mutation"""
 
     def __init__(
         self,
         genes: list[Gene],
-        generate_solution: Callable[[list[Gene]], Any],
-        fitness_function: Callable[[Any], float],
+        fitness_function: Callable[[list], float],
         maximization_problem: bool,
     ) -> None:
         super().__init__(genes, maximization_problem)
-        self.generate_solution: Callable[[list[Gene]],] = generate_solution
-        """This function represents how to convert the genes to a solution in the domain problem"""
         self.fitness_function: Callable[[list], float] = fitness_function
-        """The fitness function"""
-        self.fitness: float = None
+        """The function used to calculate the fitness of a chromosome"""
+        self.fitness_value: float = None
         """The fitness of this chromosome"""
-        self.dirty: bool = True
 
-    def get_solution(self):
-        return self.generate_solution(self.genes)
+    def random_instance(self) -> Self:
+        new_genes = [gene.mutate() for gene in self.genes]
+        return SimpleChromosome(
+            new_genes, self.fitness_function, self.maximization_problem
+        )
 
-    def calculate_fitness(self) -> float:
-        if self.fitness is not None and not self.dirty:
-            return self.fitness
-        solution = self.get_solution()
-        self.fitness = self.fitness_function(solution)
-        self.dirty = False
-        return self.fitness
+    def compatible(self, other: Self) -> bool:
+        return len(self.genes) == len(other.genes) and all(
+            type(gene1) == type(gene2) and gene1 == gene2
+            for gene1, gene2 in zip(self.genes, other.genes)
+        )
+
+    def get_fitness(self) -> float:
+        if self.fitness_value is not None:
+            return self.fitness_value
+        solution_values = self.get_solution_values()
+        self.fitness_value = self.fitness_function(solution_values)
+        return self.fitness_value
+
+    def improve(self, n_iterations: int = 10) -> Self:
+        best_chromosome = self
+        for _ in range(n_iterations):
+            new_chromosome = self.mutate()
+            best_chromosome = best_chromosome.get_best(new_chromosome)
+        return best_chromosome
+
+    def mutate(self) -> Self:
+        index = rnd.randrange(0, len(self.genes))
+        old_gene = self.genes[index]
+        mutated = old_gene.mutate()
+        cloned_genes = [gene.clone() for gene in self.genes]
+        cloned_genes[index] = mutated
+        return SimpleChromosome(
+            cloned_genes, self.fitness_function, self.maximization_problem
+        )
+
+    def get_solution(self) -> Any:
+        return self.get_solution_values()
+
+    def cloned_genes(self) -> list[Gene]:
+        """This method returns a copy of all the genes of this chromosome"""
+        return [gene.clone() for gene in self.genes]
 
     def mate(self, other: Self) -> Self:
-        if not self.equal(other):
-            raise Exception("The chromosomes for mating are not compatibles")
+        if not self.compatible(other):
+            raise Exception(
+                "The chromosomes are not compatible. Check the length of it's genes and the type of each one"
+            )
         pivot_point = rnd.randrange(0, len(self.genes))
-        clone = lambda genes: [gene.clone() for gene in genes]
-        first1, last1 = (
-            clone(self.genes[:pivot_point]),
-            clone(self.genes[pivot_point:]),
+        my_genes, other_genes = (self.cloned_genes(), other.cloned_genes())
+        first1, last1 = (my_genes[:pivot_point], my_genes[pivot_point:])
+        first2, last2 = (other_genes[:pivot_point], other_genes[pivot_point:])
+        child1 = SimpleChromosome(
+            first1 + last2, self.fitness_function, self.maximization_problem
         )
-        first2, last2 = (
-            clone(other.genes[:pivot_point]),
-            clone(other.genes[pivot_point:]),
+        child2 = SimpleChromosome(
+            first2 + last1, self.fitness_function, self.maximization_problem
         )
-        child1, child2 = (
-            BasicChromosome(
-                first1 + last2,
-                self.generate_solution,
-                self.fitness_function,
-                self.maximization_problem,
-            ),
-            BasicChromosome(
-                first2 + last1,
-                self.generate_solution,
-                self.fitness_function,
-                self.maximization_problem,
-            ),
-        )
-        cmp = lambda x, y: x > y if self.maximization_problem else x < y
-        best = (
-            child1
-            if cmp(child1.calculate_fitness(), child2.calculate_fitness())
-            else child2
-        )
-        return best
-
-    def clone(self, with_mutation: bool) -> Self:
-        cloned_genes = [gene.clone(with_mutation) for gene in self.genes]
-        return BasicChromosome(
-            cloned_genes,
-            self.generate_solution,
-            self.fitness_function,
-            self.maximization_problem,
-        )
-
-    def mutate(self, mutation_rate: float = 0.3):
-        for i in range(len(self.genes)):
-            if rnd.random() < mutation_rate:
-                self.genes[i].mutate()
-        self.dirty = True
-        self.calculate_fitness()
+        return child1.get_best(child2)

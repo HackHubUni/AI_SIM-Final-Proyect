@@ -29,7 +29,7 @@ class WareHouseAgente(AgentWrapped):
 
         can_storage_in_stock = self.company.get_how_can_storage_a_company(company_from_name, product_want_name)
 
-        self.sent_msg_response_ofer(msg, can_storage_in_stock, total_cost, self.get_time_demora(),
+        self.sent_msg_response_ofer(msg, can_storage_in_stock, total_cost, self.get_delay_time(),
 
                                     ResponseStorageProductOffer)
 
@@ -42,7 +42,7 @@ class WareHouseAgente(AgentWrapped):
 
         count_in_stock = self.company.get_how_can_storage_a_company(matrix_name, product_want)
 
-        self.sent_msg_response_ofer(msg, count_in_stock, 0, self.get_time_demora(), ResponseStoreProductInStockNow)
+        self.sent_msg_response_ofer(msg, count_in_stock, 0, self.get_delay_time(), ResponseStoreProductInStockNow)
 
     def recive_products(self, msg: HacerServicioDeDistribucion):
 

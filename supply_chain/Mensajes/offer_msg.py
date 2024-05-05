@@ -2,7 +2,7 @@ from typing import Callable
 
 import heapq
 from supply_chain.Mensajes.ask_msg import Message, MessageWantProductOffer, HacerServicioDeDistribucion, \
-    MessageWantProductProduceOffer
+    MessageWantProductProduceOffer, AskPriceDistributor
 from supply_chain.agents.utils import generate_guid
 from supply_chain.company import TypeCompany
 from supply_chain.products.ingredient import Ingredient
@@ -145,7 +145,7 @@ class ResponseLogistic(Oferta):
                  recibir_producto_desde_tag: TypeCompany,
                  destino_producto_compania_nombre: str,
                  destino_producto_compania_tag: TypeCompany,
-                 peticion_instancie: HacerServicioDeDistribucion,
+                 peticion_instancie: AskPriceDistributor,
                  price: float,
                  count_can_move: int,
                  end_time: int,
@@ -218,7 +218,7 @@ class GestorOfertas:
     def is_ofer_active(self, id_) -> bool:
         """Devuelve si la oferta sigue activa o se ha quitado"""
 
-    def get_ofer_by_id(self, id_: str) -> Oferta:
+    def get_ofer_by_id(self, id_: str) -> Oferta| ResponseStoreProductInStockNow:
         return self._actual_dict.pop(id_, None)
 
     def update(self):

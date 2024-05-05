@@ -1,39 +1,29 @@
-import random as rnd
-import uuid
 from ..gene import *
+import random as rnd
 
 
 class ChoiceGene(Gene):
+    """This gene selects a value from a pool of available values"""
+
     def __init__(
-        self,
-        elements: list | str,
-        identifier: str = str(uuid.uuid4()),
-        initial_value=None,
+        self, available_values: list | str, value=None, identifier: str = str(uuid4())
     ) -> None:
-        super().__init__(identifier, initial_value)
-        if elements is None or len(elements) == 0:
-            raise Exception(f"The elements parameter should not be empty")
-        self.elements: list = elements
-        self.value = (
-            rnd.choice(self.elements)
-            if initial_value is None or initial_value not in self.elements
-            else initial_value
-        )
+        if available_values is None:
+            raise Exception(f"The available values is None")
+        if len(available_values) == 0:
+            raise Exception(
+                "The list of available values must have at least one element"
+            )
+        if value is None:
+            value = rnd.choice(available_values)
+        super().__init__(value, identifier)
+        self.available_values = available_values
+        """The list of available values for choose"""
 
-    def mutate(self) -> None:
-        v1, v2 = rnd.sample(self.elements, 2)
-        self.value = v1 if self.value == v2 else v2
+    def mutate(self) -> Self:
+        v1, v2 = rnd.sample(self.available_values, 2)
+        new_value = v1 if self.value == v2 else v2
+        return ChoiceGene(self.available_values, new_value, self.identifier)
 
-    def clone(self, with_mutation: bool = False) -> Self:
-        return ChoiceGene(
-            self.elements, self.identifier, None if with_mutation else self.value
-        )
-
-    def __str__(self) -> str:
-        return str(self.value)
-
-    def __repr__(self) -> str:
-        return str(self.value)
-
-    def __eq__(self, value: object) -> bool:
-        return super().__eq__(value) and isinstance(value, ChoiceGene)
+    def clone(self) -> Self:
+        return ChoiceGene(self.available_values, self.value, self.identifier)

@@ -1,31 +1,36 @@
+from uuid import uuid4
 from typing import *
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 
-class Gene:
-    """Base class for all genes"""
+class Gene(ABC):
+    """This class represents the smallest unit of a part of a problem"""
 
-    def __init__(self, identifier: str, initial_value=None) -> None:
+    def __init__(
+        self,
+        value,
+        identifier: str = str(uuid4()),
+    ) -> None:
+        self.value = value
+        """This is the value of the gene"""
         self.identifier: str = identifier
-        """The unique identifier of the Gene"""
-        self.value = initial_value
-        """The value of the Gene"""
+        """The unique identifier of a gene"""
 
     @abstractmethod
-    def mutate(self) -> None:
-        """Mutate the gene in place"""
+    def mutate(self) -> Self:
+        """This method returns a new gene with a new value"""
         pass
 
     @abstractmethod
-    def clone(self, with_mutation: bool = False) -> Self:
-        """Returns a clone of this gene"""
+    def clone(self) -> Self:
+        """This method returns an identical copy of this gene"""
         pass
-
-    def __str__(self) -> str:
-        return str(self.value)
-
-    def __repr__(self) -> str:
-        return str(self.value)
 
     def __eq__(self, value: object) -> bool:
         return isinstance(value, Gene) and self.identifier == value.identifier
+
+    def __hash__(self) -> int:
+        return hash(self.identifier)
+
+    def __str__(self) -> str:
+        return str(self.value)

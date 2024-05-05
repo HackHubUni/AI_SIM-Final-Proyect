@@ -36,11 +36,11 @@ class ProducerAgent(AgentWrapped):
 
         # guid, Respuesta de la peticion de precio
 
-    def get_time_demora(self):
+    def get_delay_time(self):
         return 3000009
 
     def sent_msg_response_ofer_cant_supply(self, oferta: MessageWantProductOffer):
-        self.sent_msg_response_ofer(oferta, 0, -1.1, self.get_time_demora())
+        self.sent_msg_response_ofer(oferta, 0, -1.1, self.get_delay_time())
 
     def get_factor_count_to_sell_producto_to_a_client(self, from_company_name: str, product_want_name: str) -> float:
         """
@@ -85,7 +85,7 @@ class ProducerAgent(AgentWrapped):
 
         # Enviar la respuesta
 
-        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price, self.get_time_demora())
+        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price, self.get_delay_time())
 
     def make_sell_ofert_response(self, msg: BuyOrderMessage, count_to_sell: int):
         """

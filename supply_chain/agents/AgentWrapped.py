@@ -1,28 +1,10 @@
-from supply_chain.Mensajes.offer_msg import *
 from supply_chain.Mensajes.ask_msg import *
+from supply_chain.Mensajes.offer_msg import *
 from supply_chain.agent import Agent, AgentException
-from supply_chain.agents.Sistema_experto import SistExperto
+from supply_chain.agents.expert_system.Sistema_experto import SistExperto
 from supply_chain.agents.enviroment_visulizer import EnvVisualizer
 from supply_chain.agents.utils import *
-from supply_chain.Company.companies_types.Producer_Company import *
 
-
-
-def make_valoracion(calificacion: float):
-    """define la valoracion tags de empresas"""
-    # INicia siendo mala
-    tag = ValoracionTag.Fatal
-    if calificacion > 2:
-        tag = ValoracionTag.Mal
-    if calificacion > 4:
-        tag = ValoracionTag.Regular
-    if calificacion > 6:
-        tag = ValoracionTag.Bien
-    if calificacion > 8:
-        tag = ValoracionTag.MuyBien
-    if calificacion > 9.4:
-        tag = ValoracionTag.Excelente
-    return tag
 
 class AgentWrapped(Agent):
 
@@ -42,16 +24,40 @@ class AgentWrapped(Agent):
                  name: str,
                  company: Company,
                  env_visualizer: EnvVisualizer,
+                 min_delay_time: int = 0,
+                 max_delay_time: int = 50
 
                  ):
         super().__init__(name)
         self.company: Company = company
+        """
+        Companía que dirige el agente
+        """
         self.sistema_experto: SistExperto = SistExperto()
+        """
+        Sistema experto del agente
+        """
         self.env_visualizer: EnvVisualizer = env_visualizer
         # Manager de las ofertas
         self.ofer_manager: GestorOfertas = GestorOfertas(
             self.env_visualizer.get_time)
+
+        self.min_delay_time: int = min_delay_time
+        """
+        Tiempo mínimo de demora
+        """
+
+        self.max_delay_time: int = max_delay_time
+        """
+        Tiempo máximo de demora
+        """
+
+
+
         self.start()
+        """
+        Inicializar
+        """
 
     def lanzar_excepcion_por_no_saber_mensaje(self, msg: Message):
         raise AgentException(
@@ -94,8 +100,8 @@ class AgentWrapped(Agent):
         # Upgradear las implicaciones
         self.update_implications()
 
-    def get_time_demora(self):
-        return 300000
+    def get_delay_time(self):
+        return random.randint(self.min_delay_time,self.max_delay_time)
 
     def _get_a_factor_to_a_client(self, from_company_name: str, product_want_name: str,
                                   class_type: PedirPrecio | PedirCantidad | PedirBase):
@@ -122,8 +128,6 @@ class AgentWrapped(Agent):
         """
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirPrecio)
 
-    def tell(info):
-        pass
 
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer | AskPriceWareHouseCompany, count_can_supply: int,
                                price_per_unit: float, time_demora,
@@ -146,12 +150,14 @@ class AgentWrapped(Agent):
         # Enviar
         self.send_smg_to_a_agent(response)
 
-    @abstractmethod
-    def recive_msg(self, msg: Message):
-        pass
+
 
     def update_implications(self):
 
         for implication in self.logic_implication:
             print(implication.show())
             self.sistema_experto.add(implication)
+
+    @abstractmethod
+    def recive_msg(self, msg: Message):
+        pass

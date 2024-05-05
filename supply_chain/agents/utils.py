@@ -6,6 +6,21 @@ from enum import Enum
 
 import uuid
 
+def make_valoracion(calificacion: float):
+    """define la valoracion tags de empresas"""
+    # INicia siendo mala
+    tag = ValoracionTag.Fatal
+    if calificacion > 2:
+        tag = ValoracionTag.Mal
+    if calificacion > 4:
+        tag = ValoracionTag.Regular
+    if calificacion > 6:
+        tag = ValoracionTag.Bien
+    if calificacion > 8:
+        tag = ValoracionTag.MuyBien
+    if calificacion > 9.4:
+        tag = ValoracionTag.Excelente
+    return tag
 
 def generate_guid():
     return str(uuid.uuid4())
