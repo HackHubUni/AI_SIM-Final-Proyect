@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="builder clients">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="builder distribuidor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,15 +271,7 @@
       <workItem from="1714854994491" duration="378000" />
       <workItem from="1714855404491" duration="3313000" />
       <workItem from="1714930877068" duration="3328000" />
-      <workItem from="1714934272289" duration="9406000" />
-    </task>
-    <task id="LOCAL-00014" summary="add new changes: we don´t have the env now, only a lambda to get the time">
-      <option name="closed" value="true" />
-      <created>1714237037206</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1714237037206</updated>
+      <workItem from="1714934272289" duration="10239000" />
     </task>
     <task id="LOCAL-00015" summary="fix bugs">
       <option name="closed" value="true" />
@@ -664,7 +657,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714942739748</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="builder distribuidor">
+      <option name="closed" value="true" />
+      <created>1714945091551</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1714945091551</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -743,7 +744,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Create the Sist experto" />
     <MESSAGE value="añadir explicacion SE agente" />
     <MESSAGE value="&#10;finalizado el agente productor" />
     <MESSAGE value="no revisar" />
@@ -768,7 +768,8 @@
     <MESSAGE value="lambda" />
     <MESSAGE value="lambda_add" />
     <MESSAGE value="builder clients" />
-    <option name="LAST_COMMIT_MESSAGE" value="builder clients" />
+    <MESSAGE value="builder distribuidor" />
+    <option name="LAST_COMMIT_MESSAGE" value="builder distribuidor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
