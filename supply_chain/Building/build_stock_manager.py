@@ -12,8 +12,15 @@ import random
 
 class BuildProductorStockManager(BuilderBase):
 
+    def _check(self):
+        # Chequear que el min del minimo del del max stock sea mayor= que el minimo
+        # del minimo restock
+        if self.min_of_the_max_stock >= self.max_of_the_min_stock:
+            msg = (
+                f'No se puede crear dado que el minimo valor que puede tener la cant maxima de stock es de {self.min_of_the_max_stock} y la cant maxima que puede tener el minimo restock es de  {self.max_of_the_min_stock}'
+            )
 
-
+            raise Exception(msg)
 
 
     def __init__(self,
@@ -22,14 +29,27 @@ class BuildProductorStockManager(BuilderBase):
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int],
                  seed:int,
-                 min_of_the_max_stock:int=6,
+                 min_of_the_max_stock: int = 8,
                  max_of_the_max_stock:int=60,
+                 min_of_the_min_stock: int = 1,
+                 max_of_the_min_stock: int = 6,
 
+                 min_supply_distribution: int = 1,
+                 max_supply_distribution: int = 30,
+
+                 min_price_distribution: float = 0.5,
+                 max_price_distribution: float = 2.0,
+
+                 min_time_restock: int = 60 * 60 * 12,
+                 max_time_restock: int = 60 * 60 * 24 * 3,
 
 
                  ):
 
         super().__init__(seed=seed)
+        # Chequear
+
+        self._check()
 
         self.create_product_lambda: dict[str, Callable[[int], list[Product]]] = create_product_lambda
         """Lambda para crear el producto"""
@@ -41,10 +61,49 @@ class BuildProductorStockManager(BuilderBase):
         """
         Minima cantidad del max stock
         """
-        self.max_of_the_max_stock: int =max_of_the_max_stock
+        self.max_of_the_max_stock: int = max_of_the_max_stock
         """
         Maxima cant del max stock
         """
+
+        self.min_of_the_min_stock: int = min_of_the_min_stock
+        """
+        Minima cant del minimo stock
+        """
+
+        self.max_of_the_min_stock: int = max_of_the_min_stock
+        """
+        Maxima cant del minimo stock
+        """
+
+        self.min_supply_distribution: int = min_supply_distribution
+        """
+        Minimo a reabastecer en cada restock
+        """
+
+        self.max_supply_distribution: int = max_supply_distribution
+        """
+        Maximo a reabastecer en cada restock
+        """
+
+        self.min_price_distribution: float = min_price_distribution
+        """
+        Min Price de distribucion
+        """
+        self.max_price_distribution: float = max_price_distribution
+        """
+        Max precio de distribucion
+        """
+
+        self.min_time_restock: int = min_time_restock
+        """
+        Minimo tiempo de restock
+        """
+        self.max_time_restock: int = max_time_restock
+        """
+        Max tiempo de restock
+        """
+
 
         self.add_event: Callable[[SimEvent], None] = add_event
         self.get_time: Callable[[], int] = get_time
@@ -53,7 +112,7 @@ class BuildProductorStockManager(BuilderBase):
         dict_return = {}
 
         for product_name in self.list_products_can_sell_name:
-            dict_return[product_name] = random.randint(min)
+            dict_return[product_name] = self.get_random_int(self.min_of_the_max_stock, self.max_of_the_max_stock)
 
         return dict_return
 
@@ -61,35 +120,35 @@ class BuildProductorStockManager(BuilderBase):
         dict_return = {}
 
         for product_name in self.list_products_can_sell_name:
-            dict_return[product_name] = 30
+            dict_return[product_name] = self.get_random_int(self.min_of_the_min_stock, self.max_of_the_min_stock)
 
         return dict_return
 
     def create_supply_distribution(self) -> Dict[str, Callable[[], int]]:
         """Devuelve la supply_distribution"""
 
-        def distribucion():
-            return 5000
+        def _distribucion():
+            return self.get_random_int(self.min_supply_distribution, self.max_supply_distribution)
 
         dict_return = {}
 
         for product_name in self.list_products_can_sell_name:
-            dict_return[product_name] = distribucion
+            dict_return[product_name] = _distribucion
         return dict_return
 
     def create_time_restock_distribution(self) -> Callable[[], int]:
 
-        def distribution():
-            return 50
+        def _distribution():
+            return self.get_random_int(self.min_time_restock, self.max_time_restock)
 
-        return distribution
+        return _distribution
 
     def create_sale_price_distribution(self) -> dict[str, Callable[[], float]]:
 
         dict_return = {}
 
         def distribution():
-            return 20.1
+            return self.get_random_float(self.min_price_distribution, self.max_price_distribution)
 
         for product_name in self.list_products_can_sell_name:
             dict_return[product_name] = distribution
@@ -108,15 +167,6 @@ class BuildProductorStockManager(BuilderBase):
 
                                      )
 
-
-                 #products_min_stock: dict[str, int],
-                 #create_product_lambda: Dict[str, Callable[[int], List[Product]]],
-                 #supply_distribution: Dict[str, Callable[[], int]],
-                 #sale_price_distribution: dict[str, Callable[[], float]],
-                 #time_restock_distribution: Callable[[], int],
-                 #get_time: Callable[[], int],
-                 #recipe_dic: dict[str, Recipe],
-                 #price_produce_product_per_unit: dict[str, float]
 
 
 
