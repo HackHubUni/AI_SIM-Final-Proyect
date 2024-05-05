@@ -1,5 +1,5 @@
-from build_stock_manager import *
-from Builder_produts import *
+from supply_chain.Building.build_stock_manager import *
+from supply_chain.Building.Builder_produts import *
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
 from supply_chain.Company.stock_manager.productor_stock_manager import *
 from supply_chain.Company.companies_types.Matrix_Company import *

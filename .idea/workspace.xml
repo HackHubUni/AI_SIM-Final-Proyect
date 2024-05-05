@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="change name">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_produts.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_produts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/products/specific_products/base_products/pizza_base_products.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/products/specific_products/base_products/pizza_base_products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/products/specific_products/manufactured_products/pizza.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/products/specific_products/manufactured_products/pizza.py" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="teesting the new producer">
+      <change afterPath="$PROJECT_DIR$/Intancies_Test/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/RecibirProductosEvent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,15 +243,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-      <workItem from="1714936845293" duration="6876000" />
-    </task>
-    <task id="LOCAL-00016" summary="add changes">
-      <option name="closed" value="true" />
-      <created>1714255074241</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1714255074241</updated>
+      <workItem from="1714936845293" duration="8241000" />
     </task>
     <task id="LOCAL-00017" summary="Add lambda sim event to the Company Base Class">
       <option name="closed" value="true" />
@@ -641,7 +629,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714940560774</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="teesting the new producer">
+      <option name="closed" value="true" />
+      <created>1714944274212</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1714944274212</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -688,7 +684,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="añadir explicacion SE agente" />
     <MESSAGE value="&#10;finalizado el agente productor" />
     <MESSAGE value="no revisar" />
     <MESSAGE value="arreglar bug de importaciones" />
@@ -713,7 +708,8 @@
     <MESSAGE value="Refactor Producer StockManger" />
     <MESSAGE value="fix product builder" />
     <MESSAGE value="change name" />
-    <option name="LAST_COMMIT_MESSAGE" value="change name" />
+    <MESSAGE value="teesting the new producer" />
+    <option name="LAST_COMMIT_MESSAGE" value="teesting the new producer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

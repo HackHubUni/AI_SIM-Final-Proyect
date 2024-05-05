@@ -1,3 +1,5 @@
+from typing import Callable
+
 from supply_chain.sim_event import SimEvent
 
 from supply_chain.Mensajes.ask_msg import *
