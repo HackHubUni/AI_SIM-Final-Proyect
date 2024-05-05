@@ -2,6 +2,7 @@ from build_stock_manager import *
 from Builder_produts import *
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
 from supply_chain.Company.companies_types.distribution_company import LogisticCompany
+from supply_chain.Company.companies_types.shop_company import StoreCompany
 from supply_chain.Company.stock_manager.productor_stock_manager import *
 from supply_chain.Company.companies_types.Matrix_Company import *
 class BuildingProducerCompany(BuilderBase):
@@ -67,7 +68,7 @@ class BuilderMatrixCompany(BuilderBase):
 
 
 
-class BuilderDistributionCompany(BuilderBase):
+class BuilderLogisticCompany(BuilderBase):
 
     def __init__(self,
                  seed:int,
@@ -94,3 +95,31 @@ class BuilderDistributionCompany(BuilderBase):
                                self.add_event,lambda x: self.get_random_int(self.min_price,self.max_price)*x,
                                lambda x: self.get_random_int(self.min_time,self.max_time)*x)
 
+class BuilderStoreCompany(BuilderBase):
+
+    def __init__(self,
+                 seed:int,
+                 list_products_name:List[str],
+                 add_event: Callable[[SimEvent], None],
+                 get_time: Callable[[], int],
+                 tasa_de_ocurrencia:int
+                 ):
+        super().__init__(seed)
+        self.list_products_name:List[str]=list_products_name
+        self.add_event: Callable[[SimEvent], None]=add_event
+        self.get_time: Callable[[], int]=get_time
+        self.tasa_de_ocurrencia:int=tasa_de_ocurrencia
+
+
+    def next_client_distribution(self):
+          # La tasa de ocurrencia. Ajusta este valor según tus necesidades.
+        return np.random.poisson(self.tasa_de_ocurrencia)
+
+    def _create_store_stock_manager(self)->ShopStockManager:
+       return BuilderStoreStockManager(self.list_products_name,self.add_event,
+                                       self.get_time).create_store_stock_manager()
+    def create_StoreCompany(self, name:str)->StoreCompany:
+
+        return StoreCompany(name,self.get_time,
+                               self.add_event,lambda : self.next_client_distribution(),
+                              self._create_store_stock_manager())

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="builder distribuidor">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="builder logistic">
+      <change beforePath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
     </list>
@@ -271,15 +273,7 @@
       <workItem from="1714854994491" duration="378000" />
       <workItem from="1714855404491" duration="3313000" />
       <workItem from="1714930877068" duration="3328000" />
-      <workItem from="1714934272289" duration="10239000" />
-    </task>
-    <task id="LOCAL-00015" summary="fix bugs">
-      <option name="closed" value="true" />
-      <created>1714244618619</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1714244618619</updated>
+      <workItem from="1714934272289" duration="10968000" />
     </task>
     <task id="LOCAL-00016" summary="add changes">
       <option name="closed" value="true" />
@@ -665,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714945091551</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="builder logistic">
+      <option name="closed" value="true" />
+      <created>1714945162794</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1714945162794</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -744,7 +746,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="añadir explicacion SE agente" />
     <MESSAGE value="&#10;finalizado el agente productor" />
     <MESSAGE value="no revisar" />
     <MESSAGE value="arreglar bug de importaciones" />
@@ -769,7 +770,8 @@
     <MESSAGE value="lambda_add" />
     <MESSAGE value="builder clients" />
     <MESSAGE value="builder distribuidor" />
-    <option name="LAST_COMMIT_MESSAGE" value="builder distribuidor" />
+    <MESSAGE value="builder logistic" />
+    <option name="LAST_COMMIT_MESSAGE" value="builder logistic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
