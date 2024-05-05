@@ -1,6 +1,7 @@
 from build_stock_manager import *
 from Builder_produts import *
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
+from supply_chain.Company.companies_types.distribution_company import LogisticCompany
 from supply_chain.Company.stock_manager.productor_stock_manager import *
 from supply_chain.Company.companies_types.Matrix_Company import *
 class BuildingProducerCompany(BuilderBase):
@@ -66,5 +67,30 @@ class BuilderMatrixCompany(BuilderBase):
 
 
 
+class BuilderDistributionCompany(BuilderBase):
 
+    def __init__(self,
+                 seed:int,
+                 add_event: Callable[[SimEvent], None],
+                 get_time: Callable[[], int],
+                 min_time:int,
+                 max_time:int,
+                 min_price:int,
+                 max_price:int,
+
+                 ):
+        super().__init__(seed)
+        self.add_event: Callable[[SimEvent], None]=add_event
+        self.get_time: Callable[[], int]=get_time
+        self.min_time:int=min_time
+        self.max_time:int=max_time
+        self.min_price:int=min_price
+        self.max_price:int=max_price
+
+
+    def create_distribution_company(self,name:str):
+
+        return LogisticCompany(name,self.get_time,
+                               self.add_event,lambda x: self.get_random_int(self.min_price,self.max_price)*x,
+                               lambda x: self.get_random_int(self.min_time,self.max_time)*x)
 
