@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="build manuhh">
-      <change afterPath="$PROJECT_DIR$/supply_chain/Building/lambda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="lambda" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,12 +31,22 @@
     &quot;assignee&quot;: &quot;carlapvalera&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/HackHubUni/AI_SIM-Final-Proyect.git&quot;,
-    &quot;accountId&quot;: &quot;9dd71e97-e035-4aca-85c2-9cde9a00708a&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/HackHubUni/AI_SIM-Final-Proyect.git",
+    "accountId": "9dd71e97-e035-4aca-85c2-9cde9a00708a"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "HackHubUni",
+    "repository": "AI_SIM-Final-Proyect"
   }
-}</component>
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -76,7 +80,7 @@
     "Python.utils.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "testing",
+    "git-widget-placeholder": "#4 on testing",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain",
     "node.js.detected.package.eslint": "true",
@@ -264,15 +268,7 @@
       <workItem from="1714854994491" duration="378000" />
       <workItem from="1714855404491" duration="3313000" />
       <workItem from="1714930877068" duration="3328000" />
-      <workItem from="1714934272289" duration="3720000" />
-    </task>
-    <task id="LOCAL-00011" summary="have bugs">
-      <option name="closed" value="true" />
-      <created>1714229665804</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1714229665804</updated>
+      <workItem from="1714934272289" duration="4580000" />
     </task>
     <task id="LOCAL-00012" summary="have bugs">
       <option name="closed" value="true" />
@@ -658,7 +654,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714934355363</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="lambda">
+      <option name="closed" value="true" />
+      <created>1714938116360</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1714938116360</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -737,7 +741,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add new agents" />
     <MESSAGE value="now" />
     <MESSAGE value="FInalizado modulo para infernecias logicas y para planificacion" />
     <MESSAGE value="Create the Sist experto" />
@@ -762,7 +765,8 @@
     <MESSAGE value="last changes" />
     <MESSAGE value="build manu" />
     <MESSAGE value="build manuhh" />
-    <option name="LAST_COMMIT_MESSAGE" value="build manuhh" />
+    <MESSAGE value="lambda" />
+    <option name="LAST_COMMIT_MESSAGE" value="lambda" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
