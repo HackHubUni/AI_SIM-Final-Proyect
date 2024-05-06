@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="Add in the companys the point in the map add create Builder_map">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="to change methaeurists">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,15 +245,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-      <workItem from="1714936845293" duration="32318000" />
-    </task>
-    <task id="LOCAL-00022" summary="Add Warehouse stock manager">
-      <option name="closed" value="true" />
-      <created>1714446801793</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1714446801793</updated>
+      <workItem from="1714936845293" duration="35166000" />
     </task>
     <task id="LOCAL-00023" summary="finish Warehouse stock manager&#10;&#10;Add WarehouseReStockSimEvent">
       <option name="closed" value="true" />
@@ -646,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714969902131</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="to change methaeurists">
+      <option name="closed" value="true" />
+      <created>1715018208232</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1715018208232</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +686,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="se añadio el agente distribuidor" />
     <MESSAGE value="refactor, añadir logistico y comunicacion" />
     <MESSAGE value="subir" />
     <MESSAGE value="Try instance" />
@@ -718,7 +710,8 @@
     <MESSAGE value="fix bugs" />
     <MESSAGE value="fix_ bugs in ware_house" />
     <MESSAGE value="Add in the companys the point in the map add create Builder_map" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add in the companys the point in the map add create Builder_map" />
+    <MESSAGE value="to change methaeurists" />
+    <option name="LAST_COMMIT_MESSAGE" value="to change methaeurists" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

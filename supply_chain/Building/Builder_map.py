@@ -7,7 +7,7 @@ import random
 class BuilderSimMap(BuilderBase):
     def __init__(self,
                  seed: int,
-                 number_of_points: int=40
+                 number_of_points: int=1000
                  ):
         super().__init__(seed)
         self.number_of_points: int = number_of_points

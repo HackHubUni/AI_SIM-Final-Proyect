@@ -1,4 +1,6 @@
 from abc import ABC
+
+from supply_chain.agents.utils import generate_guid
 from supply_chain.company import TypeCompany
 
 
@@ -15,7 +17,10 @@ class Message(ABC):
         self.company_destination_name: str = company_destination_name
         self.company_destination_type: TypeCompany = company_destination_type
 
-
+        self.id_from_matrix=generate_guid()
+        """
+        Id para que la matriz registre todos los valores 
+        """
 
 
 

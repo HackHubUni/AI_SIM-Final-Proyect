@@ -40,3 +40,5 @@ class SupplyChainSimulator:
             )
         self.environment.time = next_event.time
         next_event.execute()
+
+

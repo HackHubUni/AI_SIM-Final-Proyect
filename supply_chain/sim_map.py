@@ -139,7 +139,7 @@ class SimMap:
     def remove_point(self, point: tuple[float, float]):
         self.points.pop(point, (0, 0))
         for _, map_node in self.points.items():
-            map_node.remove_connection(point, (0, 0))
+            map_node.remove_connection(point, (0.0, 0.0))
 
     def add_directed_connection_with_random_distance(
         self,
@@ -148,7 +148,7 @@ class SimMap:
         max_exceeding_distance: float = 1,
         create_point_if_not_exist: bool = False,
     ):
-        max_exceeding_distance: float = max(1, max_exceeding_distance)
+        max_exceeding_distance: float = max(1.0, max_exceeding_distance)
         real_distance: float = distance_between_points(point1, point2)
         # distance = rnd.randrange(real_distance, real_distance + max_exceeding_distance)
         distance = rnd.uniform(real_distance, real_distance + max_exceeding_distance)
