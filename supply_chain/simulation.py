@@ -19,6 +19,7 @@ class SupplyChainSimulator:
         # This will make the reset more easy
         self.environment.time = 0
         self.event_queue = []
+        self.simulation_over = False
 
     def add_event(self, event: SimEvent) -> bool:
         """Add an event to the event queue"""
@@ -31,8 +32,11 @@ class SupplyChainSimulator:
         """Get the next event from the event queue"""
         return heapq.heappop(self.event_queue)
 
-    def step(self) -> None:
+    def step(self) -> bool:
         """Advance the simulation by one time unit"""
+        if len(self.event_queue) == 0:
+            print("There is no event left for processing")
+            return False
         next_event = self.get_next_event()
         if next_event.time < self.environment.time:
             raise Exception(
@@ -40,3 +44,16 @@ class SupplyChainSimulator:
             )
         self.environment.time = next_event.time
         next_event.execute(self.environment)
+        return True
+
+    def run(self):
+        print("Starting the simulation")
+        self.reset()
+        companies = (
+            self.environment.companies_in_map + self.environment.matrix_companies
+        )
+        for company in companies:
+            company.start()
+        while self.step():
+            continue
+        print("Simulation Over")
