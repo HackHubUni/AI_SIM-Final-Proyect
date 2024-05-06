@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 
 from supply_chain.agents.new.logic import *
-
-from enum import Enum
 
 
 def float_to_string(float_number):
@@ -297,5 +296,26 @@ def main4():
     print(kb0.ask(expr("Pedir_precio(Matrix_1, Water, x)")))
 
 
+def main5():
+    lis = ["Client(Matrix_1)",
+           "Product(Cheese)",
+           "Product(TomatoSauce)",
+           "Product(Salt)",
+           "Product(PizzaDough)",
+           "Valoracion_(Matrix_1, Bien)",
+           "(Client(x) & Valoracion_(x, Bien) & Product(y)) ==> Pedir_precio(x, y, Float_1)",
+           "(Client(x) & Valoracion_(x, Bien) & Product(y)) ==> Pedir_cantidad(x, y, Float_1)", ]
+
+    lis_exp = [expr(item) for item in lis]
+
+    kb0 = FolKB(lis_exp)
+
+    print(kb0.ask(expr('Pedir_precio(Matrix_1, Cheese, z)')))
+    print("Hola")
+
+
+
+
+
 if __name__ == "__main__":
-    main4()
+    main5()

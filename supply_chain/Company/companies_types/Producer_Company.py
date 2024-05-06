@@ -132,8 +132,8 @@ class ProducerCompany(CompanyWrapped):
                                       amount_asked=sellOrder.amount_asked,
                                       from_company_name=self.name,
                                       from_company_tag=self.tag,
-                                      to_company_name=sellOrder.to_company.name,
-                                      to_company_tag=sellOrder.to_company.tag,
+                                      to_company_name=sellOrder.to_company,
+                                      to_company_tag=TypeCompany.Matrix,
                                       normal_price=sellOrder.normal_price_per_unit,
                                       amount_sold=amount_sold,
                                       list_products_records=self.create_list_ProductRecord(return_list)

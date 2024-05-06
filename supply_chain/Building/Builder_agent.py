@@ -1,6 +1,8 @@
 from supply_chain.Building.Builder_base import BuilderBase
-from supply_chain.Building.building_companys import BuildingProducerCompany, BuilderMatrixCompany
+from supply_chain.Building.building_companys import BuildingProducerCompany, BuilderMatrixCompany, \
+    BuilderLogisticCompany
 from supply_chain.Company.companies_types.Matrix_Company import *
+from supply_chain.agents.Distributor_Agent import DistributorAgent
 from supply_chain.agents.Producer_Agent import *
 from supply_chain.agents.matrix_agent import *
 
@@ -50,6 +52,33 @@ class BuildingProducerAgent(BuilderAgentsBase):
     def create_instance(self, name: str):
         company_ = self.company_builder.create_producer_company(name)
         return ProducerAgent(name, company_, self.env_visualizer)
+
+
+class BuildingDistributorAgent(BuilderBase):
+    def __init__(self,
+                 seed: int,
+                 env_visualizer: EnvVisualizer,
+                 get_time: Callable[[], int],
+
+                 add_event: Callable[[SimEvent], None],
+                 ):
+        super().__init__(seed)
+        self.get_time: Callable[[], int] = get_time
+        self.add_event: Callable[[SimEvent], None] = add_event
+        self.seed: int = seed
+        self.env_visualizer: EnvVisualizer = env_visualizer
+        self.company_builder: BuilderMatrixCompany = BuilderMatrixCompany(self.seed, self.add_event, self.get_time)
+
+    def create_instance(self,name:str):
+        company=BuilderLogisticCompany(self.seed,self.add_event,self.get_time).create_distribution_company(name)
+        return DistributorAgent(name=name,
+                                company=company,
+                                env_visualizer=self.env_visualizer
+
+                                )
+
+
+
 
 
 class BuildingMatrixAgent(BuilderBase):

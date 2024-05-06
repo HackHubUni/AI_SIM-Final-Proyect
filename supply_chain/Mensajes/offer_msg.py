@@ -37,6 +37,9 @@ class Oferta(Message):
             return self.id_ == other.id_
         return False
 
+    def __hash__(self):
+        return hash(self.id_)
+
 
 class ResponseOfertMessage(Oferta):
     """ABstracta"""
@@ -219,7 +222,10 @@ class GestorOfertas:
         """Devuelve si la oferta sigue activa o se ha quitado"""
 
     def get_ofer_by_id(self, id_: str) -> Oferta| ResponseStoreProductInStockNow:
-        return self._actual_dict.pop(id_, None)
+        if not id_ in self._actual_dict:
+            raise Exception(f'La oferta con {id_} no esta en el diccionario')
+        return self._actual_dict[id_]
+
 
     def update(self):
         while len(self._list_actual) > 0 and self._list_actual[0].end_time <= self.time:

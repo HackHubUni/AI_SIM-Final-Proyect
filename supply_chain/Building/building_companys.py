@@ -74,10 +74,10 @@ class BuilderLogisticCompany(BuilderBase):
                  seed:int,
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int],
-                 min_time:int,
-                 max_time:int,
-                 min_price:int,
-                 max_price:int,
+                 min_time:int=60*60*3,
+                 max_time:int=60*60*10,
+                 min_price:int=10,
+                 max_price:int=500,
 
                  ):
         super().__init__(seed)
@@ -133,3 +133,6 @@ class BuilderStoreCompany(BuilderBase):
                             lambda: self.next_client_distribution(),
                             self._create_store_stock_manager(),
                             )
+
+
+

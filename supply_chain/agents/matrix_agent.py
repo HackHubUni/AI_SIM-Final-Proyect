@@ -63,6 +63,8 @@ class MatrixAgent(AgentWrapped):
         product_want_name: str = msg.product_want_name
         self.ask_product_all_manufacturer(product_want_name)
 
+    def ask_all_warehouses(self,product_name:int,):
+
     def _make_product_ask(self, product_name: str, company_destination_name: str, company_destination_tag: TypeCompany):
         """
         Hacer preguntas de compra de productos a manufactureras o productores
@@ -93,11 +95,49 @@ class MatrixAgent(AgentWrapped):
             # Enviar mensaje a las empresas
             self.send_smg_to_a_agent(msg)
 
+    def _response_ask_price(self,msg:ResponseOfertProductMessaage):
+        """
+        Dar precios
+        :param msg:
+        :return:
+        """
+
+        company_from_name=msg.company_from
+        company_from_type=msg.company_from_type
+        offer_id=msg.id_
+        count_want=msg.count_can_supply
+
+        buy_order= BuyOrderMessage(
+            company_from=self.company.name,
+            company_from_type=self.company.tag,
+            company_destination_name=company_from_name,
+            company_destination_type=company_from_type,
+            ofer_id=offer_id,
+            count_want=count_want,
+            logistic_company_name=self.env_visualizer.get_distributor_names()[0],
+            id_contract_logistic="2222",
+            id_contract_destination="destination",
+            to_company="Caca",
+            price_logist=40.5,
+            time_logist=50,
+
+        )
+
+        self.send_smg_to_a_agent(buy_order)
+
+
     def recive_msg(self, msg: Message):
 
         if isinstance(msg, StoreWantRestock):
-
             self._store_want_restock(msg)
+
+        elif isinstance(msg,SellResponseMessage):
+            pass
+
+
+
+        elif isinstance(msg,ResponseOfertProductMessaage):
+            self._response_ask_price(msg)
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)

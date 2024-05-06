@@ -140,7 +140,7 @@ class BuyOrderMessage(Message):
         self.id_contract_destination: str = id_contract_destination
 
 
-class SellResponseMessage(BuyOrderMessage):
+class SellResponseMessage(Message):
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -149,21 +149,30 @@ class SellResponseMessage(BuyOrderMessage):
                  ofer_id: str,
                  count_want: int,
                  count_sell: int,
-                 total_cost: int,
-                 logistic_company: LogisticCompany,
-                 to_company: Company
+                 total_cost: float,
+                 logistic_company:str,
+                 to_company:str
 
                  ):
+
         super().__init__(company_from,
                          company_from_type,
                          company_destination_name,
                          company_destination_type,
-                         ofer_id,
-                         count_want)
+
+
+
+                         )
+
+        self.ofer_id: str=ofer_id
+        self.count_want: int=count_want
 
         self.count_sell = count_sell
 
         self.total_cost = total_cost
+
+        self.logistic_company: str=logistic_company
+        self.to_company: str=to_company
 
 
 

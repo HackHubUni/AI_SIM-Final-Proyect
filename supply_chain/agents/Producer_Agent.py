@@ -34,7 +34,7 @@ class ProducerAgent(AgentWrapped):
                  max_time_delay=300000,
 
                  ):
-        super().__init__(name, company, env_visualizer)
+        super().__init__(name, company, env_visualizer,min_time_delay,max_time_delay)
         self.company: ProducerCompany = company
 
         # Start
@@ -100,6 +100,8 @@ class ProducerAgent(AgentWrapped):
         :return:
         """
         ofer_id = msg.ofer_id
+
+        offer=self.ofer_manager.get_ofer_by_id(ofer_id)
         response = SellResponseMessage(
             company_from=self.company.name,
             company_from_type=self.company.tag,
@@ -107,7 +109,10 @@ class ProducerAgent(AgentWrapped):
             company_destination_type=msg.company_from_type,
             ofer_id=msg.ofer_id,
             count_want=msg.count_want_buy,
-            count_sell=count_to_sell
+            count_sell=count_to_sell,
+            total_cost=offer.price_per_unit*count_to_sell,
+            logistic_company=msg.logistic_company,
+            to_company=msg.to_company
 
         )
         return response
@@ -132,6 +137,12 @@ class ProducerAgent(AgentWrapped):
     # TODO:Implementar la logica de esperar cierto tiempo para enviar
 
     def _get_sell_order(self, ofer: ResponseOfertProductMessaage, msg: BuyOrderMessage):
+        """
+
+        :param ofer:
+        :param msg:
+        :return:
+        """
         sell_order = SellOrder(product_name=ofer.product_name,
                                matrix_name=ofer.company_from,
                                price_sold=ofer.price_per_unit,
