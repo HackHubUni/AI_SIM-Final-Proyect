@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 import random
 
 
@@ -41,3 +41,23 @@ class BuilderBase(ABC):
         """
         # Genera un número flotante aleatorio entre 1.0 y 10.0
         return self._random.uniform(min_value,max_value)
+
+
+    #@abstractmethod
+    #def create_instance(self):
+    #    """
+    #    Crea una instancia del objeto que tiene el builder
+    #    :return:
+    #    """
+    #
+    #
+    #def create_list_instances_by_consecutive_name(self,count:int,name:str):
+    #    """
+    #    Crea una lista de instancias del objeto que hace build con el nombre en name_{i} ejemplo Tienda_1, Tienda_2,
+    #    Tienda_3 ...... Tienda_"n"
+    #    :param count:
+    #    :param name:
+    #    :return:
+    #    """
+    #    []
+    #

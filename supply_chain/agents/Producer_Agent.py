@@ -1,3 +1,5 @@
+import random
+
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
 from supply_chain.Company.orders.Sell_order import SellOrder
 from supply_chain.agents.AgentWrapped import *
@@ -28,6 +30,8 @@ class ProducerAgent(AgentWrapped):
                  name: str,
                  company: ProducerCompany,
                  env_visualizer: EnvVisualizer,
+                 min_time_delay=0,
+                 max_time_delay=300000,
 
                  ):
         super().__init__(name, company, env_visualizer)
@@ -39,7 +43,7 @@ class ProducerAgent(AgentWrapped):
         # guid, Respuesta de la peticion de precio
 
     def get_delay_time(self):
-        return 3000009
+        return random.randint(self.min_delay_time,self.max_delay_time)
 
     def sent_msg_response_ofer_cant_supply(self, oferta: MessageWantProductOffer):
         self.sent_msg_response_ofer(oferta, 0, -1.1, self.get_delay_time())

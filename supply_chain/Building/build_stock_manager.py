@@ -189,7 +189,7 @@ class BuildingManufacterStockManager:
                  ):
         self.list_manufactor_products:list[str]=list_manufactore_products
         """
-        Nombre de los productos manufacturados
+        Nombre de los productos manufacturados (Productos que se producen apartir de la receta)
         """
         self.list_base_products:list[str]=list_base_products
         """
@@ -270,7 +270,7 @@ class BuildingManufacterStockManager:
 
     def create_recipe_dic(self)-> dict[str, Recipe]:
         dic ={}
-        for product in self.list_products:
+        for product in self.list_manufactor_products:
             dic[product] = PizzaRecipe
 
         return dic

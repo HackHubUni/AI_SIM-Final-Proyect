@@ -131,4 +131,5 @@ class BuilderStoreCompany(BuilderBase):
                             self.get_time,
                             self.add_event,
                             lambda: self.next_client_distribution(),
-                            self._create_store_stock_manager())
+                            self._create_store_stock_manager(),
+                            )

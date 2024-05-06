@@ -1,6 +1,7 @@
-from typing import *
-from supply_chain.utils.utility_functions import *
+import random
 import random as rnd
+
+from supply_chain.utils.utility_functions import *
 
 
 class MapNode:
@@ -73,6 +74,18 @@ class SimMap:
         self,
     ) -> None:
         self.points: dict[tuple[float, float], MapNode] = {}
+
+        self.selected_points: set[tuple[float, float]] = set()
+        """
+        Set con los puntos que ya tienen alguna empresa
+        """
+
+    @property
+    def points_tuple_list(self) -> list[tuple[float, float]]:
+        """
+        Lista con los valores de las coordenadas
+        """
+        return list(self.points.keys())
 
     def point_in_map(self, point: tuple[float, float]) -> bool:
         """Returns True if the point is in the map"""
@@ -174,3 +187,20 @@ class SimMap:
             raise Exception(f"The point {point2} is not in the map")
         node = self.get_connections(point1)
         return node.get_distance(point2)
+
+    def get_random_point(self) -> tuple[float, float]:
+        """
+        Devuelve un punto del mapa que nunca ha sido dado anteriormente
+        :return:
+        """
+        if len(self.points_tuple_list)<1 or self.points_tuple_list is None:
+            raise Exception(f'la lista con los puntos no puede estar vacia o se None')
+        while True:
+
+            value: tuple[float, float] = random.choice(self.points_tuple_list)
+
+            if not value in self.selected_points:
+                break
+
+        self.selected_points.add(value)
+        return value

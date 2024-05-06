@@ -32,7 +32,13 @@ class SimEnvironment:
         """The list of agents in the simulation"""
 
     def add_companies_in_map(self, companies_in_map: list[Company]):
-        self.companies_in_map.extend(companies_in_map)
+        #self.companies_in_map.extend(companies_in_map)
+        for company in companies_in_map:
+            #Añade la compañia a la lista de compañias
+            self.companies_in_map.append(company)
+            #Le da a la compañia una posicion en el mapa
+            company.set_new_position_in_map(self.sim_map.get_random_point())
+
 
     def add_matrix_companies(self, matrix_companies: list[Company]):
         self.matrix_companies.extend(matrix_companies)
@@ -44,7 +50,7 @@ class SimEnvironment:
         """Returns the map of the simulation"""
         return self.sim_map
 
-    def send_message(self, message: Message) -> Agent:
+    def send_message(self, message: Message):
         company_name = message.company_destination_name
         companies = self.companies_in_map + self.matrix_companies
         agent_name = ""

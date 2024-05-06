@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+from supply_chain.Building.Builder_map import BuilderSimMap
 from supply_chain.Building.building_companys import *
 from supply_chain.map_search_problem import MapSearchProblem
 from supply_chain.sim_ai.search_problem.search_algorithms import *
@@ -13,52 +14,8 @@ plt.scatter([p[0] for p in points], [p[1] for p in points])
 print(len(points))
 # Now let's create some connections
 def main():
-    number_of_connections = 50
-    connections: list[tuple[tuple[float, float], tuple[float, float]]] = []
-
-    simulation_map: SimMap = SimMap()
-
-    for _ in range(number_of_connections):
-        p1, p2 = rnd.sample(points, 2)
-        connections.append((p1, p2))
-        simulation_map.add_bidirectional_connection_with_random_distance(p1, p2, 50, True)
-
-
-    def map_heuristic(
-            actual_position: tuple[float, float], final_position: tuple[float, float]
-    ) -> float:
-        return distance_between_points(actual_position, final_position)
-
-
-    def path(node: SearchNode) -> tuple[list[float], list[float]]:
-        result = node.get_path()
-        x_coordinates = [p[0] for p in result]
-        y_coordinates = [p[1] for p in result]
-        return (x_coordinates, y_coordinates)
-
-
-    initial_position, final_position = rnd.sample(points, 2)
-
-    map_problem = MapSearchProblem(
-        initial_position=initial_position,
-        final_position=final_position,
-        city_map=simulation_map,
-    )
-    found, final_node = a_star_search(
-        map_problem, lambda node: map_heuristic(node.state, final_position)
-    )
-
-    if found:
-        print(f"A path was found")
-        original_path = final_node.get_path()
-        for state in original_path:
-            print(state)
-        #plot_map(points, connections, path(final_node))
-        print(f"The distance is {final_node.path_cost:2f}")
-        # plt.show()
-    else:
-        print("A path was not found")
-
+    sim_map_builder=BuilderSimMap(55,40)
+    simulation_map=sim_map_builder.create_instance()
     ##Crear el enviroment y el simulador
 
     environment = SimEnvironment(simulation_map)
@@ -112,7 +69,7 @@ def main():
     matrix_Building=BuildingMatrixAgent(seed,matrix_env_,get_time, add_event)
 
 
-    productor_1=productor_agent.create_Producer_Agent("Producer_1")
+    productor_1=productor_agent.create_instance("Producer_1")
 
     matrix_=matrix_Building.create_matrix_agent("Matrix",["Tienda_1"])
 

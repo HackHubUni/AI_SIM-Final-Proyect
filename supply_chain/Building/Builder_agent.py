@@ -5,7 +5,32 @@ from supply_chain.agents.Producer_Agent import *
 from supply_chain.agents.matrix_agent import *
 
 
-class BuildingProducerAgent(BuilderBase):
+class BuilderAgentsBase(BuilderBase):
+
+    @abstractmethod
+    def create_instance(self, name: str):
+        """
+        Crea una instancia del objeto que tiene el builder
+        :return:
+        """
+
+    def create_list_instances_by_consecutive_name(self, count: int, name: str):
+        """
+        Crea una lista de instancias del objeto que hace build con el nombre en name_{i} ejemplo Tienda_1, Tienda_2,
+        Tienda_3 ...... Tienda_"n"
+        :param count:
+        :param name:
+        :return:
+
+
+        """
+        if count<1:
+            raise Exception(f'Se deben de crear al menos 1 instancia no {count
+            }')
+        return [self.create_instance(f'{name}_{i}') for i in range(1, count + 1)]
+
+
+class BuildingProducerAgent(BuilderAgentsBase):
 
     def __init__(self,
                  seed: int,
@@ -22,7 +47,7 @@ class BuildingProducerAgent(BuilderBase):
         self.company_builder: BuildingProducerCompany = BuildingProducerCompany(self.seed, self.add_event,
                                                                                 self.get_time)
 
-    def create_Producer_Agent(self, name: str):
+    def create_instance(self, name: str):
         company_ = self.company_builder.create_producer_company(name)
         return ProducerAgent(name, company_, self.env_visualizer)
 
