@@ -1,7 +1,5 @@
 from typing import Callable
 
-from sympy.core.evalf import rnd
-
 from supply_chain.Building.Builder_base import BuilderBase
 from supply_chain.client_consumer import ConsumerBody, ConsumerAgent
 from supply_chain.products.flavor import Flavor

@@ -118,7 +118,7 @@ def main():
 
     environment.add_agents([productor_1,matrix_])
     environment.add_matrix_companies([matrix_.company])
-    environment.add_companies_in_map([productor_1.company,matrix_.company])
+    environment.add_companies_in_map([productor_1.company])
 
     msg=StoreWantRestock(company_from="Tienda_1",
                          company_from_type=TypeCompany.Store,
@@ -127,6 +127,9 @@ def main():
                          product_want_name="Pizza",
                          count_want_restock=20
                          )
+
+
+    send_msg(msg)
 
 
 if __name__ == "__main__":

@@ -44,5 +44,5 @@ class BuildingMatrixAgent(BuilderBase):
 
 
     def create_matrix_agent(self, name: str, store_names: list[str]):
-        company_ = self.company_builder.create_matrix_company()
+        company_ = self.company_builder.create_matrix_company(name)
         return MatrixAgent(name, company_, self.env_visualizer, store_names)

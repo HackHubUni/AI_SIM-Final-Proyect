@@ -1,10 +1,12 @@
-from supply_chain.Building.build_stock_manager import *
 from supply_chain.Building.Builder_produts import *
+from supply_chain.Building.build_stock_manager import *
+from supply_chain.Company.companies_types.Matrix_Company import *
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
 from supply_chain.Company.companies_types.distribution_company import LogisticCompany
 from supply_chain.Company.companies_types.shop_company import StoreCompany
 from supply_chain.Company.stock_manager.productor_stock_manager import *
-from supply_chain.Company.companies_types.Matrix_Company import *
+
+
 class BuildingProducerCompany(BuilderBase):
 
     def __init__(self,
@@ -60,10 +62,8 @@ class BuilderMatrixCompany(BuilderBase):
         self.add_event: Callable[[SimEvent], None]=add_event
         self.get_time: Callable[[], int]=get_time
 
-
-    def create_matrix_company(self):
-
-        return MatrixCompany("Macdonals",self.get_time,self.add_event)
+    def create_matrix_company(self, name: str):
+        return MatrixCompany(name, self.get_time, self.add_event)
 
 
 
@@ -109,7 +109,10 @@ class BuilderStoreCompany(BuilderBase):
         self.add_event: Callable[[SimEvent], None]=add_event
         self.get_time: Callable[[], int]=get_time
         self.tasa_de_ocurrencia:int=tasa_de_ocurrencia
+        self._product_builder: ExampleBuilderProduct = ExampleBuilderProduct(seed)
 
+    def get_dict_lambda_base_products(self) -> dict[str, Callable[[int], list[Product]]]:
+        return self._product_builder.create_dict_base_products()
 
     def next_client_distribution(self):
           # La tasa de ocurrencia. Ajusta este valor según tus necesidades.
@@ -117,7 +120,7 @@ class BuilderStoreCompany(BuilderBase):
 
     def _create_store_stock_manager(self)->ShopStockManager:
        return BuilderStoreStockManager(self.list_products_name,self.add_event,
-                                       self.get_time).create_store_stock_manager()
+                                       self.get_time,self.get_dict_lambda_base_products(),self.seed ).create_ShopStockManager()
     def create_StoreCompany(self, name:str)->StoreCompany:
 
         return StoreCompany(name,self.get_time,

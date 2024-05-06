@@ -50,11 +50,12 @@ class SimEnvironment:
         agent_name = ""
         for company in companies:
             if company.name == company_name:
-                agent_name = company.agent_name
+                agent_name = company.name
+                break
         if agent_name == "":
             raise Exception(f"There is no company in map with name")
         agent = self.get_agent(lambda ag: ag.name == agent_name)
-        return agent
+        agent.recive_msg(message)
 
     def get_companies_in_map(
         self,
