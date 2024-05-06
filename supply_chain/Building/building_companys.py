@@ -15,9 +15,9 @@ class BuildingProducerCompany(BuilderBase):
                  get_time: Callable[[], int],
                  ):
         super().__init__(seed)
-        self.add_event: Callable[[SimEvent], None]=add_event
-        self.get_time: Callable[[], int]=get_time
-        self._product_builder:ExampleBuilderProduct=ExampleBuilderProduct(seed)
+        self.add_event: Callable[[SimEvent], None] = add_event
+        self.get_time: Callable[[], int] = get_time
+        self._product_builder: ExampleBuilderProduct = ExampleBuilderProduct(seed)
 
 
 
@@ -122,7 +122,13 @@ class BuilderStoreCompany(BuilderBase):
        return BuilderStoreStockManager(self.list_products_name,self.add_event,
                                        self.get_time,self.get_dict_lambda_base_products(),self.seed ).create_ShopStockManager()
     def create_StoreCompany(self, name:str)->StoreCompany:
-
-        return StoreCompany(name,self.get_time,
-                               self.add_event,lambda : self.next_client_distribution(),
-                              self._create_store_stock_manager())
+        """
+        Darme una instancia de una tienda dando su nombre
+        :param name:
+        :return:
+        """
+        return StoreCompany(name,
+                            self.get_time,
+                            self.add_event,
+                            lambda: self.next_client_distribution(),
+                            self._create_store_stock_manager())

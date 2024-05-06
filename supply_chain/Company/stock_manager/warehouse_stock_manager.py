@@ -1,3 +1,4 @@
+import copy
 import random
 
 import numpy as np
@@ -410,6 +411,12 @@ class WarehouseStockManager(CompanyStockBase):
         return len(dict_company[product_name])
 
     def get_list_products_by_company(self, matrix_name: str, product_name: str):
+        """
+        Devuelve una copia de la lista de productos de una compañia
+        :param matrix_name:
+        :param product_name:
+        :return:
+        """
         if not matrix_name in self._stock_by_company:
             return []
 
@@ -419,9 +426,4 @@ class WarehouseStockManager(CompanyStockBase):
 
         lis_product = dict_company[product_name]
 
-        if len(lis_product) < 1:
-            return []
-        return_list = lis_product[:1]
-        new_list = lis_product[1:]
-        dict_company = new_list
-        return lis_product[0:]
+        return copy.deepcopy(lis_product)
