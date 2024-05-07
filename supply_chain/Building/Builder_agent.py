@@ -54,6 +54,7 @@ class BuildingProducerAgent(BuilderAgentsBase):
         return ProducerAgent(name, company_, self.env_visualizer)
 
 
+
 class BuildingDistributorAgent(BuilderBase):
     def __init__(self,
                  seed: int,
@@ -88,6 +89,7 @@ class BuildingMatrixAgent(BuilderBase):
                  get_time: Callable[[], int],
 
                  add_event: Callable[[SimEvent], None],
+
                  ):
         super().__init__(seed)
         self.get_time: Callable[[], int] = get_time

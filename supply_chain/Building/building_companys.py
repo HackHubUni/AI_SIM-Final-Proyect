@@ -134,5 +134,28 @@ class BuilderStoreCompany(BuilderBase):
                             self._create_store_stock_manager(),
                             )
 
+class Builder_shop_company(BuilderBase):
+    def __init__(self,
+                 seed:int,
+                 name:str,
+                 get_time: Callable[[], int],
+                 add_event: Callable[[SimEvent], None],
+                 tasa_de_ocurrencia:int,
+                 shop_stock_manager : ShopStockManager
+
+                 ):
+        super().__init__(seed)
+        self.tasa_de_ocurrencia = tasa_de_ocurrencia
+        self.name = name
+        self.get_time = get_time
+        self.add_event = add_event
+        self.seed = seed
+        self.stock_manager_shop = shop_stock_manager
+
+    def create_next_client_distribution(self)-> Callable[[], int]:
+        return lambda : np.random.poisson(self.tasa_de_ocurrencia)
 
 
+    def create_store_company(self):
+        return StoreCompany(self.name,self.get_time,self.add_event,self.create_next_client_distribution(),
+                            self.stock_manager_shop)
