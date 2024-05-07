@@ -202,6 +202,7 @@ class ShopStockManager(CompanyStockBase):
         """
         Chequear que hace falta más productos
         :return: Retorna un diccionario que dice por producto la cant que quiere abastecerse
+        Si no hay nada que reabastecer no se pasa nada
         """
         dict_ret: dict[str, int] = {}
         # Chequear por productos

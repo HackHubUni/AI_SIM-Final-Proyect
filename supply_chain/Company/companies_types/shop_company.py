@@ -33,9 +33,40 @@ class StoreCompany(Company):
 
         self._shop_record: ShopRecord = None
 
+        self.need_restock: Callable[[dict[str, int]],None]=None
+        """
+        Lambda para decirle al agente que me hace falta restock
+        """
+
+        self._update_from_agent = False
+        """
+        True si el agente cuando se inicializo actualizo los datos
+        """
+
+
+
+
+
     @property
     def tag(self) -> TypeCompany:
         return TypeCompany.Store
+
+
+    def restock(self):
+        """
+        Pregunta al stock manager si necesita reabastecer si el dicc no es vacio llama al lambda del agenta para reabastecer
+        :return:
+        """
+        dic=self.store_stock_manager.restock()
+        if len(dic)>0:
+            self.need_restock(dic)
+    def add_from_the_agent(self, shop_record: ShopRecord, need_restock: Callable[[dict[str, int]], None]):
+        # Añadir el nuevo shop_record
+        self._shop_record = shop_record
+        # Añadir el lambda para llamar a restock
+        self.need_restock=need_restock
+
+        self._update_from_agent = True
 
     def get_list_product_instance(self):
 
@@ -44,8 +75,8 @@ class StoreCompany(Company):
 
     def start(self):
 
-        if self._shop_record is None:
-            raise Exception(f'El shopRecord no puede ser None cuando se inicia la simulacion')
+        if not self._update_from_agent:
+            raise Exception(f'El agente de la tienda {self.name} no ha actualizado los datos de esta')
         self.create_next_client_arrival()
 
     def _add_client(self, consumer_client: ConsumerAgent) -> None:

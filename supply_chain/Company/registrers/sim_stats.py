@@ -4,7 +4,7 @@ import numpy as np
 from typing import Callable
 from statistics import variance, mean
 
-from registers import *
+from registers__Please_dont_use_that_is_the_old import *
 from simulation_engine import InventorySimulation
 
 

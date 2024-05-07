@@ -1,12 +1,17 @@
 from typing import Callable
 
 from supply_chain.Company.companies_types.shop_company import StoreCompany, TypeCompany
+from supply_chain.Company.registrers.resgister import ShopRecord
 from supply_chain.Mensajes.ask_msg import HacerServicioDeDistribucion, StoreWantRestock, Notification
 from supply_chain.agent import *
 from supply_chain.agents.expert_system.Sistema_experto import SistExperto
 
 
 class StoreAgent(Agent):
+
+    def update_shop(self):
+        self.company.add_from_the_agent(self._shop_record,self.call_to_restock_shop)
+
 
     def __init__(
             self,
@@ -24,6 +29,26 @@ class StoreAgent(Agent):
         self.get_time: Callable[[], int] = get_time
         self.send_msg: Callable[[Message], None] = send_msg
         self.sistema_experto: SistExperto = SistExperto()
+
+        self._shop_record:ShopRecord=None
+        """
+        Record de la tienda la tiene que pasar la matrix antes de funcionar esto
+        """
+        self.update_thinks_from_matrix=False
+
+
+
+    def update_from_matrix(self,shop_record:ShopRecord):
+        self._shop_record=shop_record
+
+
+
+        #Update the shop
+        self.update_shop()
+
+        self.update_thinks_from_matrix=True
+
+
 
 
     def call_to_restock_shop(self,dict_pro_count_want:dict[str,int]):
@@ -75,16 +100,11 @@ class StoreAgent(Agent):
 
 
 
-    def start(self,matrix_name:str):
-        #TODO: En el builder de la matriz añadir Para Carla
-        self.matrix_name=matrix_name
-
-
-
-
-
 
     def recive_msg(self, msg: Message):
+
+        if not self.update_thinks_from_matrix:
+            raise Exception(f'No se puede instanciar el agente tienda {self.name} si la matrix no ha actualizado cosas')
 
         if isinstance(msg,HacerServicioDeDistribucion):
             self.restock(msg)

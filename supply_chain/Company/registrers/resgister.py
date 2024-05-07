@@ -94,7 +94,14 @@ class ClientRecord:
 
 
 class ShopRecord:
-    def __init__(self, get_time: Callable[[], int]):
+    def __init__(self,
+                 shop_name: str,
+
+                 get_time: Callable[[], int]):
+        self.shop_name = shop_name
+        """
+        Nombre de la tienda que el revisa
+        """
         self.get_time: Callable[[], int] = get_time
         self._product_count_sale: dict[str, int] = {}
         self._client_record:dict[str,ClientRecord]={}
@@ -131,6 +138,13 @@ class ShopRecord:
         client=self.get_client_record_by_name(client_name)
         client.client_buy_food(product_name,amount_asked,amount_sold, total_cost, how_good_is_the_product)
 
+    def get_all_clients_record(self) -> list[ClientRecord]:
+        """
+        Devuelve todos los clientes que se procesaron
+        :return:
+        """
+        return list(self._client_record.values())
+
 class Register:
     def __init__(self, get_time: Callable[[], int]):
         self.get_time: Callable[[], int] = get_time
@@ -139,3 +153,16 @@ class Register:
         """
         Registros de actividad por cada tienda
         """
+
+    def get_store_record_by_store(self, store_name: str):
+        if not store_name in self._shops_records:
+            new_store_record = ShopRecord(self.get_time)
+            self._shops_records[store_name] = new_store_record
+            return new_store_record
+
+    def get_all_stock_record(self) -> list[ShopRecord]:
+        """
+        llamar cuando finalize para tener todos los StockRecord
+        :return:
+        """
+        return list(self._shops_records.values())
