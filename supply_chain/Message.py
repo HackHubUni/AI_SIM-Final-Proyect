@@ -23,6 +23,16 @@ class Message(ABC):
         """
 
 
+    def __eq__(self, other):
+        if isinstance(other, Message):
+            return self.id_from_matrix == other.id_from_matrix
+        return False
+
+    def __hash__(self):
+        return hash(self.id_from_matrix)
+
+
+
 
 
 

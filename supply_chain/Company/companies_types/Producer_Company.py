@@ -27,7 +27,9 @@ class ProducerCompany(CompanyWrapped):
         :return:
         """
 
-        self.stock_manager.restock()
+        #self.stock_manager.restock()
+        event=CompanyRestockSimEvent(self.time,0,self.stock_manager.restock)
+        self.add_event(event)
 
     # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
 

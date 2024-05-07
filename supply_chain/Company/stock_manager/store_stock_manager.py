@@ -84,6 +84,19 @@ class ShopStockManager(CompanyStockBase):
         """
         return self.get_time()
 
+
+    def get_all_products_instance(self)->list[Product]:
+        """
+        Devuelve todos los tipos de producto
+        :return:
+        """
+        lis=[]
+        for product_name in self._stock.keys():
+            lis.extend(self._stock[product_name])
+
+        return lis
+
+
     def add_product(self, product_instance: Product) -> bool:
         """
         Añadir productos al stock

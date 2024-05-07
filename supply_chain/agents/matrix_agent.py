@@ -1,5 +1,6 @@
 
-from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany
+from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany,TypeCompany
+from supply_chain.Mensajes.gestor_peticiones import *
 from supply_chain.agents.AgentWrapped import *
 from supply_chain.agents.enviroment_visulizer import MatrixEnvVisualizer
 
@@ -17,6 +18,14 @@ class MatrixAgent(AgentWrapped):
         self.company: MatrixCompany = company
         #self.planner: PlanningProblem = get_planing_Type()
         self.store_names: list[str] = store_names
+
+        # Gestor de peticiones por cada tienda
+        self.petitions_gestor: MatrixOrderGestor = MatrixOrderGestor()
+
+        #Cual la tienda que se esta reabasteciendo actualmente
+
+
+
 
     @property
     def producers_name(self) -> list[str]:
@@ -57,24 +66,62 @@ class MatrixAgent(AgentWrapped):
         """
         return self.company.name
 
+    def _create_store_order_gestor(self, store_name: str, product_want_name: str, id_pedido: str):
+        """
+        Crea un gestor de peticiones de tiendas el id_pedido es el que tiene el msg que hace la tienda a esta matrix
+        :param store_name:
+        :param product_want_name:
+        :param id_pedido:
+        :return:
+        """
+
+        return StoreOrderGestor(store_name=store_name, product_name=product_want_name,
+                                store_restock_msg_matrix_id=id_pedido)
+
     def _store_want_restock(self, msg: StoreWantRestock):
         """
         cuando una tienda quiere hacer un restock
         :param msg:
         :return:
         """
+
         store_from_name = msg.company_from
         if not msg.company_from_type == TypeCompany.Store:
             raise Exception(
                 f'La empresa {store_from_name} de tipo {msg.company_from_type} no puede pedir productos a la matriz {self.company.name}')
 
         product_want_name: str = msg.product_want_name
-    #self.ask_product_all_manufacturer(product_want_name)
+        id_msg_from_store:str=msg.id_from_matrix
+
+        store_gestor=self._create_store_order_gestor(store_from_name,product_want_name,id_msg_from_store)
+
+
+
+        if self.petitions_gestor.is_the_order_in_the_gestor(store_gestor):
+            #TODO: Aca la logica si todavia estoy procesando el pedido de la matrix
+            return
+
+
+        #TODO:Simular tiempo de espera
 
 
 
 
-    def ask_all_warehouses(self,product_name:str,count_want:int):
+
+    def _restock_store(self,store_name:str,product_name:str,count_want:int,store_gestor:StoreOrderGestor):
+
+        #Llamar a todos los almacenes y preguntar si tienen
+        self.ask_all_warehouses(product_name=product_name,
+                                count_want=count_want,
+                                store_gestor=store_gestor
+                                )
+        #Preguntar a los transportistas desde las
+
+
+
+
+
+    def ask_all_warehouses(self,product_name:str,count_want:int,store_gestor:StoreOrderGestor):
         """
         Le pregunta a todos los almacenes si tienen un producto en especifico
 
@@ -92,10 +139,12 @@ class MatrixAgent(AgentWrapped):
                 product_want_name=product_name
             )
 
-            #Enviar el mensaje
+            #Guardar en el gestor de stock
+            store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
+            # Enviar el mensaje
             self.send_smg_to_a_agent(msg_to_ask)
 
-    def ask_all_manufactures_sell_this_product(self,product_name:str,count_want:int):
+    def ask_all_manufactures_sell_this_product(self,product_name:str,count_want:int,store_gestor:StoreOrderGestor):
         """
         Le pregunta a todos los manufactores si venden elaborado ese producto
 
@@ -114,11 +163,12 @@ class MatrixAgent(AgentWrapped):
 
 
             )
+            store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
             #Enviar el mensaje
             self.send_smg_to_a_agent(msg_to_ask)
 
 
-    def ask_distributors_price(self,product_name:str,count_want:int,company_from_service_name:str,company_from_service_tag:TypeCompany,company_destination_service_name:str,company_destination_service_tag:TypeCompany):
+    def ask_distributors_price(self,product_name:str,count_want:int,company_from_service_name:str,company_from_service_tag:TypeCompany,company_destination_service_name:str,company_destination_service_tag:TypeCompany,store_gestor:StoreOrderGestor):
         """
         Le pregunta a todos los manufactores si venden el producto elaborado
         :param product_name:
@@ -140,6 +190,12 @@ class MatrixAgent(AgentWrapped):
 
 
             )
+
+            #Guardar en el gestor de mensajes
+            store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
+
+            #Enviar mensaje
+
             self.send_smg_to_a_agent(msg_to_ask)
 
 
@@ -163,6 +219,24 @@ class MatrixAgent(AgentWrapped):
             company_destination_type=company_destination_tag,
             product_want_name=product_name)
 
+    def _procesar_respuesta_cuanto_stock_tengo_de_un_almacen(self,msg: ResponseStoreProductInStockNow):
+        #TOmar la tienda actual
+
+        if not msg.company_from_type==TypeCompany.Warehouse:
+            raise Exception(f'Se espera recibir un mensaje de un almace no de un {msg.company_from_type}')
+
+        store_manager=self.petitions_gestor.store_now
+
+        count_can_supply=msg.count_can_supply
+        if count_can_supply<1:
+            #Si no puede dar de ese producto
+            return
+
+        store_manager.add_response_from_company(msg)
+
+
+
+
 
 
 
@@ -170,6 +244,10 @@ class MatrixAgent(AgentWrapped):
 
         if isinstance(msg, StoreWantRestock):
             self._store_want_restock(msg)
+
+        elif isinstance(msg, ResponseStoreProductInStockNow):
+            #Si es respuesta de cuantos productos hay en el almacen
+
 
         elif isinstance(msg,SellResponseMessage):
             pass

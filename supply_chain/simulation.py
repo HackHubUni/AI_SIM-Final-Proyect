@@ -43,7 +43,7 @@ class SupplyChainSimulator:
                 f"The event {next_event} time is less than the current time"
             )
         self.environment.time = next_event.time
-        next_event.execute(self.environment)
+        next_event.execute()
         return True
 
     def run(self):

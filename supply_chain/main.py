@@ -76,7 +76,7 @@ def main():
     environment.add_agents([productor_1, matrix_, distributor_1])
     environment.add_matrix_companies([matrix_.company])
     environment.add_companies_in_map([productor_1.company, distributor_1.company])
-
+    simulator.run()
     msg=StoreWantRestock(company_from="Tienda_1",
                          company_from_type=TypeCompany.Store,
                          company_destination_name="Matrix",
@@ -87,6 +87,8 @@ def main():
 
 
     send_msg(msg)
+    print(2)
+
 
 
 if __name__ == "__main__":

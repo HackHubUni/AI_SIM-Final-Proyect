@@ -28,6 +28,10 @@ class WarehouseCompany(CompanyWrapped):
         super().__init__(name, get_time, add_event, stock_manager)
         self.register = Registry()
         self.stock_manager = stock_manager
+    def start(self):
+        #Inicializar el stock
+       firts_restock_event= CompanyRestockSimEvent(0,1,self.stock_manager.restock)
+       self.add_event(firts_restock_event)
 
     @property
     def tag(self):

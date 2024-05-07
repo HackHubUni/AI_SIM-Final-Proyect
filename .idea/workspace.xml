@@ -4,10 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="to change methaeurists">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="add changes to experiments">
+      <change afterPath="$PROJECT_DIR$/indicaciones_de_metaheuristicas.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/Oferta.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/company_wrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/company_wrapped.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/distribution_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/distribution_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Message.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/client_consumer.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/client_consumer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/simulation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +73,7 @@
     "Python.lambda.executor": "Run",
     "Python.lll.executor": "Run",
     "Python.main (1).executor": "Run",
-    "Python.main.executor": "Debug",
+    "Python.main.executor": "Run",
     "Python.planificar (1).executor": "Run",
     "Python.planificar.executor": "Run",
     "Python.testtt.executor": "Debug",
@@ -245,15 +262,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-      <workItem from="1714936845293" duration="35166000" />
-    </task>
-    <task id="LOCAL-00023" summary="finish Warehouse stock manager&#10;&#10;Add WarehouseReStockSimEvent">
-      <option name="closed" value="true" />
-      <created>1714449017793</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1714449017793</updated>
+      <workItem from="1714936845293" duration="53345000" />
     </task>
     <task id="LOCAL-00024" summary="refactor">
       <option name="closed" value="true" />
@@ -639,7 +648,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715018208232</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="add methaeuristics">
+      <option name="closed" value="true" />
+      <created>1715021490208</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715021490209</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,8 +703,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor, añadir logistico y comunicacion" />
-    <MESSAGE value="subir" />
     <MESSAGE value="Try instance" />
     <MESSAGE value="change values" />
     <MESSAGE value="change msg to agent" />
@@ -711,65 +726,42 @@
     <MESSAGE value="fix_ bugs in ware_house" />
     <MESSAGE value="Add in the companys the point in the map add create Builder_map" />
     <MESSAGE value="to change methaeurists" />
-    <option name="LAST_COMMIT_MESSAGE" value="to change methaeurists" />
+    <MESSAGE value="add methaeuristics" />
+    <MESSAGE value="add changes to experiments" />
+    <option name="LAST_COMMIT_MESSAGE" value="add changes to experiments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb</url>
-          <line>8</line>
-          <option name="timeStamp" value="41" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>49</line>
+          <option name="timeStamp" value="178" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>145</line>
-          <option name="timeStamp" value="163" />
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="179" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>178</line>
-          <option name="timeStamp" value="164" />
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="180" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="165" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py</url>
-          <line>192</line>
-          <option name="timeStamp" value="167" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>187</line>
-          <option name="timeStamp" value="168" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>189</line>
-          <option name="timeStamp" value="169" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py</url>
-          <line>134</line>
-          <option name="timeStamp" value="170" />
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="181" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py</url>
-          <line>164</line>
-          <option name="timeStamp" value="171" />
+          <line>30</line>
+          <option name="timeStamp" value="182" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py</url>
-          <line>200</line>
-          <option name="timeStamp" value="172" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/sim_environment.py</url>
-          <line>120</line>
-          <option name="timeStamp" value="173" />
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="184" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -790,6 +782,6 @@
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$planificar__1_.coverage" NAME="planificar (1) Coverage Results" MODIFIED="1714869875885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$utils.coverage" NAME="utils Coverage Results" MODIFIED="1714703298289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1714948335575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
-    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main.coverage" NAME="main Coverage Results" MODIFIED="1715017471943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main.coverage" NAME="main Coverage Results" MODIFIED="1715023930295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
   </component>
 </project>

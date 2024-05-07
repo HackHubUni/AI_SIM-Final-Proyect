@@ -52,6 +52,11 @@ class ConsumerAgent:
         """This method represents the amount of units of a product this client will select"""
 
     def decide(self, product_list: list[Product]):
+        """
+        Devuelve el producto que se quiere la cant querida y cuando será procesado
+        :param product_list:
+        :return:
+        """
         # TODO: This method should add a ShopSellEvent
         if len(product_list) == 0:
             raise Exception(f"The product list is empty. This should not happen")
@@ -64,6 +69,7 @@ class ConsumerAgent:
         current_time = self.get_simulation_time()
         decision_delay = self.attending_time()
         sell_time = current_time + decision_delay
+        return selected_product,amount,sell_time
 
 
 def generate_basic_consumer_agent(

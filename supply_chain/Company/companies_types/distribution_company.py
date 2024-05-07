@@ -62,4 +62,4 @@ class LogisticCompany(Company):
 
     def start(self):
         # TODO: Ver si hace falta logica aca
-        pass
+        return

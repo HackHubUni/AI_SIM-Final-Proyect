@@ -1,6 +1,5 @@
-from supply_chain.Company.companies_types.distribution_company import LogisticCompany
 from supply_chain.Message import Message
-from supply_chain.company import Company, TypeCompany
+from supply_chain.company import TypeCompany
 
 from supply_chain.products.product import Product
 
@@ -140,7 +139,30 @@ class BuyOrderMessage(Message):
         self.id_contract_destination: str = id_contract_destination
 
 
-class SellResponseMessage(Message):
+class Notification(Message):
+    """
+    Clase para que las tiendas notifiquen  a su matrix que llego una mercancia
+    """
+    def __init__(self,
+                 company_from: str,
+                 company_from_type: TypeCompany,
+                 company_destination_name: str,
+                 company_destination_type: TypeCompany,
+                 ofer_id: str,
+                 count_enter: int,
+                 logistic_company: str,
+                 ):
+        super().__init__(company_from,
+                         company_from_type,
+                         company_destination_name,
+                         company_destination_type, )
+        self.ofer_id: str=ofer_id
+        self.count_enter: int=count_enter
+        self.logistic_company: str=logistic_company
+
+
+
+class SellResponseMessage(Notification):
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -159,6 +181,9 @@ class SellResponseMessage(Message):
                          company_from_type,
                          company_destination_name,
                          company_destination_type,
+                         ofer_id,
+                         count_sell,
+                         logistic_company
 
 
 
@@ -213,7 +238,7 @@ class HacerServicioDeDistribucion(Message):
 
         self.products_instance: list[Product] = []
         """
-        
+        Instancia de los prodcutos
         """
 
         self.time_demora_logistico: int = time_demora_logistico

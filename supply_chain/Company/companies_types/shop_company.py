@@ -31,7 +31,13 @@ class StoreCompany(Company):
     def tag(self) -> TypeCompany:
         return TypeCompany.Store
 
+    def get_list_product_instance(self):
+
+       return self.store_stock_manager.get_all_products_instance()
+
     def start(self):
+
+
         self.create_next_client_arrival()
 
     def _add_client(self, consumer_client: ConsumerAgent) -> None:
@@ -41,6 +47,7 @@ class StoreCompany(Company):
     def process_client(self):
         if self.actual_client is None and len(self.consumer_queue) > 0:
             self.actual_client = self.consumer_queue.pop(0)
+
 
     def create_next_client_arrival(self):
         current_time = self.get_time()

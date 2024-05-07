@@ -65,7 +65,7 @@ class ResponseOfertMessage(Oferta):
         self.product_name: str = product_name
         self.price_per_unit: float = price_per_unit
         self.peticion_instance: MessageWantProductOffer = peticion_instance
-        self.id_ = generate_guid()
+
         self.end_time: int = end_time
 
 

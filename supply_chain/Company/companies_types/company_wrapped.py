@@ -23,7 +23,7 @@ class CompanyWrapped(Company):
         self.register = Registry()
         self.stock_manager = stock_manager
 
-        self.start()
+        #self.start()
         """
         Call the start function
         """
