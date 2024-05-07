@@ -252,7 +252,7 @@ class MatrixAgent(AgentWrapped):
 
         elif isinstance(msg, ResponseStoreProductInStockNow):
             #Si es respuesta de cuantos productos hay en el almacen
-
+            pass
 
         elif isinstance(msg,SellResponseMessage):
             pass
