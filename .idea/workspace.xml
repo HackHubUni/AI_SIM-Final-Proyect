@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="builder shop company">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,15 +284,7 @@
       <workItem from="1714855404491" duration="3313000" />
       <workItem from="1714930877068" duration="3328000" />
       <workItem from="1714934272289" duration="14407000" />
-      <workItem from="1715049870299" duration="3422000" />
-    </task>
-    <task id="LOCAL-00017" summary="Add lambda sim event to the Company Base Class">
-      <option name="closed" value="true" />
-      <created>1714256840663</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1714256840663</updated>
+      <workItem from="1715049870299" duration="4092000" />
     </task>
     <task id="LOCAL-00018" summary="merg from dev_paco">
       <option name="closed" value="true" />
@@ -681,7 +670,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714948190994</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="builder shop company">
+      <option name="closed" value="true" />
+      <created>1715053383716</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1715053383716</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +757,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="no revisar" />
     <MESSAGE value="arreglar bug de importaciones" />
     <MESSAGE value="add logic producer agent" />
     <MESSAGE value="se añadio el agente distribuidor" />
@@ -785,7 +781,8 @@
     <MESSAGE value="builder distribuidor" />
     <MESSAGE value="builder logistic" />
     <MESSAGE value="store things" />
-    <option name="LAST_COMMIT_MESSAGE" value="store things" />
+    <MESSAGE value="builder shop company" />
+    <option name="LAST_COMMIT_MESSAGE" value="builder shop company" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -15,6 +15,7 @@ class StoreAgent(Agent):
             company: StoreCompany,
             get_time: Callable[[], int],
             send_msg: Callable[[Message], None],
+            matrix_name:str
 
     ) -> None:
         super().__init__(name)

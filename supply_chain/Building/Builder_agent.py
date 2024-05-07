@@ -2,8 +2,10 @@ from supply_chain.Building.Builder_base import BuilderBase
 from supply_chain.Building.building_companys import BuildingProducerCompany, BuilderMatrixCompany, \
     BuilderLogisticCompany
 from supply_chain.Company.companies_types.Matrix_Company import *
+from supply_chain.Company.companies_types.shop_company import StoreCompany
 from supply_chain.agents.Distributor_Agent import DistributorAgent
 from supply_chain.agents.Producer_Agent import *
+from supply_chain.agents.Store_Agent import StoreAgent
 from supply_chain.agents.matrix_agent import *
 
 
@@ -55,7 +57,7 @@ class BuildingProducerAgent(BuilderAgentsBase):
 
 
 
-class BuildingDistributorAgent(BuilderBase):
+class BuildingDistributorAgent(BuilderAgentsBase):
     def __init__(self,
                  seed: int,
                  env_visualizer: EnvVisualizer,
@@ -102,3 +104,24 @@ class BuildingMatrixAgent(BuilderBase):
     def create_matrix_agent(self, name: str, store_names: list[str]):
         company_ = self.company_builder.create_matrix_company(name)
         return MatrixAgent(name, company_, self.env_visualizer, store_names)
+
+
+class Builder_Shop_Agent(BuilderAgentsBase):
+    def __init__(self,
+                 seed :int,
+                 name:str,
+                 company:StoreCompany,
+                 get_time: Callable[[], int],
+                 send_msg: Callable[[Message], None],
+                 matrix_name: str
+                 ):
+        super().__init__(seed)
+        self.name: str=name
+        self.company: StoreCompany=company
+        self.get_time: Callable[[], int]= get_time
+        self.send_msg: Callable[[Message], None] = send_msg
+        self.matrix_name:str = matrix_name
+
+    def create_store_agent(self):
+        return StoreAgent(self.name,self.company,self.get_time,self.send_msg,
+                          self.matrix_name)
