@@ -16,3 +16,6 @@ class ClientDepearture(SimEvent):
     def execute(self):
 
         self._execute()
+
+class ClienteDecide(ClientDepearture):
+    pass
