@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="update register to the data">
-      <change afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_plan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/manufacturer_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/manufacturer_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/genes/choice_gene.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/genes/choice_gene.py" afterDir="false" />
-    </list>
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="to the new matrix" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -248,15 +241,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-      <workItem from="1714936845293" duration="72297000" />
-    </task>
-    <task id="LOCAL-00031" summary="add add product to the ware house in thier stock manager">
-      <option name="closed" value="true" />
-      <created>1714494168180</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1714494168180</updated>
+      <workItem from="1714936845293" duration="74553000" />
     </task>
     <task id="LOCAL-00032" summary="add new agents">
       <option name="closed" value="true" />
@@ -642,7 +627,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715084143756</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="to the new matrix">
+      <option name="closed" value="true" />
+      <created>1715098272397</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1715098272397</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -689,7 +682,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add producer _agent" />
     <MESSAGE value="add new thinks" />
     <MESSAGE value="add changes" />
     <MESSAGE value="last changes" />
@@ -714,7 +706,8 @@
     <MESSAGE value="cliente event: OK" />
     <MESSAGE value="update the shop register" />
     <MESSAGE value="update register to the data" />
-    <option name="LAST_COMMIT_MESSAGE" value="update register to the data" />
+    <MESSAGE value="to the new matrix" />
+    <option name="LAST_COMMIT_MESSAGE" value="to the new matrix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -753,6 +746,11 @@
           <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py</url>
           <line>165</line>
           <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/agents/matrix_agent.py</url>
+          <line>199</line>
+          <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb</url>

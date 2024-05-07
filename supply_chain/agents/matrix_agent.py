@@ -15,6 +15,7 @@ class MatrixAgent(AgentWrapped):
                  company: MatrixCompany,
                  env_visualizer: MatrixEnvVisualizer,
                  stores: list[StoreAgent],
+                 get_agent_by_name: Callable[[str], Agent],
 
                  ):
         super().__init__(name, company, env_visualizer)
@@ -22,6 +23,8 @@ class MatrixAgent(AgentWrapped):
         self.company: MatrixCompany = company
         #self.planner: PlanningProblem = get_planing_Type()
         self.store_names: list[str] = [store.company.name for store in stores]
+
+        self._get_agent_by_name: Callable[[str], Agent] = get_agent_by_name
 
         self.stores:list[StoreAgent]=stores
 
@@ -66,6 +69,9 @@ class MatrixAgent(AgentWrapped):
         :return:
         """
         return self.company.name
+
+    def get_agents_by_name(self, agent_name: str) -> Agent:
+        return self._get_agent_by_name(agent_name)
 
     def _create_store_order_gestor(self, store_name: str, product_want_name: str, id_pedido: str):
         """
@@ -166,7 +172,8 @@ class MatrixAgent(AgentWrapped):
             )
             store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
             #Enviar el mensaje
-            self.send_smg_to_a_agent(msg_to_ask)
+            #self.send_smg_to_a_agent(msg_to_ask)
+            #TOmar al agente
 
 
     def ask_distributors_price(self,product_name:str,count_want:int,company_from_service_name:str,company_from_service_tag:TypeCompany,company_destination_service_name:str,company_destination_service_tag:TypeCompany,store_gestor:StoreOrderGestor):

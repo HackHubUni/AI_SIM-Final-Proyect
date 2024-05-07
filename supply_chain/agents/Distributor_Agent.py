@@ -1,3 +1,4 @@
+from supply_chain.Company.companies_types.distribution_company import LogisticCompany
 from supply_chain.agents.Producer_Agent import *
 
 

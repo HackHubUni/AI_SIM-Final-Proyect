@@ -63,6 +63,11 @@ class SimEnvironment:
         agent = self.get_agent(lambda ag: ag.name == agent_name)
         agent.recive_msg(message)
 
+    def get_agent_by_name(self,agent_name:str):
+
+        agent = self.get_agent(lambda ag: ag.name == agent_name)
+        return agent
+
     def get_companies_in_map(
         self,
         condition: Callable[[Company], bool],
