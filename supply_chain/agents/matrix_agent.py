@@ -1,4 +1,3 @@
-
 from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany
 from supply_chain.Mensajes.gestor_peticiones import *
 from supply_chain.agents.AgentWrapped import *
@@ -28,13 +27,6 @@ class MatrixAgent(AgentWrapped):
 
         # Gestor de peticiones por cada tienda
         self.petitions_gestor: MatrixOrderGestor = MatrixOrderGestor()
-
-
-
-
-
-
-
 
     @property
     def producers_name(self) -> list[str]:
