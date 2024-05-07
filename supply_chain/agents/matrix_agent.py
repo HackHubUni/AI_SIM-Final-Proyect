@@ -28,7 +28,6 @@ class MatrixAgent(AgentWrapped):
         # Gestor de peticiones por cada tienda
         self.petitions_gestor: MatrixOrderGestor = MatrixOrderGestor()
 
-        #Cual la tienda que se esta reabasteciendo actualmente
 
 
 

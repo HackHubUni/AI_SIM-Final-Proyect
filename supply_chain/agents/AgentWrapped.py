@@ -1,3 +1,4 @@
+from supply_chain import Company
 from supply_chain.Mensajes.ask_msg import *
 from supply_chain.Mensajes.offer_msg import *
 from supply_chain.agent import Agent, AgentException
@@ -69,7 +70,7 @@ class AgentWrapped(Agent):
 
     def send_smg_to_a_agent(self, msg: Message):
         """Envia un mensaje a otro agente"""
-        print(msg)
+
 
         self.env_visualizer.send_msg(msg)
 

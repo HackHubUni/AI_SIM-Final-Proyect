@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="add changes to experiments">
-      <change beforePath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_SIM-Final-Proyect.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="finish store bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/client_consumer.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/client_consumer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,15 +246,7 @@
       <workItem from="1714524857167" duration="39867000" />
       <workItem from="1714612528497" duration="23440000" />
       <workItem from="1714683554014" duration="52308000" />
-      <workItem from="1714936845293" duration="57130000" />
-    </task>
-    <task id="LOCAL-00025" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1714449823889</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1714449823889</updated>
+      <workItem from="1714936845293" duration="58788000" />
     </task>
     <task id="LOCAL-00026" summary="fix bugs">
       <option name="closed" value="true" />
@@ -646,7 +632,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715050722473</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="finish store bug">
+      <option name="closed" value="true" />
+      <created>1715055042906</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1715055042927</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +687,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Try instance" />
     <MESSAGE value="change values" />
     <MESSAGE value="change msg to agent" />
     <MESSAGE value="fix bugs and create instance agent" />
@@ -718,7 +711,8 @@
     <MESSAGE value="to change methaeurists" />
     <MESSAGE value="add methaeuristics" />
     <MESSAGE value="add changes to experiments" />
-    <option name="LAST_COMMIT_MESSAGE" value="add changes to experiments" />
+    <MESSAGE value="finish store bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish store bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
