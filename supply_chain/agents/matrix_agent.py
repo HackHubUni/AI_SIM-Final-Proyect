@@ -3,6 +3,7 @@ from supply_chain.Mensajes.gestor_peticiones import *
 from supply_chain.agents.AgentWrapped import *
 from supply_chain.agents.Store_Agent import *
 from supply_chain.agents.enviroment_visulizer import MatrixEnvVisualizer
+from supply_chain.agents.ware_house_agent import WareHouseAgente
 
 
 class MatrixAgent(AgentWrapped):
@@ -70,7 +71,7 @@ class MatrixAgent(AgentWrapped):
         """
         return self.company.name
 
-    def get_agents_by_name(self, agent_name: str) -> Agent:
+    def get_agents_by_name(self, agent_name: str) -> AgentWrapped:
         return self._get_agent_by_name(agent_name)
 
     def _create_store_order_gestor(self, store_name: str, product_want_name: str, id_pedido: str):
@@ -149,7 +150,19 @@ class MatrixAgent(AgentWrapped):
             #Guardar en el gestor de stock
             store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
             # Enviar el mensaje
-            self.send_smg_to_a_agent(msg_to_ask)
+            # self.send_smg_to_a_agent(msg_to_ask)
+            # TOmar al agente
+            agent_ = self.get_agents_by_name(warehouse_name)
+
+            if not isinstance(agent_, WareHouseAgente):
+                raise Exception(f'Se esperaba un agente Almacen no un {agent_.company.tag} con nombre {agent_.name}')
+
+            response: ResponseStoreProductInStockNow = agent_._process_count_product_in_stock(msg_to_ask, False)
+
+            #Logica si la respuesta es vacia
+
+
+
 
     def ask_all_manufactures_sell_this_product(self,product_name:str,count_want:int,store_gestor:StoreOrderGestor):
         """
@@ -172,8 +185,9 @@ class MatrixAgent(AgentWrapped):
             )
             store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
             #Enviar el mensaje
-            #self.send_smg_to_a_agent(msg_to_ask)
-            #TOmar al agente
+
+            self.send_smg_to_a_agent(msg_to_ask)
+
 
 
     def ask_distributors_price(self,product_name:str,count_want:int,company_from_service_name:str,company_from_service_tag:TypeCompany,company_destination_service_name:str,company_destination_service_tag:TypeCompany,store_gestor:StoreOrderGestor):

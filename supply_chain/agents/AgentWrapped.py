@@ -105,7 +105,7 @@ class AgentWrapped(Agent):
         return random.randint(self.min_delay_time,self.max_delay_time)
 
     def _get_a_factor_to_a_client(self, from_company_name: str, product_want_name: str,
-                                  class_type: PedirPrecio | PedirCantidad | PedirBase):
+                                  class_type:type):
         """Metodo base para que se pueda pedir factor para suplir de pedido y cant de factor de precio"""
         # Ahora pedir el factor del precio
         price_ask = class_type(from_company_name, product_want_name, "z")
@@ -127,12 +127,14 @@ class AgentWrapped(Agent):
         :param product_want_name:
         :return:
         """
-        return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirPrecio)
+        return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirPrecio,)
 
 
     def sent_msg_response_ofer(self, oferta: MessageWantProductOffer | AskPriceWareHouseCompany, count_can_supply: int,
                                price_per_unit: float, time_demora,
-                               instance=ResponseOfertProductMessaage):
+                               instance:type=ResponseOfertProductMessaage,
+                               send_msg=True
+                               )->ResponseOfertMessage:
 
         response = instance(company_from_type=self.company.tag,
                             company_from=self.company.name,
@@ -149,7 +151,9 @@ class AgentWrapped(Agent):
         self.ofer_manager.add_response_despues_de_negociar_oferta(response)
 
         # Enviar
-        self.send_smg_to_a_agent(response)
+        if send_msg:
+            self.send_smg_to_a_agent(response)
+        return response
 
 
 

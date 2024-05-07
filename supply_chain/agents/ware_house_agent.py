@@ -33,7 +33,12 @@ class WareHouseAgente(AgentWrapped):
 
                                     ResponseStorageProductOffer)
 
-    def _process_count_product_in_stock(self, msg: AskCountProductInStock):
+    def _process_count_product_in_stock(self, msg: AskCountProductInStock,send_msg=True):
+        """
+        Devuelve cuantos productos en stock tengo
+        :param msg:
+        :return:
+        """
         if msg.company_from_type != TypeCompany.Matrix:
             raise Exception(f'El mensaje no viene de una Matrix viene de una {msg.company_from_type}')
 
@@ -42,7 +47,7 @@ class WareHouseAgente(AgentWrapped):
 
         count_in_stock = self.company.get_how_can_storage_a_company(matrix_name, product_want)
 
-        self.sent_msg_response_ofer(msg, count_in_stock, 0, self.get_delay_time(), ResponseStoreProductInStockNow)
+        return self.sent_msg_response_ofer(msg, count_in_stock, 0, self.get_delay_time(), ResponseStoreProductInStockNow,send_msg)
 
     def recive_products(self, msg: HacerServicioDeDistribucion):
 
