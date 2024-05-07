@@ -171,6 +171,27 @@ class ShopStockManager(CompanyStockBase):
         """
         return product_name in self.products_names
 
+    def get_list_products_instance(self,product_name:str,count:int):
+        count_in_stock=self.count_product_in_stock(product_name)
+        if count_in_stock<count:
+            raise Exception(f'No se puede pedir {count} productos:{product_name} cuando hay {count_in_stock}')
+
+        lis=[]
+        for _ in range(count):
+            lis.append(self.get_product_instance(product_name))
+
+        return lis
+    def get_product_instance(self,product_name:str):
+        if not self.is_product_in_stock(product_name):
+            raise Exception(f"No se puede dar el producto {product_name} pq no hay existencias en el stock")
+
+        lis=self._stock[product_name]
+        if len(lis)<1:
+            raise Exception(f"No se puede dar el producto {product_name} pq no hay existencias en el stock")
+
+        return  lis.pop()
+
+
     def get_product_price(self, product_name: str) -> float:
         if not self.is_sale_product(product_name):
             raise Exception(f'El producto :{product_name} no se vende en esta tienda')

@@ -53,7 +53,7 @@ class ConsumerAgent:
 
     def decide(self, product_list: list[Product]):
         """
-        Devuelve el producto que se quiere la cant querida y cuando será procesado
+        Devuelve el  nombre del producto que se quiere la cant querida y cuando será procesado
         :param product_list:
         :return:
         """
@@ -63,13 +63,13 @@ class ConsumerAgent:
         weights = [
             self.consumer_body.how_good_is_product(product) for product in product_list
         ]
-        selected_product = rnd.choices(product_list, weights)[0]
+        selected_product:Product = rnd.choices(product_list, weights)[0]
         # TODO: Select the number of units to ask
         amount = self.amount_selection()
         current_time = self.get_simulation_time()
         decision_delay = self.attending_time()
         sell_time = current_time + decision_delay
-        return selected_product,amount,sell_time
+        return selected_product.name,amount,sell_time
 
 
 def generate_basic_consumer_agent(

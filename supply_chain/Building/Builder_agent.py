@@ -100,8 +100,7 @@ class BuildingMatrixAgent(BuilderBase):
         self.env_visualizer: MatrixEnvVisualizer = env_visualizer
         self.company_builder: BuilderMatrixCompany= BuilderMatrixCompany(self.seed,self.add_event, self.get_time)
 
-
-    def create_matrix_agent(self, name: str, store_names: list[str]):
+    def create_matrix_agent(self, name: str, store_names: list[StoreAgent]):
         company_ = self.company_builder.create_matrix_company(name)
         return MatrixAgent(name, company_, self.env_visualizer, store_names)
 

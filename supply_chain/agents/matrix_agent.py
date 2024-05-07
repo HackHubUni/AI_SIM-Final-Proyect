@@ -3,21 +3,27 @@ from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany,Ty
 from supply_chain.Mensajes.gestor_peticiones import *
 from supply_chain.agents.AgentWrapped import *
 from supply_chain.agents.enviroment_visulizer import MatrixEnvVisualizer
-
+from supply_chain.agents.Store_Agent import *
 
 class MatrixAgent(AgentWrapped):
+
+    def update_matrix_name_in_stores(self):
+        for store in  self.stores:
+            store.matrix_name=self.name
     def __init__(self,
                  name: str,
                  company: MatrixCompany,
                  env_visualizer: MatrixEnvVisualizer,
-                 store_names: list[str],
+                 stores: list[StoreAgent],
 
                  ):
         super().__init__(name, company, env_visualizer)
         self.env_visualizer: MatrixEnvVisualizer = env_visualizer
         self.company: MatrixCompany = company
         #self.planner: PlanningProblem = get_planing_Type()
-        self.store_names: list[str] = store_names
+        self.store_names: list[str] = [store.company.name for store in stores]
+
+        self.stores:list[StoreAgent]=stores
 
         # Gestor de peticiones por cada tienda
         self.petitions_gestor: MatrixOrderGestor = MatrixOrderGestor()

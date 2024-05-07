@@ -148,21 +148,21 @@ class Notification(Message):
                  company_from_type: TypeCompany,
                  company_destination_name: str,
                  company_destination_type: TypeCompany,
-                 ofer_id: str,
+                 logistic_offer_id: str,
                  count_enter: int,
-                 logistic_company: str,
+
                  ):
         super().__init__(company_from,
                          company_from_type,
                          company_destination_name,
                          company_destination_type, )
-        self.ofer_id: str=ofer_id
+        self.logistic_offer_id: str=logistic_offer_id
         self.count_enter: int=count_enter
-        self.logistic_company: str=logistic_company
 
 
 
-class SellResponseMessage(Notification):
+
+class SellResponseMessage(Message):
     def __init__(self,
                  company_from: str,
                  company_from_type: TypeCompany,
@@ -181,13 +181,12 @@ class SellResponseMessage(Notification):
                          company_from_type,
                          company_destination_name,
                          company_destination_type,
-                         ofer_id,
-                         count_sell,
-                         logistic_company
 
 
 
                          )
+
+        self.logistic_company: str = logistic_company
 
         self.ofer_id: str=ofer_id
         self.count_want: int=count_want

@@ -1,7 +1,7 @@
 from typing import Callable
 
-from supply_chain.Company.companies_types.shop_company import StoreCompany,TypeCompany
-from supply_chain.Mensajes.ask_msg import HacerServicioDeDistribucion, StoreWantRestock
+from supply_chain.Company.companies_types.shop_company import StoreCompany, TypeCompany
+from supply_chain.Mensajes.ask_msg import HacerServicioDeDistribucion, StoreWantRestock, Notification
 from supply_chain.agent import *
 from supply_chain.agents.expert_system.Sistema_experto import SistExperto
 
@@ -19,7 +19,7 @@ class StoreAgent(Agent):
 
     ) -> None:
         super().__init__(name)
-        self.matrix_name:str=matrix_name
+        self.matrix_name: str = matrix_name
         self.company: StoreCompany = company
         self.get_time: Callable[[], int] = get_time
         self.send_msg: Callable[[Message], None] = send_msg
@@ -59,6 +59,18 @@ class StoreAgent(Agent):
         self.company.store_stock_manager.add_list_products(list_products)
 
         #Enviar mensaje a la matrix de que llegaron productos
+
+        notification = Notification(
+            company_from=self.company.name,
+            company_from_type=self.company.tag,
+            company_destination_name=self.matrix_name,
+            company_destination_type=TypeCompany.Matrix,
+            logistic_offer_id=msg.id_to_recive_company
+
+        )
+
+        # Enviar la notificacion de arribo a la matrix
+        self.send_msg(notification)
 
 
 
