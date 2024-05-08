@@ -113,6 +113,14 @@ class MatrixAgent(AgentWrapped):
         #TODO:Simular tiempo de espera
 
 
+        #TODO Darme el valor que quiero rellenar:
+
+        count_want_restock:int=msg.count_want_restock
+
+        #Llamar a armar la cadena de suministro
+        self._restock_store(store_from_name,product_want_name,count_want_restock,store_gestor)
+
+
 
 
 
@@ -137,6 +145,7 @@ class MatrixAgent(AgentWrapped):
         :param count_want:
         :return:
         """
+        lis_posibles_offer=[]
         for warehouse_name in self.warehouses_name:
 
             msg_to_ask=AskCountProductInStock(
@@ -160,6 +169,12 @@ class MatrixAgent(AgentWrapped):
             response: ResponseStoreProductInStockNow = agent_._process_count_product_in_stock(msg_to_ask, False)
 
             #Logica si la respuesta es vacia
+            count_can_supply=response.count_can_supply
+            #Solo tomo las que tienen mas de uno
+            if count_can_supply<1:
+                continue
+            lis_posibles_offer.append(response)
+        return lis_posibles_offer
 
 
 

@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="Add Example">
-      <change afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/With_library.ipynb" afterDir="false" />
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="update flow alg">
+      <change afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/Optimization_choise_matrix.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/jd.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/jfjf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/Example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/Example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/With_library.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/With_library.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,15 +252,7 @@
       <workItem from="1714683554014" duration="52308000" />
       <workItem from="1714936845293" duration="83156000" />
       <workItem from="1715176317489" duration="6275000" />
-      <workItem from="1715183231076" duration="1937000" />
-    </task>
-    <task id="LOCAL-00035" summary="Create the Sist experto">
-      <option name="closed" value="true" />
-      <created>1714598796388</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1714598796388</updated>
+      <workItem from="1715183231076" duration="5258000" />
     </task>
     <task id="LOCAL-00036" summary="añadir explicacion SE agente">
       <option name="closed" value="true" />
@@ -645,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715129834774</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="update flow alg">
+      <option name="closed" value="true" />
+      <created>1715187568639</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1715187568640</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,7 +693,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add random ware_house_stock_manager" />
     <MESSAGE value="merge to new genetic alg" />
     <MESSAGE value="Add Builder Base" />
     <MESSAGE value="Refactor Producer StockManger" />
@@ -717,7 +717,8 @@
     <MESSAGE value="neww" />
     <MESSAGE value="implement max flow min cost alg" />
     <MESSAGE value="Add Example" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Example" />
+    <MESSAGE value="update flow alg" />
+    <option name="LAST_COMMIT_MESSAGE" value="update flow alg" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -759,7 +760,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/agents/matrix_agent.py</url>
-          <line>220</line>
+          <line>235</line>
           <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -844,7 +845,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/With_library.ipynb</url>
-          <line>99</line>
+          <line>133</line>
           <option name="timeStamp" value="231" />
         </line-breakpoint>
       </breakpoints>
