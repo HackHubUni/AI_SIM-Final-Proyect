@@ -166,3 +166,28 @@ class Register:
         :return:
         """
         return list(self._shops_records.values())
+
+
+class MatrixRecord:
+
+    def start(self):
+        for store_name in self.store_names:
+            self.dict_store_records[store_name]=ShopRecord(store_name,self.get_name)
+    def __init__(self,seed:int,store_names:list[str],get_time:Callable[[],int],corrida:int=1,):
+        self.seed: int=seed
+        self.corrida: int = corrida
+        self.store_names:list[str]=store_names
+        self.get_name:Callable[[],int]=get_time
+
+        self.dict_store_records:dict[str,ShopRecord]={}
+
+        self.start()
+
+    def get_store_record(self,store_name:str):
+
+        if not store_name in self.dict_store_records:
+            raise Exception(f'La tienda {store_name} no tiene ShopRecord')
+
+        return self.dict_store_records[store_name]
+
+

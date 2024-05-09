@@ -2,7 +2,7 @@ from sim_event import *
 import heapq
 
 from supply_chain.sim_environment import SimEnvironment
-
+from supply_chain.company import TypeCompany
 
 class SupplyChainSimulator:
     def __init__(self, environment: SimEnvironment, simulation_time: int) -> None:
@@ -52,8 +52,15 @@ class SupplyChainSimulator:
         companies = (
             self.environment.companies_in_map + self.environment.matrix_companies
         )
+
         for company in companies:
             company.start()
+            if company.tag==TypeCompany.Store:
+                company.create_next_client_arrival(self.simulation_time)
+
+        #matrix_agent=self.environment.get_matrix_agent()
+        #Inicializar el agente matrix
+        #matrix_agent.start()
         while self.step():
             continue
         print("Simulation Over")

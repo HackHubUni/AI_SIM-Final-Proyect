@@ -124,3 +124,10 @@ class SimEnvironment:
     def get_time(self) -> int:
         """Get the current time of the simulation"""
         return self.time
+
+    def get_matrix_agent(self)->Agent:
+        """
+        Devuelve el agente de la empresa matriz
+        :return:
+        """
+        return self.get_agent(lambda x:x.name=="Matrix")

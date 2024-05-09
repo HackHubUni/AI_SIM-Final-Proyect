@@ -2,8 +2,8 @@ from supply_chain import Company
 from supply_chain.Mensajes.ask_msg import *
 from supply_chain.Mensajes.offer_msg import *
 from supply_chain.agent import Agent, AgentException
-from supply_chain.agents.expert_system.Sistema_experto import SistExperto
 from supply_chain.agents.enviroment_visulizer import EnvVisualizer
+from supply_chain.agents.expert_system.Sistema_experto import SistExperto
 from supply_chain.agents.utils import *
 
 
@@ -152,7 +152,7 @@ class AgentWrapped(Agent):
 
         # Enviar
         if send_msg:
-            self.send_smg_to_a_agent(response)
+           self.send_smg_to_a_agent(response)
         return response
 
 

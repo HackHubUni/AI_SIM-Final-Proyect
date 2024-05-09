@@ -5,7 +5,7 @@ from supply_chain.Company.stock_manager.store_stock_manager import ShopStockMana
 from supply_chain.Company.stock_manager.warehouse_stock_manager import WarehouseStockManager
 from supply_chain.products.specific_products.recipes.pizza_recipe import PizzaRecipe
 
-product_name = 'pizza'
+
 
 import random
 
@@ -171,22 +171,45 @@ class BuildProductorStockManager(BuilderBase):
 
 
 
-class BuildingManufacterStockManager:
+class BuildingManufacterStockManager(BuilderBase):
 
     def __init__(self,
+                 seed:int,
                 list_manufactore_products: list[str],
                 list_base_products:list[str],
                 list_sale_products:list[str],
                 create_product_lambda: Dict[str, Callable[[int], List[Product]]],
                 get_time: Callable[[], int],
+                 add_event: Callable[[SimEvent], None],
                 min_product_amount:int = 100,
                 min_stock_random: int = 3000,
                 max_stock_random: int = 9000,
                 min_price: int = 50,
                 max_price: int = 200,
                  distribution_min_supply: int = 1,
-                 distribution_max_supply: int = 60
+                 distribution_max_supply: int = 60,
+                 min_time_restock:int=60*60*24,
+                 max_time_restock:int=60*60*120,
+
+                 min_restock:int=100,
+                 max_restock:int=50000,
                  ):
+        super().__init__(seed)
+
+        self.min_restock: int = min_restock
+        self.max_restock: int = max_restock
+
+        self.add_event: Callable[[SimEvent], None]=add_event
+
+        self.min_time_restock: int =min_time_restock
+        """
+        Tiempo minimo de restock
+        """
+        self.max_time_restock: int = max_time_restock
+        """
+        Tiempo maximo de restock
+        """
+
         self.list_manufactor_products:list[str]=list_manufactore_products
         """
         Nombre de los productos manufacturados (Productos que se producen apartir de la receta)
@@ -237,12 +260,15 @@ class BuildingManufacterStockManager:
         Precio maximo
         """
         self.create_product_lambda: dict[str, Callable[[int], list[Product]]] = create_product_lambda
+
+
+
     def create_products_max_stock(self)->dict[str, int]:
         dict_return={}
 
         for i in self.list_manufactor_products:
             if not i in dict_return :
-                dict_return[i] = random.randint(self.min_product_amount, self.min_stock_random)
+                dict_return[i] = self.get_random_int(self.min_product_amount, self.min_stock_random)
             else:
                 continue
 
@@ -253,7 +279,7 @@ class BuildingManufacterStockManager:
 
         for i in self.list_manufactor_products:
             if not i in dic :
-                dic[i] = random.randint(self.min_product_amount,self.min_stock_random)
+                dic[i] = self.get_random_int(self.min_product_amount,self.min_stock_random)
             else:
                 continue
         return dic
@@ -263,7 +289,7 @@ class BuildingManufacterStockManager:
 
         for i in self.list_manufactor_products:
             if not i in dic:
-                dic[i] = random.randint(50, 200)
+                dic[i] = self.get_random_float(self.min_price, self.max_price)
             else:
                 continue
         return dic
@@ -277,7 +303,7 @@ class BuildingManufacterStockManager:
 
     def create_time_restock_distribution(self)->Callable[[], int]:
         def distribution():
-            return random.randint(1,60)
+            return self.get_random_int(self.min_time_restock,self.max_time_restock)
 
         return distribution
 
@@ -297,7 +323,7 @@ class BuildingManufacterStockManager:
         dict_return = {}
 
         def func():
-            return random.randint(self._distribution)
+            return self.get_random_int(self.min_restock,self.max_restock)
 
         for product_name in self.list_manufactor_products:
             dict_return[product_name] = func
@@ -305,27 +331,30 @@ class BuildingManufacterStockManager:
         return dict_return
 
     def create_ManufactureStock(self):
-        return ManufacturingStock(self.create_products_max_stock(),
-                                  self.create_products_min_stock(),
-                                  self.create_product_lambda,
-                                  self.create_supply_distribution(),
-                                  self.create_sale_price_distribution(),
-                                  self.create_time_restock_distribution(),
-                                  self.get_time,
-                                  self.create_recipe_dic(),
-                                  self.create_price_produce_product_per_unit())
+        return ManufacturingStock(products_max_stock=self.create_products_max_stock(),
+                                  products_min_stock=self.create_products_min_stock(),
+                                 create_product_lambda= self.create_product_lambda,
+                                 supply_distribution= self.create_supply_distribution(),
+                                sale_price_distribution=  self.create_sale_price_distribution(),
+                                time_restock_distribution=  self.create_time_restock_distribution(),
+                                get_time=  self.get_time,
+                                 recipe_dic= self.create_recipe_dic(),
+                                 price_produce_product_per_unit= self.create_price_produce_product_per_unit(),
+                                  add_event=self.add_event
+
+                                  )
 
 
 
 class BuildWareHouseStockManager(BuilderBase):
 
     def __init__(self,
+                 seed:int,
                  products_name: list[str],
                  matrix_names: list[str],
                  create_product_lambda: dict[str, Callable[[int], list[Product]]],
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int],
-
                  min_stock_random: int = 500,
                  max_stock_random: int = 6000,
                  company_magic_stock_min_random: int = 300,
@@ -336,6 +365,7 @@ class BuildWareHouseStockManager(BuilderBase):
                  company_price_max_restock: int = 650,
 
                  ):
+        super().__init__(seed)
         self.name = ''
         self.products_name: list[str] = products_name
 
@@ -402,6 +432,7 @@ class BuildWareHouseStockManager(BuilderBase):
 
 
 
+
     def get_ware_house_stock_manager(self):
 
         ret=WarehouseStockManager(
@@ -412,7 +443,7 @@ class BuildWareHouseStockManager(BuilderBase):
             add_event=self.add_event,
             get_time=self.get_time,
 
-
+            company_product_time_count_supply_magic_distribution=self.create_company_product_time_count_supply_magic_distribution()
 
 
         )

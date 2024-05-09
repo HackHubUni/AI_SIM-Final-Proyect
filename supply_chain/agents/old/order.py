@@ -1,10 +1,7 @@
 from supply_chain.agents.old.origin import Origin
 
-try:
-    from supply_chain.products import Product
+from supply_chain.products import
 
-except:
-    pass
 
 
 class Order():

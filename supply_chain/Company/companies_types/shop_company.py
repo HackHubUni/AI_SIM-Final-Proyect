@@ -1,5 +1,5 @@
 import copy
-from random import random
+import random
 from typing import Callable
 
 from ..registrers.resgister import ShopRecord
@@ -43,10 +43,6 @@ class StoreCompany(Company):
         True si el agente cuando se inicializo actualizo los datos
         """
 
-
-
-
-
     @property
     def tag(self) -> TypeCompany:
         return TypeCompany.Store
@@ -59,6 +55,7 @@ class StoreCompany(Company):
         """
         dic=self.store_stock_manager.restock()
         if len(dic)>0:
+            time = self.time
             self.need_restock(dic)
     def add_from_the_agent(self, shop_record: ShopRecord, need_restock: Callable[[dict[str, int]], None]):
         # Añadir el nuevo shop_record
@@ -72,12 +69,16 @@ class StoreCompany(Company):
 
        return self.store_stock_manager.get_all_products_instance()
 
+    def is_empty_the_stock(self) -> bool:
+        return len(self.store_stock_manager.get_all_products_instance()) == 0
+
 
     def start(self):
 
         if not self._update_from_agent:
             raise Exception(f'El agente de la tienda {self.name} no ha actualizado los datos de esta')
-        self.create_next_client_arrival()
+        # añadir por el simulador
+        # self.create_next_client_arrival()
 
     def _add_client(self, consumer_client: ConsumerAgent) -> None:
         # TODO: Adds a client to the store queue
@@ -95,6 +96,17 @@ class StoreCompany(Company):
         """
         if self.actual_client is None:
             raise Exception(f'El cliente atender no puede ser None')
+
+        # Tomar el record del cliente
+        client_record = self._shop_record.get_client_record_by_name(self.actual_client.identifier)
+
+        if self.is_empty_the_stock():
+            #SI el stock esta vacio no lo trato
+            client_record.client_buy_food("None", -1, 0, -1)
+            #El cliente se va
+            client_record.client_departure(self.time)
+
+            return self._process_next_client()
 
         menu = copy.deepcopy(self.get_list_product_instance())
         product_name, count_want, where_process = self.actual_client.decide(menu)
@@ -121,7 +133,7 @@ class StoreCompany(Company):
 
         for product_instance in products_instance:
             # Guardar que tan bueno era este producto para el cliente
-            client_record.how_good_is_the_product(
+            client_record.how_good_is_the_product(product_instance.name,
                 self.actual_client.consumer_body.how_good_is_product(product_instance))
 
         # Ida del cliente
@@ -129,7 +141,7 @@ class StoreCompany(Company):
         client_departure = random.randint(0, 3) + self.time
         # Añadir al resgistro el tiempo de ida
 
-        client_record.client_departure_time(client_departure)
+        client_record.client_departure(client_departure)
 
         # Crear el evento de que se va del mostrador
         event = ClientDepearture(client_departure, self._process_next_client)
@@ -142,7 +154,7 @@ class StoreCompany(Company):
         :return:
         """
 
-
+        self.restock()
         self.actual_client = None
         self.process_client()
 
@@ -162,16 +174,21 @@ class StoreCompany(Company):
             # Se añade el evento
             self.add_event(event)
 
-    def create_next_client_arrival(self):
+    def create_next_client_arrival(self, simulation_max_time: int):
+        if simulation_max_time == 0:
+            raise Exception(f' No se le ha pasado el tiempo maximo de la simulacion')
+        client_count=0
         current_time = self.get_time()
         delay = self.next_client_distribution()
         arrival_time = current_time + delay
-        client_arrival_event = ClientArrival(
-            arrival_time,
-            lambda: generate_basic_consumer_agent(
-                self.get_time,
-                self.add_event,
-            ),
-            self._add_client,
-        )
-        self.add_event(client_arrival_event)
+        while arrival_time < simulation_max_time and client_count < 1000:
+            client_count += 1
+            client_arrival_event = ClientArrival(
+                arrival_time,
+                lambda: generate_basic_consumer_agent(
+                    self.get_time,
+                    self.add_event,
+                ),
+                self._add_client,
+            )
+            self.add_event(client_arrival_event)

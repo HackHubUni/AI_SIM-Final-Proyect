@@ -13,24 +13,32 @@ class StoreOrderGestor:
         self.store_name: str = store_name
         self.store_restock_msg_matrix_id: str = store_restock_msg_matrix_id
         self.product_name: str = product_name
-        self._set_ask_from_matrix_to_another_company: set[Message] = set()
+        self._offer_cosas_a_cumplir_si_la_acepto: dict[[Message], list[[Message]]] = {}
+        """
+        Por cada oferta guarda que tengo que mandar a cumplir en orden 
+        """
 
-        self._set_response_from_another_company_to_matrix: set[Message] = set()
-
-    def add_ask_from_matrix_to_another_company(self, msg: Message):
+    def add_ask_from_matrix_to_another_company(self, msg: Message, list_conditions: list[Message]):
         """
         Añadir mensajes que envia a otra compañia
         :param msg:
         :return:
         """
-        if msg in self._set_ask_from_matrix_to_another_company:
+        if msg in self._offer_cosas_a_cumplir_si_la_acepto:
             raise Exception(
                 f'El gestor para las peticiones de la tienda {self.store_name} por el producto {self.product_name} ya ha sido enviado el msg {msg}')
-        self._set_ask_from_matrix_to_another_company.add(msg)
 
-    def add_response_from_company(self, msg: Message):
-        if msg in self._set_response_from_another_company_to_matrix:
-            raise Exception(f'No se puede añadir dos veces la respuesta del mensaje {msg}')
+        if len(list_conditions) < 1:
+            raise Exception('f La lista de condiciones tiene que tener elementos ')
+
+        self._offer_cosas_a_cumplir_si_la_acepto[msg] = list_conditions
+
+
+
+
+
+
+
 
     def __eq__(self, other):
         if isinstance(other, StoreOrderGestor):
@@ -103,3 +111,18 @@ class MatrixOrderGestor:
             raise Exception(f'La llave {key} no esta en el diccionario')
 
         return self._dict_store_order_gestor[key]
+
+
+class OfferGestor:
+    def __init__(self, id_offer_objetive: str):
+        self.id_offer_objetive: str = id_offer_objetive
+        self.id_necesitar_cumplir: set[str] = set()
+
+        def set_necesitar_cumplir_tb_contrato(id_contrato: str):
+            self.id_necesitar_cumplir.add(id_contrato)
+
+
+class Gestor:
+    def __init__(self, store_name: str):
+        self.store_name: str = store_name
+        self.dict_offer_need_to_cumplir: dict[Message, list[Message]]

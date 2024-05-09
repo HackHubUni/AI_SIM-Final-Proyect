@@ -86,8 +86,9 @@ class DistributorAgent(AgentWrapped):
         #Añadir el msg al ofert manager
         self.ofer_manager.add_response_despues_de_negociar_oferta(response_msg)
         # Enviar el mensaje
-        self.send_smg_to_a_agent(response_msg)
+        #self.send_smg_to_a_agent(response_msg)
 
+        return response_msg
     def recive_msg(self, msg: Message):
 
         if isinstance(msg,  AskPriceDistributor):

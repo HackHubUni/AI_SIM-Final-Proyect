@@ -38,9 +38,9 @@ class StoreAgent(Agent):
 
 
 
-    def update_from_matrix(self,shop_record:ShopRecord):
+    def update_from_matrix(self,shop_record:ShopRecord,matrix_name:str):
         self._shop_record=shop_record
-
+        self.matrix_name=matrix_name
 
 
         #Update the shop
@@ -63,10 +63,10 @@ class StoreAgent(Agent):
 
         msg= StoreWantRestock(
             company_from=self.company.name,
-            company_destination_type=self.company.tag,
+            company_from_type=self.company.tag,
             product_want_name=product_name,
             company_destination_name=self.matrix_name,
-            company_from_type=TypeCompany.Matrix,
+            company_destination_type=TypeCompany.Matrix,
             count_want_restock=count_want,
         )
         #Enviar el mensaje

@@ -10,6 +10,31 @@ points = poisson_disc_sampling(10 + 5 + 5 + 20, (0, 0), (5000, 5000), 20, 20)
 plt.scatter([p[0] for p in points], [p[1] for p in points])
 print(len(points))
 # Now let's create some connections
+
+def create_ware_house_agents(count_want: int, seed, env_visualizer: EnvVisualizer, get_time, add_event):
+    build_ware_house_agent = BuildingWareHouseAgent(seed, env_visualizer, get_time, add_event)
+    lis = []
+    for i in range(1, count_want + 1):
+        lis.append(build_ware_house_agent.get_ware_house_agent(f'WareHouse_{i}', 'Matrix', TypeProduction.Blended))
+    return lis
+
+
+def create_Distribution_agent(count_want: int, seed: int, env_visualizer: EnvVisualizer, get_time, add_event):
+    lis = []
+
+    for i in range(0, count_want):
+        lis.append(BuildingDistributorAgent(seed, env_visualizer, get_time, add_event).create_instance(f'Logistic_{i}'))
+
+    return lis
+
+
+
+def create_Manufacturer_agent(count_want:int,seed:int, env_visualizer: EnvVisualizer, get_time, add_event):
+    lis=[]
+
+    for i in range(0,count_want):
+        lis.append(BuildingManufacturerAgent(seed, env_visualizer, get_time, add_event).create_manufacturer_agent(f'Manufactor_{i}'))
+    return lis
 def main():
     sim_map_builder=BuilderSimMap(55,40)
     simulation_map=sim_map_builder.create_instance()
@@ -24,6 +49,8 @@ def main():
     add_event = simulator.add_event
 
     send_msg = environment.send_message
+
+    get_agent_by_name = environment.get_agent_by_name
 
     seed=1234
 
@@ -65,28 +92,21 @@ def main():
 
     matrix_Building=BuildingMatrixAgent(seed,matrix_env_,get_time, add_event)
 
-    distributor_building = BuildingDistributorAgent(seed, env_visualizer, get_time, add_event)
+    matrix_ = matrix_Building.create_matrix_for_experiment("Matrix", 1, 2, 1, 3, get_agent_by_name)
 
-    productor_1=productor_agent.create_instance("Producer_1")
+    agents_list_in_the_map=create_Distribution_agent(1,seed,env_visualizer,get_time,add_event)
 
-    matrix_=matrix_Building.create_matrix_agent("Matrix",["Tienda_1"])
+    agents_list_in_the_map.extend(create_Manufacturer_agent(1,seed,env_visualizer,get_time,add_event))
 
-    distributor_1 = distributor_building.create_instance("Distributor_1")
+    agents_list_in_the_map.extend(create_ware_house_agents(1,seed,env_visualizer,get_time,add_event))
 
-    environment.add_agents([productor_1, matrix_, distributor_1])
+    agents_list =agents_list_in_the_map+ [matrix_] + matrix_.store_agents
+    environment.add_agents(agents_list)
     environment.add_matrix_companies([matrix_.company])
-    environment.add_companies_in_map([productor_1.company, distributor_1.company])
+    list_companys_in_the_map = [x.company for x in agents_list_in_the_map] + matrix_.stores_companys
+    environment.add_companies_in_map(list_companys_in_the_map)
     simulator.run()
-    msg=StoreWantRestock(company_from="Tienda_1",
-                         company_from_type=TypeCompany.Store,
-                         company_destination_name="Matrix",
-                         company_destination_type=TypeCompany.Matrix,
-                         product_want_name="Cheese",
-                         count_want_restock=20
-                         )
 
-
-    send_msg(msg)
     print(2)
 
 

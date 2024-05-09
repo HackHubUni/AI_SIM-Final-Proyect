@@ -13,6 +13,9 @@ class ExampleBuilderProduct(BuilderBase):
 
         return get_pizzas
 
+    def get_finals_products_names(self)->list[str]:
+        return list(self.create_dict_final_products().keys())
+
     def create_dict_final_products(self):
         """
         Devuelve el diccionario con los productos manufacturados o finales
@@ -33,6 +36,9 @@ class ExampleBuilderProduct(BuilderBase):
         dict_ret[PizzaDough.get_the_name()] = lambda x: [Cheese(self.get_random_int(1, 100)) for _ in range(x)]
 
         return dict_ret
+
+    def get_list_base_products_names(self)->list[str]:
+        return list(self.create_dict_base_products().keys())
 
 
 

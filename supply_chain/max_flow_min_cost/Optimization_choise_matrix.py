@@ -26,6 +26,7 @@ class MatrixOptimizer:
             lis.append((self.source, company_offer_id, {"capacity": count_want, "weight": 0}))
         return lis
 
+
     def create_graph(self, sink_name: str, count_want: int, lis_companys: list[dict[str, dict[str, float]]]
 
                      ):
@@ -42,7 +43,7 @@ class MatrixOptimizer:
 
         for item in lis_companys:
             # Añadir la lista por cada tipo de empresa
-            lis.extend(self._append_in_the_list_to_create_graph(item))
+            lis.extend(self._append_in_the_list_to_create_graph(item,count_want))
 
         G.add_edges_from(lis)
 
@@ -88,7 +89,28 @@ class MatrixOptimizer:
             dic_return[offer_id] = val
 
         return dic_return
+    def _get_all_offers_ids(self, lis_companys: list[dict[str, dict[str, float]]])->list[str]:
+        lis:list[str]=[]
 
+        for item in lis_companys:
+            lis.extend(item.keys())
+
+        return lis
+
+    def solve_normal_solution(self, store_name: str, count_want: int, lis_companys: list[dict[str, dict[str, float]]])->tuple[dict[str, int], float]:
+        """
+        Llamar a este metodo para resolver el problema grande
+        :param store_name:
+        :param count_want:
+        :param lis_companys:
+        :return: El diccionario con los contratos aceptar y el float con el costo de todo
+        """
+        graph = self.create_graph(store_name, count_want, lis_companys)
+        mincostFlow=self.solve_graph(graph,store_name)
+        oferts_id=self._get_all_offers_ids(lis_companys)
+        list_return=self.get_list_offer_to_acept_with_count_to_want(mincostFlow,oferts_id)
+        min_cost=self._get_min_cost_after_flow_solution(graph,mincostFlow)
+        return list_return,min_cost
     def solve_graph(self, G: DiGraph, store_name: str):
         """
         Dado el grafo de NetworkNx devuelve el diccionario con la red de flujo

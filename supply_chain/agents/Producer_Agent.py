@@ -1,5 +1,3 @@
-import random
-
 from supply_chain.Company.companies_types.Producer_Company import ProducerCompany
 from supply_chain.Company.orders.Sell_order import SellOrder
 from supply_chain.agents.AgentWrapped import *
@@ -57,7 +55,7 @@ class ProducerAgent(AgentWrapped):
         """
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirCantidad)
 
-    def _ask_price_product(self, msg: MessageWantProductOffer):
+    def ask_price_product(self, msg: MessageWantProductOffer):
         # Es pq esta pidiendo precio
 
         # SI no es una empresa matriz lanzo excepcion
@@ -91,7 +89,8 @@ class ProducerAgent(AgentWrapped):
 
         # Enviar la respuesta
 
-        self.sent_msg_response_ofer(msg, final_count_to_supply, final_price, self.get_delay_time())
+        return self.sent_msg_response_ofer(msg, final_count_to_supply, final_price, self.get_delay_time(),
+                                           ResponseOfertProductMessaage, False)
 
     def make_sell_ofert_response(self, msg: BuyOrderMessage, count_to_sell: int):
         """
@@ -182,12 +181,18 @@ class ProducerAgent(AgentWrapped):
         # Upgradear la base de conocimiento
         self.update()
 
-        if isinstance(msg, MessageWantProductOffer):
-            return self._ask_price_product(msg)
-        elif isinstance(msg, BuyOrderMessage):
+        # if isinstance(msg, MessageWantProductOffer):
+        #    return self.ask_price_product(msg)
+        # elif isinstance(msg, BuyOrderMessage):
+        #    sell_order = self.going_to_sell(msg)
+        #    # Enviar el producto
+        #    self.deliver(sell_order, msg.time_logist, msg.id_contract_destination)
+
+        if isinstance(msg, BuyOrderMessage):
             sell_order = self.going_to_sell(msg)
             # Enviar el producto
             self.deliver(sell_order, msg.time_logist, msg.id_contract_destination)
+
 
         else:
             self.lanzar_excepcion_por_no_saber_mensaje(msg)

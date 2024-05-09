@@ -33,7 +33,7 @@ class WareHouseAgente(AgentWrapped):
 
                                     ResponseStorageProductOffer)
 
-    def _process_count_product_in_stock(self, msg: AskCountProductInStock,send_msg=True):
+    def process_count_product_in_stock(self, msg: AskCountProductInStock, send_msg=True):
         """
         Devuelve cuantos productos en stock tengo
         :param msg:
@@ -97,7 +97,7 @@ class WareHouseAgente(AgentWrapped):
             self.recive_products(msg)
 
         elif isinstance(msg, AskCountProductInStock):
-            self._process_count_product_in_stock(msg)
+            self.process_count_product_in_stock(msg)
 
         elif isinstance(msg, BuyOrderMessage):
 

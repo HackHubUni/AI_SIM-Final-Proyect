@@ -13,16 +13,24 @@ class ManufacturingStock(ProductorCompanyStock):
                  time_restock_distribution: Callable[[], int],
                  get_time: Callable[[], int],
                  recipe_dic: dict[str, Recipe],
-                 price_produce_product_per_unit: dict[str, float]
+                 price_produce_product_per_unit: dict[str, float],
+                 add_event: Callable[[SimEvent], None],
+
                  ):
         super().__init__(
-            products_max_stock,
-            products_min_stock,
-            create_product_lambda,
-            supply_distribution,
-            sale_price_distribution,
-            time_restock_distribution,
-            get_time
+
+
+
+
+           products_max_stock= products_max_stock,
+          products_min_stock=  products_min_stock,
+           create_product_lambda= create_product_lambda,
+           supply_distribution= supply_distribution,
+          sale_price_distribution=  sale_price_distribution,
+           time_restock_distribution= time_restock_distribution,
+          get_time=  get_time,
+            add_event=add_event,
+
         )
 
         self.recipe_dic: dict[str, Recipe] = recipe_dic

@@ -87,8 +87,8 @@ class WarehouseStockManager(CompanyStockBase):
         :param companies_name:
         :return:
         """
-
-        products_names = list(self.company_product_count_supply_magic_distribution[companies_name].keys())
+        dic=self.company_product_count_supply_magic_distribution[companies_name]
+        products_names = list(dic.keys())
         # TOmar la cant que se quiere suministrar magicamente en cada restock y ver si tiene todos los productos
         product_count_supply_magical_distribution = self.company_product_count_supply_magic_distribution[companies_name]
         # TOmar si en esta empresa todos los productos tiene  tiempo de restock en esta empresa
@@ -143,7 +143,7 @@ class WarehouseStockManager(CompanyStockBase):
             self._check_companies_name(company_name)
             # Chequer que coinciden los productos para cada compañía osea que no haya uno que no tenga
             # distribucion o cant máxima
-            self._check_start_products_in_companies(companies_name)
+            self._check_start_products_in_companies(company_name)
 
     def get_quality_of_a_product_instance_now(self, product: Product) -> float:
         """Devuelve la calidad de un producto en este mismo momento"""
@@ -157,7 +157,7 @@ class WarehouseStockManager(CompanyStockBase):
         :return: Una nueva lista con los sin los count peores productos que además ha sido reordenada random
         """
         # lanzar exepcion si el count es menor que la cant que hay en la lista
-        if count > len(list_product):
+        if count > len(list_product) and len(list_product)>0:
             raise BaseCompanyReStockException(
                 f'No se puede quitar los {count} primeros peores si solo se tiene {len(list_product)}')
         # Ordenar la lista de menor a mayor de acuerdo a su calidad actual
@@ -246,6 +246,8 @@ class WarehouseStockManager(CompanyStockBase):
             assert count_in_stock < quantity_not_accepted, f'En la empresa {company_name} producto {product_name} se quiere quitar los {quantity_not_accepted} peores productos pero en stock hay {count_in_stock}'
             # ELiminar la cant de desechar peores
             # Actualizar los productos en stock
+
+
             lis_product_stock = self.delete_firts_n_worts_products_in_quality(lis_product_stock, quantity_not_accepted)
 
         # Generar los productos y añadirlos

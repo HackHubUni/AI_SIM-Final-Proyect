@@ -54,6 +54,11 @@ class StoreWantRestock(MessageWantProductOffer):
         self.company_destination_type: TypeCompany = company_destination_type
         self.product_want_name: str = product_want_name
         self.count_want_restock: int = count_want_restock
+        super().__init__(company_from=company_from,
+                         company_from_type=company_from_type,
+                         company_destination_name=company_destination_name,
+                         company_destination_type=company_destination_type,
+                         product_want_name=product_want_name)
 
 
 
