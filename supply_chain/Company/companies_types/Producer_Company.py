@@ -27,11 +27,11 @@ class ProducerCompany(CompanyWrapped):
         :return:
         """
 
-        #self.stock_manager.restock()
-        event=CompanyRestockSimEvent(self.time,0,self.stock_manager.restock)
-        self.add_event(event)
+        self.stock_manager.restock()
+        # event=CompanyRestockSimEvent(self.time,0,self.stock_manager.restock)
+        # self.add_event(event)
 
-    # TODO:Carla aca tienes para saber cual es el stock de productos osea nombre_producto:cant
+
 
     @property
     def tag(self):
@@ -195,7 +195,7 @@ class ProducerCompany(CompanyWrapped):
 
         delivery_Order.set_list_product(list_return)
 
-        time_=self.time+delivery_Order.time_demora_logistico
+        time_ = delivery_Order.time_demora_logistico
         event=SendProductEvent(time_,
                                1,
                                comunication,

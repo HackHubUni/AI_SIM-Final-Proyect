@@ -37,6 +37,8 @@ class Company(ABC):
         self.agent_name: str = ""
         """The name of the agent that rules this company"""
 
+
+
     @property
     @abstractmethod
     def tag(self) -> TypeCompany:
@@ -69,3 +71,5 @@ class Company(ABC):
         :return:
         """
         return self.get_time()
+
+

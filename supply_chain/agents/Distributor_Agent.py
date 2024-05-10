@@ -50,6 +50,15 @@ class DistributorAgent(AgentWrapped):
     def _factor_as_not_in_this_city(self):
         return 5000
 
+    def ajustar_factor_precio_per_client_and_product(self, client_name: str, product_name: str):
+        ask = self.sistema_experto.ask(ClientWrapped(client_name))
+        if ask == False:
+            self.sistema_experto.add(ClientWrapped(client_name))
+
+        ask = self.sistema_experto.ask(ProductWrapped(product_name))
+        if ask == False:
+            self.sistema_experto.add(ProductWrapped(product_name))
+
     def hacer_orden_de_servicio(self, msg:  AskPriceDistributor):
         """
         Le da la oferta a la matrix y la orden de venta del servicio
@@ -68,6 +77,9 @@ class DistributorAgent(AgentWrapped):
 
         count_to_move=msg.count_to_transport
 
+        # Ajustar el factor
+        self.ajustar_factor_precio_per_client_and_product(msg.company_from, product_name)
+
         # Factor por el que multiplicar el precio general del servicio
         factor = self.get_factor_price_to_a_client(msg.company_from, product_name)
         if factor < 0:
@@ -80,11 +92,11 @@ class DistributorAgent(AgentWrapped):
         # Coste total del servicio
         total_cost = self.company.get_estimated_cost_by_distance_unit(distance) * factor
         # Duracion  del servicio
+        # duration_time =self.time+ self.company.get_estimated_time_by_distance_unit(distance)
         duration_time = self.company.get_estimated_time_by_distance_unit(distance)
         # Mensje de respuesta
         response_msg = self.create_response_msg(msg, total_cost,count_to_move, duration_time)
-        #Añadir el msg al ofert manager
-        self.ofer_manager.add_response_despues_de_negociar_oferta(response_msg)
+
         # Enviar el mensaje
         #self.send_smg_to_a_agent(response_msg)
 

@@ -1,6 +1,7 @@
 
 from typing import Callable
 
+from supply_chain import CompanyConfidence
 from supply_chain.Message import Message
 from supply_chain.agents.utils import ImplicationLogicWrapped
 from supply_chain.company import TypeCompany
@@ -45,3 +46,7 @@ class MatrixEnvVisualizer(EnvVisualizer):
         self.get_manufacturers_name: Callable[[], list[str]] = get_manufacturers_name
         self.get_warehouses_name: Callable[[], list[str]] = get_warehouses_name
         self.get_distributor_names: Callable[[], list[str]] = get_distributor_names
+
+        """
+        Lambda para retornar dado el nombre de una compañía la confianza que se tiene en esta
+        """

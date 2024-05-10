@@ -10,11 +10,12 @@ class ProducerAgent(AgentWrapped):
 
     def update_products(self):
         list_products_init_ = self.company.get_name_products_in_stock_now()
-
+        if list_products_init_ is None or len(list_products_init_)<1:
+            raise Exception(f'La lista no puede ser None o vacia')
         for product_name in list_products_init_:
             product = ProductWrapped(product_name)
             # Añadir al sist experto
-            print(product.show())
+          #  print(product.show())
             self.sistema_experto.add(product)
 
     def update(self):
@@ -36,7 +37,7 @@ class ProducerAgent(AgentWrapped):
         self.company: ProducerCompany = company
 
         # Start
-        self.start()
+        #self.start()
 
         # guid, Respuesta de la peticion de precio
 
@@ -56,6 +57,8 @@ class ProducerAgent(AgentWrapped):
         return self._get_a_factor_to_a_client(from_company_name, product_want_name, PedirCantidad)
 
     def ask_price_product(self, msg: MessageWantProductOffer):
+        #Updatear las creencias
+        self.update()
         # Es pq esta pidiendo precio
 
         # SI no es una empresa matriz lanzo excepcion
@@ -76,12 +79,15 @@ class ProducerAgent(AgentWrapped):
 
         factor_price = self.get_factor_price_to_a_client(from_company_name, product_want_name)
 
+        if isinstance(factor_price,bool):
+            raise Exception(f'El factor price no debe ser bool ')
+
         final_price = self.company.get_product_price(product_want_name) * factor_price
 
         # Cuantas unidades se le puede vender
 
         factor_to_buy = self.get_factor_count_to_sell_producto_to_a_client(from_company_name, product_want_name)
-        print(f'Factor de venta {factor_to_buy}')
+       # print(f'Factor de venta {factor_to_buy}')
 
         temp = self.company.stock_manager.get_count_product_in_stock(product_want_name) * factor_to_buy
 
@@ -137,7 +143,7 @@ class ProducerAgent(AgentWrapped):
 
     def _get_sell_order(self, ofer: ResponseOfertProductMessaage, msg: BuyOrderMessage):
         """
-
+        La venta
         :param ofer:
         :param msg:
         :return:

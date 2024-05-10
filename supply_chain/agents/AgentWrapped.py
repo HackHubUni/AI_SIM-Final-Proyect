@@ -66,6 +66,7 @@ class AgentWrapped(Agent):
 
     def start(self):
         self.company.agent_name = self.name
+        self.company.start()
         self.update()
 
     def send_smg_to_a_agent(self, msg: Message):
@@ -91,7 +92,7 @@ class AgentWrapped(Agent):
 
             # Creo la figura Valoracion
             valoracion = Valoracion(name, tag)
-            print(valoracion.show())
+           # print(valoracion.show())
             # Lo añado al sistema experto
             self.sistema_experto.add(valoracion)
 
@@ -102,7 +103,7 @@ class AgentWrapped(Agent):
         self.update_implications()
 
     def get_delay_time(self):
-        return random.randint(self.min_delay_time,self.max_delay_time)
+        return self.time+ random.randint(self.min_delay_time,self.max_delay_time)
 
     def _get_a_factor_to_a_client(self, from_company_name: str, product_want_name: str,
                                   class_type:type):
@@ -111,7 +112,7 @@ class AgentWrapped(Agent):
         price_ask = class_type(from_company_name, product_want_name, "z")
         # Factor a multiplicar el precio
 
-        print(price_ask.show())
+      #  print(price_ask.show())
 
         factor = self.sistema_experto.ask(price_ask)
 
@@ -160,7 +161,7 @@ class AgentWrapped(Agent):
     def update_implications(self):
 
         for implication in self.logic_implication:
-            print(implication.show())
+           # print(implication.show())
             self.sistema_experto.add(implication)
 
     @abstractmethod

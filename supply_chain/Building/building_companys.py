@@ -181,7 +181,7 @@ class BuilderLogisticCompany(BuilderBase):
 
         return LogisticCompany(name,self.get_time,
                                self.add_event,lambda x: self.get_random_int(self.min_price,self.max_price)*x,
-                               lambda x: self.get_random_int(self.min_time,self.max_time)*x)
+                               lambda x: self.get_random_int(self.min_time,self.max_time))
 
 
 class BuildingManufacturerCompany(BuilderBase):
@@ -270,7 +270,10 @@ class BuilderStoreCompany(BuilderBase):
 
     def next_client_distribution(self):
           # La tasa de ocurrencia. Ajusta este valor según tus necesidades.
+        new_seed=self.get_random_int(1,self.seed)
+        np.random.seed(new_seed)
         return np.random.poisson(self.tasa_de_ocurrencia)
+
 
     def _create_store_stock_manager(self)->ShopStockManager:
         return BuilderStoreStockManager(self.list_products_name,

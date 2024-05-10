@@ -119,9 +119,11 @@ class ShopStockManager(CompanyStockBase):
 
         count_in_stock = len(product_stock)
 
-        if count_max > count_in_stock + 1:
-            raise Exception(
-                f'No se puede añadir más producto {product_name} al stock dado que su límite es {count_max} y hay {count_in_stock}')
+        #TODO: Esto descomentar es lo que no permite qua halla mas stock del que se queria
+        if count_max < count_in_stock + 1:
+            return False
+        #    raise Exception(
+        #        f'No se puede añadir más producto {product_name} al stock dado que su límite es {count_max} y hay {count_in_stock}')
 
         product_stock.append(product_instance)
         # Reorganizar aleatoriamente

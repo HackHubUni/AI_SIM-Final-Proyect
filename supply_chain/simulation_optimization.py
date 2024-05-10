@@ -1,4 +1,6 @@
 from uuid import uuid4
+
+from . import CompanyConfidence
 from .sim_ai.metaheuristics.genetic_algorithms.genetic_implementations.basic_genetic_alg import *
 from .sim_ai.metaheuristics.genetic_algorithms.genes.choice_gene import *
 from .sim_ai.metaheuristics.genetic_algorithms.chromosomes.basic_chromosome import *
@@ -6,15 +8,15 @@ from enum import Enum
 from .company import TypeCompany
 
 
-class CompanyConfidence(Enum):
-    """The confidence level of a company"""
-
-    Fatal = "Fatal"
-    Mal = "Mal"
-    Regular = "Regular"
-    Bien = "Bien"
-    MuyBien = "Muy_bien"
-    Excelente = "Excelente"
+#class CompanyConfidence(Enum):
+#    """The confidence level of a company"""
+#
+#    Fatal = "Fatal"
+#    Mal = "Mal"
+#    Regular = "Regular"
+#    Bien = "Bien"
+#    MuyBien = "Muy_bien"
+#    Excelente = "Excelente"
 
 
 class OptimizerParameter:

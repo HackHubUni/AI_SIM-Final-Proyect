@@ -1,8 +1,8 @@
+import heapq
 from typing import Callable
 
-import heapq
-from supply_chain.Mensajes.ask_msg import Message, MessageWantProductOffer, HacerServicioDeDistribucion, \
-    MessageWantProductProduceOffer, AskPriceDistributor
+from supply_chain.Mensajes.ask_msg import Message, MessageWantProductOffer, MessageWantProductProduceOffer, \
+    AskPriceDistributor
 from supply_chain.agents.utils import generate_guid
 from supply_chain.company import TypeCompany
 from supply_chain.products.ingredient import Ingredient
@@ -163,7 +163,10 @@ class ResponseLogistic(Oferta):
             company_destination_name=company_destination_name,
 
         )
-
+        self.delivery_time = end_time
+        """
+        Tiempo que demorará en ejecutar el logístico
+        """
         self.product_name: str = product_name
         self.count_ask_move: int = count_ask_move
         self.recibir_producto_desde_name: str = recibir_producto_desde_name
@@ -191,10 +194,10 @@ class GestorOfertas:
 
     def add_response_despues_de_negociar_oferta(self, response_ofert_msg: Oferta):
         id_ = response_ofert_msg.id_
-
-        if self.time >= response_ofert_msg.end_time:
-            raise Exception(
-                f'La oferta_osea la respuesta a la peticion de precio-cant a vender: {response_ofert_msg} ya esta vencida')
+        response_ofert_msg.end_time = self.time + response_ofert_msg.end_time
+        #        if self.time >= response_ofert_msg.end_time:
+        #            raise Exception(
+        #                f'La oferta_osea la respuesta a la peticion de precio-cant a vender: {response_ofert_msg} ya esta vencida')
 
         if id_ in self._actual_dict:
             raise Exception(

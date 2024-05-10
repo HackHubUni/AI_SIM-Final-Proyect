@@ -155,6 +155,7 @@ class Notification(Message):
                  company_destination_type: TypeCompany,
                  logistic_offer_id: str,
                  count_enter: int,
+                 products_names: list[str],
 
                  ):
         super().__init__(company_from,
@@ -163,6 +164,7 @@ class Notification(Message):
                          company_destination_type, )
         self.logistic_offer_id: str=logistic_offer_id
         self.count_enter: int=count_enter
+        self.products_names: list[str] = products_names
 
 
 

@@ -1,11 +1,9 @@
-from typing import *
-from supply_chain.sim_map import SimMap
-from supply_chain.company import Company
-from supply_chain.agent import Agent
 from supply_chain.Message import Message
-from .utils.utility_functions import *
+from supply_chain.agent import Agent
+from supply_chain.company import Company, TypeCompany
 from .map_search_problem import *
 from .sim_ai.search_problem.search_algorithms import *
+from .utils.utility_functions import *
 
 
 class SimEnvironment:
@@ -131,3 +129,22 @@ class SimEnvironment:
         :return:
         """
         return self.get_agent(lambda x:x.name=="Matrix")
+
+    def _find_company_by_tag(self, type_company: TypeCompany) -> list[str]:
+        lis = []
+        for company in self.companies_in_map:
+            if company.tag == type_company:
+                lis.append(company.name)
+        return lis
+
+    def get_producers_name(self) -> list[str]:
+        return self._find_company_by_tag(TypeCompany.BaseProducer)
+
+    def get_manufacturers_name(self) -> list[str]:
+        return self._find_company_by_tag(TypeCompany.SecondaryProvider)
+
+    def get_warehouses_name(self) -> list[str]:
+        return self._find_company_by_tag(TypeCompany.Warehouse)
+
+    def get_distributor_names(self) -> list[str]:
+        return self._find_company_by_tag(TypeCompany.Logistic)

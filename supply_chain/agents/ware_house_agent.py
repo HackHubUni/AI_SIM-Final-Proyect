@@ -88,7 +88,14 @@ class WareHouseAgente(AgentWrapped):
 
         response.set_list_product(lis_order)
 
+
+
         self.send_smg_to_a_agent(response)
+
+        return
+
+
+
 
     def recive_msg(self, msg: Message):
         if isinstance(msg, AskPriceWareHouseCompany):

@@ -1,8 +1,10 @@
-from sim_event import *
 import heapq
 
+from supply_chain import CompanyConfidence
+from supply_chain.agents.matrix_agent import MatrixAgent
 from supply_chain.sim_environment import SimEnvironment
-from supply_chain.company import TypeCompany
+from supply_chain.sim_event import *
+
 
 class SupplyChainSimulator:
     def __init__(self, environment: SimEnvironment, simulation_time: int) -> None:
@@ -12,6 +14,10 @@ class SupplyChainSimulator:
         """The queue of events to process in the simulation"""
         self.simulation_time: int = simulation_time
         """This define in which moment the simulation most end"""
+        self.company_confidence_: dict[str, CompanyConfidence] = {}
+        """
+            This dict has for company en the map the CompanyConfidence for the matrix
+        """
 
     def reset(self):
         """Reset the simulation to it's initial parameters"""
@@ -30,6 +36,7 @@ class SupplyChainSimulator:
 
     def get_next_event(self) -> SimEvent:
         """Get the next event from the event queue"""
+
         return heapq.heappop(self.event_queue)
 
     def step(self) -> bool:
@@ -46,21 +53,35 @@ class SupplyChainSimulator:
         next_event.execute()
         return True
 
+
+
     def run(self):
         print("Starting the simulation")
         self.reset()
+         #Create the company confidence dict
+
+
         companies = (
             self.environment.companies_in_map + self.environment.matrix_companies
         )
 
         for company in companies:
             company.start()
-            if company.tag==TypeCompany.Store:
-                company.create_next_client_arrival(self.simulation_time)
+        #    if company.tag==TypeCompany.Store:
+        #        company.create_next_client_arrival(self.simulation_time)
 
         #matrix_agent=self.environment.get_matrix_agent()
         #Inicializar el agente matrix
         #matrix_agent.start()
         while self.step():
             continue
+
+        matrix_agent: MatrixAgent = self.environment.get_matrix_agent()
         print("Simulation Over")
+        return matrix_agent.matrix_record
+
+
+
+
+
+

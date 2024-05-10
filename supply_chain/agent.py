@@ -18,6 +18,14 @@ class Agent(ABC):
         self.name: str = name
         """The name of the agent"""
 
+
+    @abstractmethod
+    def start(self):
+        """
+        Init the functions
+        :return:
+        """
+        pass
     @abstractmethod
     def recive_msg(self, msg: Message):
         pass

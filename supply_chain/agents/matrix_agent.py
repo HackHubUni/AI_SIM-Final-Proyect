@@ -1,5 +1,6 @@
 from supply_chain.Company.companies_types.Matrix_Company import MatrixCompany
 from supply_chain.Company.registrers.resgister import MatrixRecord
+from supply_chain.CompanyConfidence import CompanyConfidence
 from supply_chain.Mensajes.gestor_peticiones import *
 from supply_chain.agents.AgentWrapped import *
 from supply_chain.agents.Distributor_Agent import DistributorAgent
@@ -33,10 +34,41 @@ class MatrixAgent(AgentWrapped):
 
         # Gestor de peticiones por cada tienda
         self.petitions_gestor: MatrixOrderGestor = MatrixOrderGestor()
+        """
+        Gestiona las peticiones que hace una tienda 
+        """
 
         self.matrix_record = MatrixRecord(1, self.store_names, self.company.get_time)
 
         super().__init__(name, company, env_visualizer)
+
+        self.count_want_restock = 0
+
+    def compute_the_value_per_confidence(self, company_confidence: CompanyConfidence):
+        """
+        Dado el tag de confianza de una compañia devuelve un valor que debe multiplicarse el precio
+        :param company_confidence:
+        :return:
+        """
+        # Fatal = "Fatal"
+        # Mal = "Mal"
+        # Regular = "Regular"
+        # Bien = "Bien"
+        # MuyBien = "Muy_bien"
+        # Excelente = "Excelente"
+
+        if company_confidence == CompanyConfidence.Excelente:
+            return 0.5
+        if company_confidence == CompanyConfidence.MuyBien:
+            return 0 * 8
+        if company_confidence == CompanyConfidence.Bien:
+            return 1
+        if company_confidence == CompanyConfidence.Mal:
+            return 1.5
+        if company_confidence == CompanyConfidence.Fatal:
+            return 2
+
+
 
     def start(self):
         """Llamar al inicializar la simulacion"""
@@ -104,17 +136,6 @@ class MatrixAgent(AgentWrapped):
     def get_agents_by_name(self, agent_name: str) -> AgentWrapped:
         return self._get_agent_by_name(agent_name)
 
-    def _create_store_order_gestor(self, store_name: str, product_want_name: str, id_pedido: str):
-        """
-        Crea un gestor de peticiones de tiendas el id_pedido es el que tiene el msg que hace la tienda a esta matrix
-        :param store_name:
-        :param product_want_name:
-        :param id_pedido:
-        :return:
-        """
-
-        return StoreOrderGestor(store_name=store_name, product_name=product_want_name,
-                                store_restock_msg_matrix_id=id_pedido)
 
     def _store_want_restock(self, msg: StoreWantRestock):
         """
@@ -129,15 +150,18 @@ class MatrixAgent(AgentWrapped):
                 f'La empresa {store_from_name} de tipo {msg.company_from_type} no puede pedir productos a la matriz {self.company.name}')
 
         product_want_name: str = msg.product_want_name
-        id_msg_from_store:str=msg.id_from_matrix
 
-        store_gestor=self._create_store_order_gestor(store_from_name,product_want_name,id_msg_from_store)
-
-
-
-        if self.petitions_gestor.is_the_order_in_the_gestor(store_gestor):
-            #TODO: Aca la logica si todavia estoy procesando el pedido de la matrix
+        if not self.petitions_gestor.can_process_this_store_order(store_from_name, product_want_name):
+            # TODO: Aca la logica si todavia estoy procesando el pedido de la matrix
             return
+
+        id_msg_from_store: str = msg.id_from_matrix
+
+        store_gestor = self.petitions_gestor.create_store_order_gestor(store_from_name, product_want_name,
+                                                                       id_msg_from_store)
+
+
+
 
 
         #TODO:Simular tiempo de espera
@@ -159,10 +183,140 @@ class MatrixAgent(AgentWrapped):
         """
         return {"capacity": count_can_supply, "weight": cost_per_unit}
 
+    def make_buy_order_msg_and_send(self,
+                                    company_destination_name: str
+                                    , company_destination_tag: TypeCompany
+                                    , offer_id: str
+                                    , count_want: int,
+                                    id_contact_destination: str,
+                                    company_destination_the_product: str,
+                                    time_logistic: int
+                                    ):
+
+        """
+        Crea y envia una orden de compra a alguien
+        :param company_destination_name:
+        :param company_destination_tag:
+        :param offer_id:
+        :param count_want:
+        :param id_contact_destination:
+        :param company_destination_the_product:
+        :param time_logistic:
+        :return:
+        """
+
+        msg = BuyOrderMessage(
+
+            company_from=self.company.name,
+            company_from_type=TypeCompany.Matrix,
+            company_destination_name=company_destination_name,
+            company_destination_type=company_destination_tag,
+            ofer_id=offer_id,
+            count_want=count_want,
+            logistic_company_name="Alguna",
+            id_contract_logistic='0',
+            id_contract_destination=id_contact_destination,
+            to_company=company_destination_the_product,
+            price_logist=-1,
+            time_logist=time_logistic
+
+        )
+
+        self.send_smg_to_a_agent(msg)
+
+    def make_buy_order_from_manufufactuer_or_ware_house_finale_products_to_store(self, ofer: Oferta,
+                                                                                 logistic_ofer: ResponseLogistic,
+                                                                                 count_want: int):
+        """
+        Llamar al almacen o al manufacturero para comprar x cant de productos finales
+        :param ofer:
+        :param logistic_ofer:
+        :param count_want:
+        :return:
+        """
+        self.make_buy_order_msg_and_send(
+            company_destination_name=ofer.company_from,
+            company_destination_tag=ofer.company_from_type,
+            offer_id=ofer.id_,
+            count_want=count_want,
+            id_contact_destination='-1',
+            company_destination_the_product=logistic_ofer.destino_producto_compania_nombre,
+            time_logistic=logistic_ofer.end_time
+
+        )
+
+    def response_ware_house_or_manufacter_buy_final_product(self,
+                                                            ofer: Oferta,
+                                                            logistic_ofer: ResponseLogistic,
+
+                                                            count_want: int,
+                                                            store_gestor: StoreOrderGestor):
+        """
+        Decirle a una empresa almacen x que me suppla tal cant de productos
+        :param ofer:
+        :return:
+        """
+
+        if not isinstance(ofer, ResponseOfertProductMessaage) and not issubclass(type(ofer),
+                                                                                 ResponseOfertProductMessaage):
+            raise Exception(f'ofer {ofer} debe ser de tipo  ResponseStorageProductOffer no de {type(ofer)}')
+
+        id_from_store = store_gestor.store_restock_msg_matrix_id
+
+        self.matrix_record.add_buy_record(
+            store_want_product_id=id_from_store,
+            store_to_supply=store_gestor.store_name,
+            order_supply_store_id=id_from_store,
+
+            company_make_buss_name=ofer.company_from,
+            company_make_buss_type=ofer.company_from_type,
+            company_destination_process_name=logistic_ofer.destino_producto_compania_nombre,
+            company_destination_process_type=logistic_ofer.destino_producto_compania_tag,
+
+            product_buy_name=ofer.product_name,
+            product_count_buy=count_want,
+
+            time_process_the_buy_order=self.time + logistic_ofer.delivery_time,
+            price_cost_per_unit=ofer.price_per_unit + logistic_ofer.price,
+            logistic_name=logistic_ofer.company_from
+
+        )
+        self.make_buy_order_from_manufufactuer_or_ware_house_finale_products_to_store(ofer, logistic_ofer, count_want)
+
+    def response_ware_house_or_buy_final_product_manufacturer(self, to_accept: dict[str, int],
+                                                              store_gestor: StoreOrderGestor):
+        # Por cada respuesta a aceptar
+
+        for key in to_accept:
+            count = to_accept[key]
+
+            pip_line = store_gestor.get_to_acept_offer_pipe_line(key)
+
+            company_sell = pip_line[0]
+
+            distributor = pip_line[1]
+
+            if len(pip_line) != 2:
+                raise Exception(f'El pip line de los almacenes y los logisticos debe de tener un distribuidor')
+
+            self.response_ware_house_or_manufacter_buy_final_product(company_sell, distributor, count, store_gestor)
+
+
+
+
+
+
+
+
+
+
+
+
+
     def _restock_store(self,store_name:str,product_name:str,count_want:int,store_gestor:StoreOrderGestor):
         lis_to_see: list[dict[str, dict[str, float]]] = []
         #Llamar a todos los almacenes y preguntar si tienen
-        dict_ware_houses_in_stock = self.ask_all_manufactures_sell_this_product(product_name, store_gestor)
+        dict_ware_houses_in_stock = self.ask_all_warehouses(product_name, store_gestor)
         lis_to_see.append(dict_ware_houses_in_stock)
         # Preguntar a los manufactores por vender esa materia
         dict_sell_final_product_from_manufacturer = self.ask_all_manufactures_sell_this_product(product_name,
@@ -172,13 +326,14 @@ class MatrixAgent(AgentWrapped):
 
         optimizer=MatrixOptimizer()
         offert_acept,cost=optimizer.solve_normal_solution(store_name,count_want,lis_to_see)
-        print(cost)
+        self.response_ware_house_or_buy_final_product_manufacturer(offert_acept, store_gestor)
+
+
     def ask_all_warehouses(self, product_name: str, store_gestor: StoreOrderGestor) -> dict[str, dict[str, float]]:
         """
-        Le pregunta a todos los almacenes si tienen un producto en especifico
-
+         Le pregunta a todos los almacenes si tienen un producto en especifico
         :param product_name:
-        :param count_want:
+        :param store_gestor:
         :return:
         """
 
@@ -275,7 +430,7 @@ class MatrixAgent(AgentWrapped):
 
             distributor_ = self.get_the_best_distributor(product_name=product_name,
                                                          count_want=count_can_supply,
-                                                         company_from_service_name=product_name,
+                                                         company_from_service_name=manufactor_name,
                                                          company_from_service_tag=TypeCompany.SecondaryProvider,
                                                          company_destination_service_name=store_gestor.store_name,
                                                          company_destination_service_tag=TypeCompany.Store,
@@ -302,6 +457,17 @@ class MatrixAgent(AgentWrapped):
                                  company_destination_service_name: str
                                  , company_destination_service_tag: TypeCompany,
                                  store_gestor: StoreOrderGestor):
+        """
+        De todas las ofertas de transportistas toma la mejor de todas
+        :param product_name:
+        :param count_want:
+        :param company_from_service_name:
+        :param company_from_service_tag:
+        :param company_destination_service_name:
+        :param company_destination_service_tag:
+        :param store_gestor:
+        :return:
+        """
 
         lis: list[ResponseLogistic] = self.ask_distributors_price(product_name, count_want, company_from_service_name,
                                                                   company_from_service_tag,
@@ -322,7 +488,7 @@ class MatrixAgent(AgentWrapped):
             if cost_now > response.price:
                 min_distributor_cost = response
 
-        if min_distributor_cost in None:
+        if min_distributor_cost is None:
             raise Exception('El transportista optimo no puede ser vacio')
 
         return min_distributor_cost
@@ -354,9 +520,6 @@ class MatrixAgent(AgentWrapped):
 
             )
 
-            #Guardar en el gestor de mensajes
-            store_gestor.add_ask_from_matrix_to_another_company(msg_to_ask)
-
             #Enviar mensaje
             agent: DistributorAgent = self.get_agents_by_name(distributor_name)
             # Respuesta del logistico
@@ -384,22 +547,36 @@ class MatrixAgent(AgentWrapped):
             company_destination_type=company_destination_tag,
             product_want_name=product_name)
 
+    def _process_notificacion(self, msg: Notification):
+        """
+        Procesa una notificación de que una tienda llego algo
+        :param msg:
+        :return:
+        """
+
+        store_name: str = msg.company_from
+        company_from_tag: TypeCompany = msg.company_from_type
+        products_names: list[str] = msg.products_names
+
+        if company_from_tag != TypeCompany.Store:
+            raise Exception(
+                f'Solo pueden llegar notificaciones de tiendas no de {company_from_tag} de la empresa {store_name}')
+        if products_names is None or len(products_names) < 1 or not all(x == products_names[0] for x in products_names):
+            raise Exception(f'No se recibieron los productos correctos {products_names}')
+
+        if self.petitions_gestor.can_process_this_store_order(store_name, products_names[0]):
+            # Eso implica que ya se puede rralizar un pedido osea que no se debe eliminar dado que no existe store order
+            return
+        self.petitions_gestor.delete_store_order(store_name, products_names[0])
+
     def recive_msg(self, msg: Message):
 
         if isinstance(msg, StoreWantRestock):
             self._store_want_restock(msg)
+            self.count_want_restock += 1
+        # print(f'La tienda {msg.company_from} en el pedido{self.count_want_restock}')
 
-        elif isinstance(msg, ResponseStoreProductInStockNow):
-            #Si es respuesta de cuantos productos hay en el almacen
-            pass
-
-        elif isinstance(msg,SellResponseMessage):
-            pass
-
-
-
-        elif isinstance(msg,ResponseOfertProductMessaage):
-            pass
-
-        else:
-            self.lanzar_excepcion_por_no_saber_mensaje(msg)
+        elif isinstance(msg, Notification):
+            # LLega la notificacion de una tienda de que un pedido ha llegado
+            # Se pasa a que puede enviarse mas producto
+            self._process_notificacion(msg)

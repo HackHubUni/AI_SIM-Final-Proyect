@@ -48,10 +48,10 @@ class StoreAgent(Agent):
 
         self.update_thinks_from_matrix=True
 
+    def start(self):
+        pass
 
-
-
-    def call_to_restock_shop(self,dict_pro_count_want:dict[str,int]):
+    def call_to_restock_shop(self,dict_pro_count_want: dict[str , int]):
         for product_name in dict_pro_count_want.keys():
             count=dict_pro_count_want[product_name]
             #llamar a reabastecer
@@ -81,7 +81,9 @@ class StoreAgent(Agent):
         :return:
         """
         list_products=msg.products_instance
-        self.company.store_stock_manager.add_list_products(list_products)
+
+
+        can_restock=self.company.store_stock_manager.add_list_products(list_products)
 
         #Enviar mensaje a la matrix de que llegaron productos
 
@@ -90,8 +92,9 @@ class StoreAgent(Agent):
             company_from_type=self.company.tag,
             company_destination_name=self.matrix_name,
             company_destination_type=TypeCompany.Matrix,
-            logistic_offer_id=msg.id_to_recive_company
-
+            logistic_offer_id=msg.id_to_recive_company,
+            products_names=[x.name for x in list_products],
+            count_enter=len(list_products)
         )
 
         # Enviar la notificacion de arribo a la matrix

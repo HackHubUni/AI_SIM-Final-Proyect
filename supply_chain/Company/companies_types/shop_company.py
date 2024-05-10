@@ -43,6 +43,8 @@ class StoreCompany(Company):
         True si el agente cuando se inicializo actualizo los datos
         """
 
+        self.count_person_arrive=0
+
     @property
     def tag(self) -> TypeCompany:
         return TypeCompany.Store
@@ -77,10 +79,12 @@ class StoreCompany(Company):
 
         if not self._update_from_agent:
             raise Exception(f'El agente de la tienda {self.name} no ha actualizado los datos de esta')
-        # añadir por el simulador
-        # self.create_next_client_arrival()
+
+        self.create_next_client_arrival()
 
     def _add_client(self, consumer_client: ConsumerAgent) -> None:
+        #Que arrive la sgt persona
+        self.create_next_client_arrival()
         # TODO: Adds a client to the store queue
         # Registrar que llego un nuevo cliente
         self._shop_record.arrival_new_cliente(consumer_client.identifier)
@@ -148,6 +152,7 @@ class StoreCompany(Company):
         #Añadir evento
         self.add_event(event)
 
+
     def _process_next_client(self):
         """
         Cuando el evento llama a este metodo lo que hace es hacer None el cliente y llamar a procesar al otro
@@ -174,21 +179,18 @@ class StoreCompany(Company):
             # Se añade el evento
             self.add_event(event)
 
-    def create_next_client_arrival(self, simulation_max_time: int):
-        if simulation_max_time == 0:
-            raise Exception(f' No se le ha pasado el tiempo maximo de la simulacion')
-        client_count=0
+    def create_next_client_arrival(self):
         current_time = self.get_time()
         delay = self.next_client_distribution()
         arrival_time = current_time + delay
-        while arrival_time < simulation_max_time and client_count < 1000:
-            client_count += 1
-            client_arrival_event = ClientArrival(
-                arrival_time,
-                lambda: generate_basic_consumer_agent(
-                    self.get_time,
-                    self.add_event,
-                ),
-                self._add_client,
-            )
-            self.add_event(client_arrival_event)
+        client_arrival_event = ClientArrival(
+            arrival_time,
+            lambda: generate_basic_consumer_agent(
+                self.get_time,
+                self.add_event,
+            ),
+            self._add_client,
+        )
+        self.add_event(client_arrival_event)
+        self.count_person_arrive+=1
+        print(f'En la tienda {self.name} a llegado {self.count_person_arrive}')

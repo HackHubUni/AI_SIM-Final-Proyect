@@ -1,5 +1,8 @@
 from typing import Callable
 
+from supply_chain.company import TypeCompany
+
+
 class ProductSaleRecord:
     def __init__(self,
                  product_name: str,
@@ -168,20 +171,60 @@ class Register:
         return list(self._shops_records.values())
 
 
+class ProcesingOrdersRecord:
+    def __init__(self,
+                 store_to_supply: str,
+                 order_supply_store_id: str,
+                 company_make_buss_name: str,
+                 company_make_buss_type: TypeCompany,
+                 company_destination_process_name: str,
+                 company_destination_process_type: TypeCompany,
+                 logistic_name:str,
+                 product_buy_name: str,
+                 product_count_buy: int,
+                 time_acept_the_buy_order: int,
+                 time_process_the_buy_order: int,
+                 price_cost_per_unit: float
+
+                 ):
+        self.logistic_name:str=logistic_name
+        self.store_to_supply: str = store_to_supply
+        self.order_supply_store_id: str = order_supply_store_id
+        self.company_make_buss_name: str = company_make_buss_name
+        self.company_make_buss_type: TypeCompany = company_make_buss_type
+        self.company_destination_process_name: str = company_destination_process_name
+        self.company_destination_process_type: TypeCompany = company_destination_process_type
+        self.product_buy_name: str = product_buy_name
+        self.product_count_buy: int = product_count_buy
+        self.time_acept_the_buy_order: int = time_acept_the_buy_order
+
+        """
+        Tiempo en que la matrix mando a procesar la orden de compra
+        """
+        self.time_process_the_buy_order: int = time_process_the_buy_order
+        """
+        Tiempo en que la otra empresa ejecuto la orden de compra
+        """
+        self.price_cost_per_unit: float = price_cost_per_unit
 class MatrixRecord:
 
     def start(self):
         for store_name in self.store_names:
-            self.dict_store_records[store_name]=ShopRecord(store_name,self.get_name)
+            self.dict_store_records[store_name] = ShopRecord(store_name, self.get_time)
     def __init__(self,seed:int,store_names:list[str],get_time:Callable[[],int],corrida:int=1,):
         self.seed: int=seed
         self.corrida: int = corrida
         self.store_names:list[str]=store_names
-        self.get_name:Callable[[],int]=get_time
+        self.get_time: Callable[[], int] = get_time
 
         self.dict_store_records:dict[str,ShopRecord]={}
 
         self.start()
+
+        self.dict_buy_records: dict[str, list[ProcesingOrdersRecord]] = {}
+        """
+        Diccionario con los nombres de los records de las compras
+        """
 
     def get_store_record(self,store_name:str):
 
@@ -190,4 +233,70 @@ class MatrixRecord:
 
         return self.dict_store_records[store_name]
 
+    def _create_procesing_order_record(self,
+                                       store_to_supply: str,
+                                       order_supply_store_id: str,
+                                       company_make_buss_name: str,
+                                       company_make_buss_type: TypeCompany,
+                                       company_destination_process_name: str,
+                                       company_destination_process_type: TypeCompany,
+                                       logistic_name:str,
+                                       product_buy_name: str,
+                                       product_count_buy: int,
+                                       time_acept_the_buy_order: int,
+                                       time_process_the_buy_order: int,
+                                       price_cost_per_unit: float
 
+                                       ):
+        return ProcesingOrdersRecord(
+
+            store_to_supply=store_to_supply,
+            order_supply_store_id=order_supply_store_id,
+            company_make_buss_name=company_make_buss_name,
+            company_make_buss_type=company_make_buss_type,
+            company_destination_process_name=company_destination_process_name,
+            company_destination_process_type=company_destination_process_type,
+            logistic_name=logistic_name,
+            product_buy_name=product_buy_name,
+            product_count_buy=product_count_buy,
+            time_acept_the_buy_order=time_acept_the_buy_order,
+            time_process_the_buy_order=time_process_the_buy_order,
+            price_cost_per_unit=price_cost_per_unit
+        )
+
+    def add_buy_record(self,
+                       store_want_product_id,
+                       store_to_supply: str,
+                       order_supply_store_id: str,
+                       company_make_buss_name: str,
+                       company_make_buss_type: TypeCompany,
+                       company_destination_process_name: str,
+                       company_destination_process_type: TypeCompany,
+
+                       product_buy_name: str,
+                       product_count_buy: int,
+
+                       time_process_the_buy_order: int,
+                       price_cost_per_unit: float,
+                       logistic_name:str,
+
+                       ):
+
+        buy_record = self._create_procesing_order_record(store_to_supply=store_to_supply,
+                                                         order_supply_store_id=order_supply_store_id,
+                                                         company_make_buss_name=company_make_buss_name,
+                                                         company_make_buss_type=company_make_buss_type,
+                                                         company_destination_process_name=company_destination_process_name,
+                                                         company_destination_process_type=company_destination_process_type,
+                                                         logistic_name=logistic_name,
+                                                         product_buy_name=product_buy_name,
+                                                         product_count_buy=product_count_buy,
+                                                         time_acept_the_buy_order=self.get_time(),
+                                                         time_process_the_buy_order=time_process_the_buy_order,
+                                                         price_cost_per_unit=price_cost_per_unit)
+
+        if not store_want_product_id in self.dict_buy_records:
+            self.dict_buy_records[store_want_product_id] = [buy_record]
+            return
+
+        self.dict_buy_records[store_want_product_id].append(buy_record)

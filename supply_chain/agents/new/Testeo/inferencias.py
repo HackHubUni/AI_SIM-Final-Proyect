@@ -312,6 +312,9 @@ def main5():
 
     print(kb0.ask(expr('Pedir_precio(Matrix_1, Cheese, z)')))
     print("Hola")
+    print(kb0.ask(expr('Client(Matrx_1)')))
+    print('Client(Matrix_1)')
+
 
 
 

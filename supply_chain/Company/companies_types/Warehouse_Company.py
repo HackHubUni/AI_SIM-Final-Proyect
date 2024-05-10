@@ -27,15 +27,16 @@ class WarehouseCompany(CompanyWrapped):
         self.stock_manager = stock_manager
     def start(self):
         #Inicializar el stock
-       firts_restock_event= CompanyRestockSimEvent(0,1,self.stock_manager.restock)
-       self.add_event(firts_restock_event)
+        self.stock_manager.restock()
+       #firts_restock_event= CompanyRestockSimEvent(0,1,self.stock_manager.restock)
+       #self.add_event(firts_restock_event)
 
     @property
     def tag(self):
         return TypeCompany.Warehouse
 
     def stock(self):
-        self.stock_manager
+
         return self.stock_manager.get_list_products_by_company()
 
     def get_cost_by_product_and_unit_time(self, product_name: str):

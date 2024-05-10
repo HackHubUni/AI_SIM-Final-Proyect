@@ -243,10 +243,11 @@ class WarehouseStockManager(CompanyStockBase):
             quantity_not_accepted = count_want - need_buy
 
             # Comprobar que no se eliminen mas de los que hay en stock
-            assert count_in_stock < quantity_not_accepted, f'En la empresa {company_name} producto {product_name} se quiere quitar los {quantity_not_accepted} peores productos pero en stock hay {count_in_stock}'
+            assert count_in_stock > quantity_not_accepted, f'En la empresa {company_name} producto {product_name} se quiere quitar los {quantity_not_accepted} peores productos pero en stock hay {count_in_stock}'
             # ELiminar la cant de desechar peores
             # Actualizar los productos en stock
-
+            if quantity_not_accepted==5204:
+                print(3)
 
             lis_product_stock = self.delete_firts_n_worts_products_in_quality(lis_product_stock, quantity_not_accepted)
 
@@ -361,6 +362,7 @@ class WarehouseStockManager(CompanyStockBase):
         assert count_stock_now <= max_stock, f'La cant de productos en la lista {count_stock_now} es mayor que el max_stock{max_stock}'
 
         if count_stock_now == max_stock:
+
             produc_list = self.delete_firts_n_worts_products_in_quality(produc_list, 1)
 
         produc_list.append(product_instance)

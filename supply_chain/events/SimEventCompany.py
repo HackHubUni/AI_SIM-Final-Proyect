@@ -23,5 +23,5 @@ class WarehouseRestockSimEvent(CompanyRestockSimEvent):
         self._company_name = company_name
         self._product_name = product_name
 
-    def execute(self, environment: SimEnvironment):
+    def execute(self):
         self._execute(self._company_name, self._product_name)

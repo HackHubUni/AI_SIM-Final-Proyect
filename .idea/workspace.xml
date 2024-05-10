@@ -4,10 +4,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="add the flow alg in a class and refactor matrix code to that">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="fix bugs">
+      <change afterPath="$PROJECT_DIR$/supply_chain/CompanyConfidence.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/bdist_rpm.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/bdist_rpm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/install.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/install.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/install_egg_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/install_egg_info.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/register.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/upload.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/_distutils/command/upload.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/dist_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/dist_info.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/easy_install.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/easy_install.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/egg_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/egg_info.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/rotate.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/rotate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/upload_docs.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/command/upload_docs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/dist.py" beforeDir="false" afterPath="$PROJECT_DIR$/env/lib/python3.11/site-packages/setuptools/dist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/Builder_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/build_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Building/building_companys.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/Warehouse_Company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/registrers/resgister.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/registrers/resgister.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/store_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Company/stock_manager/warehouse_stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Company/stock_manager/warehouse_stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Map search example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/ask_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/offer_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/AgentWrapped.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Distributor_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Distributor_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Pipe_Line.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Pipe_Line.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Producer_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/Store_Agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/enviroment_visulizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/enviroment_visulizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/ware_house_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/ware_house_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/company.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/events/SimEventCompany.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/Example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/max_flow_min_cost/Example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/sim_environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/simulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/simulation_optimization.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/simulation_optimization.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,39 +84,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Python.Comunicator.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_planner.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fkfkf.executor&quot;: &quot;Run&quot;,
-    &quot;Python.inferencias (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.inferencias.executor&quot;: &quot;Run&quot;,
-    &quot;Python.jd.executor&quot;: &quot;Run&quot;,
-    &quot;Python.kaka.executor&quot;: &quot;Run&quot;,
-    &quot;Python.kk.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lambda.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lll.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.planificar (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.planificar.executor&quot;: &quot;Run&quot;,
-    &quot;Python.testtt.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.testttt.executor&quot;: &quot;Run&quot;,
-    &quot;Python.utils.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;max-flow-min-cost&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Python.Comunicator.executor": "Run",
+    "Python.create_planner.executor": "Run",
+    "Python.fkfkf.executor": "Run",
+    "Python.inferencias (1).executor": "Debug",
+    "Python.inferencias.executor": "Run",
+    "Python.jd.executor": "Run",
+    "Python.kaka.executor": "Run",
+    "Python.kk.executor": "Run",
+    "Python.lambda.executor": "Run",
+    "Python.lll.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Debug",
+    "Python.planificar (1).executor": "Run",
+    "Python.planificar.executor": "Run",
+    "Python.testtt.executor": "Debug",
+    "Python.testttt.executor": "Run",
+    "Python.utils.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "max-flow-min-cost",
+    "last_opened_file_path": "C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
@@ -92,7 +132,7 @@
       <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.inferencias (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="inferencias (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AI_SIM-Final-Proyect" />
       <option name="ENV_FILES" value="" />
@@ -210,8 +250,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.inferencias (1)" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.inferencias (1)" />
         <item itemvalue="Python.planificar (1)" />
         <item itemvalue="Python.kaka" />
         <item itemvalue="Python.testttt" />
@@ -251,14 +291,8 @@
       <workItem from="1715176317489" duration="6275000" />
       <workItem from="1715183231076" duration="6197000" />
       <workItem from="1715200667917" duration="1844000" />
-    </task>
-    <task id="LOCAL-00037" summary="&#10;finalizado el agente productor">
-      <option name="closed" value="true" />
-      <created>1714603884965</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1714603884965</updated>
+      <workItem from="1715206339931" duration="47213000" />
+      <workItem from="1715297982361" duration="8317000" />
     </task>
     <task id="LOCAL-00038" summary="refactor">
       <option name="closed" value="true" />
@@ -644,7 +678,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715197613421</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1715229948195</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1715229948195</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -698,7 +740,6 @@
     <MESSAGE value="teesting the new producer" />
     <MESSAGE value="makng main.py" />
     <MESSAGE value="start testing with new matrix" />
-    <MESSAGE value="fix bugs" />
     <MESSAGE value="fix_ bugs in ware_house" />
     <MESSAGE value="Add in the companys the point in the map add create Builder_map" />
     <MESSAGE value="to change methaeurists" />
@@ -716,135 +757,16 @@
     <MESSAGE value="Add Example" />
     <MESSAGE value="update flow alg" />
     <MESSAGE value="add the flow alg in a class and refactor matrix code to that" />
-    <option name="LAST_COMMIT_MESSAGE" value="add the flow alg in a class and refactor matrix code to that" />
+    <MESSAGE value="fix bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
-          <line>49</line>
-          <option name="timeStamp" value="178" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
-          <line>50</line>
-          <option name="timeStamp" value="179" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
-          <line>51</line>
-          <option name="timeStamp" value="180" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
-          <line>52</line>
-          <option name="timeStamp" value="181" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="182" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="184" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py</url>
-          <line>165</line>
-          <option name="timeStamp" value="191" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/agents/matrix_agent.py</url>
-          <line>229</line>
-          <option name="timeStamp" value="192" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/kk.py</url>
-          <line>115</line>
-          <option name="timeStamp" value="193" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/kk.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/kk.py</url>
-          <line>153</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/kk.py</url>
-          <line>152</line>
-          <option name="timeStamp" value="204" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/supply_chain/kk.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="205" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb</url>
-          <line>458</line>
-          <option name="timeStamp" value="190" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>99</line>
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>98</line>
-          <option name="timeStamp" value="208" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>96</line>
-          <option name="timeStamp" value="221" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>101</line>
-          <option name="timeStamp" value="222" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>170</line>
-          <option name="timeStamp" value="223" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>438</line>
-          <option name="timeStamp" value="224" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>439</line>
-          <option name="timeStamp" value="225" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>191</line>
-          <option name="timeStamp" value="228" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>192</line>
-          <option name="timeStamp" value="229" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/Example.ipynb</url>
-          <line>190</line>
-          <option name="timeStamp" value="230" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/max_flow_min_cost/With_library.ipynb</url>
-          <line>133</line>
-          <option name="timeStamp" value="231" />
+          <line>80</line>
+          <option name="timeStamp" value="489" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -853,7 +775,7 @@
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kaka.coverage" NAME="kaka Coverage Results" MODIFIED="1714708655834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testttt.coverage" NAME="testttt Coverage Results" MODIFIED="1714576316931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kk.coverage" NAME="kk Coverage Results" MODIFIED="1715127624240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
-    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias__1_.coverage" NAME="inferencias (1) Coverage Results" MODIFIED="1715179061914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias__1_.coverage" NAME="inferencias (1) Coverage Results" MODIFIED="1715236408455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testtt.coverage" NAME="inferencias Coverage Results" MODIFIED="1714603211261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$create_planner.coverage" NAME="create_planner Coverage Results" MODIFIED="1714754441415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/Building" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias.coverage" NAME="inferencias Coverage Results" MODIFIED="1714659544664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
@@ -866,6 +788,6 @@
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$planificar__1_.coverage" NAME="planificar (1) Coverage Results" MODIFIED="1714869875885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$utils.coverage" NAME="utils Coverage Results" MODIFIED="1714703298289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />
     <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1714948335575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
-    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main.coverage" NAME="main Coverage Results" MODIFIED="1715097064762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main.coverage" NAME="main Coverage Results" MODIFIED="1715304091951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
   </component>
 </project>

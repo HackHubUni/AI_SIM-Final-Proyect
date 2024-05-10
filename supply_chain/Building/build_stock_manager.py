@@ -1,14 +1,11 @@
 # %%
+import random
+
 from supply_chain.Building.Builder_base import BuilderBase
 from supply_chain.Company.stock_manager.manufacturing_stock_manager import *
 from supply_chain.Company.stock_manager.store_stock_manager import ShopStockManager
 from supply_chain.Company.stock_manager.warehouse_stock_manager import WarehouseStockManager
 from supply_chain.products.specific_products.recipes.pizza_recipe import PizzaRecipe
-
-
-
-import random
-
 
 
 class BuildProductorStockManager(BuilderBase):
@@ -355,14 +352,14 @@ class BuildWareHouseStockManager(BuilderBase):
                  create_product_lambda: dict[str, Callable[[int], list[Product]]],
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int],
-                 min_stock_random: int = 500,
-                 max_stock_random: int = 6000,
-                 company_magic_stock_min_random: int = 300,
-                 company_magic_stock_max_random: int = 3500,
-                 company_time_stock_min_time: int = 60 * 60 * 24,
-                 company_time_stock_max_time: int = 60 * 60 * 24 * 3,
-                 company_price_min_restock: int = 20,
-                 company_price_max_restock: int = 650,
+                 min_stock_random: int,
+                 max_stock_random: int,
+                 company_magic_stock_min_random: int,
+                 company_magic_stock_max_random: int,
+                 company_time_stock_min_time: int,
+                 company_time_stock_max_time: int,
+                 company_price_min_restock: int ,
+                 company_price_max_restock: int ,
 
                  ):
         super().__init__(seed)
@@ -376,8 +373,8 @@ class BuildWareHouseStockManager(BuilderBase):
         self.add_event: Callable[[SimEvent], None] = add_event
         self.get_time: Callable[[], int] = get_time
 
-        self.min_random = min_stock_random
-        self.max_random = max_stock_random
+        self.min_stock_random = min_stock_random
+        self.max_stock_random = max_stock_random
 
         self.company_magic_stock_min_random: int = company_magic_stock_min_random
         self.company_magic_stock_max_random: int = company_magic_stock_max_random
@@ -388,11 +385,19 @@ class BuildWareHouseStockManager(BuilderBase):
         self.company_price_min_restock = company_price_min_restock
         self.company_price_max_restock: int = company_price_max_restock
 
+        self.max_stock = self.create_product_max_stock()
+        """
+        Cant maxima en el stock
+        """
+        if self.company_magic_stock_max_random > self.min_stock_random:
+            raise Exception(
+                f'Datos incorrectos no se puede poner que un abastecimiento es mayor que la capacidad del almacen capacidad maxima minima {self.min_stock_random}  cuento se quiere suplir de maximo {self.company_magic_stock_max_random}')
+
     def create_product_max_stock(self) -> dict[str, int]:
         dic = {}
 
         for product_name in self.products_name:
-            dic[product_name] =self.get_random_int(self.min_random, self.max_random)
+            dic[product_name] = self.get_random_int(self.min_stock_random, self.max_stock_random)
 
         return dic
 
@@ -429,14 +434,10 @@ class BuildWareHouseStockManager(BuilderBase):
         return self._create_company_product_magic_distribution(self.company_price_min_restock,
                                                                self.company_price_max_restock)
 
-
-
-
-
     def get_ware_house_stock_manager(self):
 
         ret=WarehouseStockManager(
-            product_max_stock=self.create_product_max_stock(),
+            product_max_stock=self.max_stock,
             company_product_count_supply_magic_distribution=self.create_company_product_count_supply_magic_distribution(),
             company_product_price_supply_magic_distribution=self.create_company_product_time_count_supply_magic_distribution(),
             create_product_lambda=self.create_product_lambda,
