@@ -19,20 +19,23 @@ class TypeCompany(Enum):
 class Company(ABC):
     """Base class for all the companies in the supply chain"""
 
-    def __init__(self,
-                 name: str,
-                 get_time: Callable[[], int],
-                 add_event: Callable[[SimEvent],
-                 None]) -> None:
+    def __init__(
+        self,
+        name: str,
+        get_time: Callable[[], int],
+        add_event: Callable[[SimEvent], None],
+    ) -> None:
         super().__init__()
         self.name: str = name
         """The name of the company"""
-        self.get_time: Callable = get_time
-        """The reference to the environment of the simulation"""
+        self.get_time: Callable[[], int] = get_time
+        """A function that let you get the current time of the simulation"""
         self.add_event: Callable[[SimEvent], None] = add_event
-        """The lambda to add a event to a env """
-       # self.start()
-        """Call the start method"""
+        """The function for add an event to the environment"""
+        self.position_in_map: tuple[float, float] = (0, 0)
+        """The position of this company in te map"""
+        self.agent_name: str = ""
+        """The name of the agent that rules this company"""
 
     @property
     @abstractmethod
@@ -43,6 +46,14 @@ class Company(ABC):
         """
         pass
 
+    def set_new_position_in_map(self, new_position: tuple[float, float]):
+        """This method changes the position of the company in the map for a new value"""
+        self.position_in_map = new_position
+
+    def get_position_in_map(self) -> tuple[float, float]:
+        """This method returns the position of the company in the map"""
+        return self.position_in_map
+
     @abstractmethod
     def start(self):
         """
@@ -52,12 +63,9 @@ class Company(ABC):
         pass
 
     @property
-
     def time(self) -> int:
         """
         Retorna el tiempo actual en que se está
         :return:
         """
         return self.get_time()
-
-

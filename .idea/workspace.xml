@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="update register to the data">
+      <change afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_plan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/Mensajes/gestor_peticiones.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/manufacturer_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/manufacturer_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/agents/matrix_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/genes/choice_gene.py" beforeDir="false" afterPath="$PROJECT_DIR$/supply_chain/sim_ai/metaheuristics/genetic_algorithms/genes/choice_gene.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2daqRNuEBxRhrpoyETtxHIK6Sa4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.Comunicator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_planner.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fkfkf.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inferencias (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.inferencias.executor&quot;: &quot;Run&quot;,
+    &quot;Python.kaka.executor&quot;: &quot;Run&quot;,
+    &quot;Python.kk.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lambda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lll.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.planificar (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.planificar.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testtt.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.testttt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.utils.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;testing&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Company" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\expert_system" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Mensajes\from_matrix" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\Mensajes" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents" />
+      <recent name="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="inferencias (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AI_SIM-Final-Proyect" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo/inferencias.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="kaka" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AI_SIM-Final-Proyect" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/supply_chain/kaka.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AI_SIM-Final-Proyect" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/supply_chain/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="planificar (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AI_SIM-Final-Proyect" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/supply_chain/agents/new/Testeo/planificar.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="testttt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AI_SIM-Final-Proyect" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/supply_chain/agents/new" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\paco2\Documents\GitHub\AI_SIM-Final-Proyect\supply_chain\agents\new\Testeo\testttt.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.inferencias (1)" />
+        <item itemvalue="Python.planificar (1)" />
+        <item itemvalue="Python.kaka" />
+        <item itemvalue="Python.testttt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-09665e90c3a7-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.15026.15" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0628f207-af5c-4f6b-a8a4-896d47b24050" name="Changes" comment="" />
+      <created>1710256532442</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710256532442</updated>
+      <workItem from="1710256533454" duration="5283000" />
+      <workItem from="1713149409122" duration="8761000" />
+      <workItem from="1713219029732" duration="410000" />
+      <workItem from="1713722848657" duration="13173000" />
+      <workItem from="1713899401200" duration="19517000" />
+      <workItem from="1713965975071" duration="22061000" />
+      <workItem from="1714158178377" duration="627000" />
+      <workItem from="1714229561698" duration="38661000" />
+      <workItem from="1714435988403" duration="2399000" />
+      <workItem from="1714438551058" duration="2485000" />
+      <workItem from="1714441583342" duration="16512000" />
+      <workItem from="1714524857167" duration="39867000" />
+      <workItem from="1714612528497" duration="23440000" />
+      <workItem from="1714683554014" duration="52308000" />
+      <workItem from="1714936845293" duration="72297000" />
+    </task>
+    <task id="LOCAL-00031" summary="add add product to the ware house in thier stock manager">
+      <option name="closed" value="true" />
+      <created>1714494168180</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1714494168180</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add new agents">
+      <option name="closed" value="true" />
+      <created>1714542449030</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1714542449030</updated>
+    </task>
+    <task id="LOCAL-00033" summary="now">
+      <option name="closed" value="true" />
+      <created>1714580628113</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1714580628113</updated>
+    </task>
+    <task id="LOCAL-00034" summary="FInalizado modulo para infernecias logicas y para planificacion">
+      <option name="closed" value="true" />
+      <created>1714591133605</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1714591133605</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Create the Sist experto">
+      <option name="closed" value="true" />
+      <created>1714598796388</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1714598796388</updated>
+    </task>
+    <task id="LOCAL-00036" summary="añadir explicacion SE agente">
+      <option name="closed" value="true" />
+      <created>1714599121181</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1714599121181</updated>
+    </task>
+    <task id="LOCAL-00037" summary="&#10;finalizado el agente productor">
+      <option name="closed" value="true" />
+      <created>1714603884965</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1714603884965</updated>
+    </task>
+    <task id="LOCAL-00038" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1714605085852</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1714605085852</updated>
+    </task>
+    <task id="LOCAL-00039" summary="no revisar">
+      <option name="closed" value="true" />
+      <created>1714611426317</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1714611426317</updated>
+    </task>
+    <task id="LOCAL-00040" summary="arreglar bug de importaciones">
+      <option name="closed" value="true" />
+      <created>1714618844952</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1714618844952</updated>
+    </task>
+    <task id="LOCAL-00041" summary="add logic producer agent">
+      <option name="closed" value="true" />
+      <created>1714650196187</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1714650196187</updated>
+    </task>
+    <task id="LOCAL-00042" summary="se añadio el agente distribuidor">
+      <option name="closed" value="true" />
+      <created>1714661066056</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1714661066056</updated>
+    </task>
+    <task id="LOCAL-00043" summary="refactor, añadir logistico y comunicacion">
+      <option name="closed" value="true" />
+      <created>1714664540880</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1714664540880</updated>
+    </task>
+    <task id="LOCAL-00044" summary="subir">
+      <option name="closed" value="true" />
+      <created>1714667309195</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1714667309195</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Try instance">
+      <option name="closed" value="true" />
+      <created>1714684220900</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1714684220900</updated>
+    </task>
+    <task id="LOCAL-00046" summary="change values">
+      <option name="closed" value="true" />
+      <created>1714684700675</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1714684700675</updated>
+    </task>
+    <task id="LOCAL-00047" summary="change values">
+      <option name="closed" value="true" />
+      <created>1714685347520</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1714685347520</updated>
+    </task>
+    <task id="LOCAL-00048" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1714685691170</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1714685691170</updated>
+    </task>
+    <task id="LOCAL-00049" summary="change msg to agent">
+      <option name="closed" value="true" />
+      <created>1714696311628</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1714696311628</updated>
+    </task>
+    <task id="LOCAL-00050" summary="fix bugs and create instance agent">
+      <option name="closed" value="true" />
+      <created>1714704374336</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1714704374337</updated>
+    </task>
+    <task id="LOCAL-00051" summary="fix_bugs">
+      <option name="closed" value="true" />
+      <created>1714713090777</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1714713090777</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add producer _agent">
+      <option name="closed" value="true" />
+      <created>1714733655144</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1714733655144</updated>
+    </task>
+    <task id="LOCAL-00053" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1714737164510</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1714737164510</updated>
+    </task>
+    <task id="LOCAL-00054" summary="add new thinks">
+      <option name="closed" value="true" />
+      <created>1714739023385</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1714739023386</updated>
+    </task>
+    <task id="LOCAL-00055" summary="add changes">
+      <option name="closed" value="true" />
+      <created>1714740265718</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1714740265718</updated>
+    </task>
+    <task id="LOCAL-00056" summary="last changes">
+      <option name="closed" value="true" />
+      <created>1714755265143</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1714755265143</updated>
+    </task>
+    <task id="LOCAL-00057" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1714850282171</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1714850282172</updated>
+    </task>
+    <task id="LOCAL-00058" summary="add random ware_house_stock_manager">
+      <option name="closed" value="true" />
+      <created>1714853155423</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1714853155424</updated>
+    </task>
+    <task id="LOCAL-00059" summary="merge to new genetic alg">
+      <option name="closed" value="true" />
+      <created>1714931289236</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1714931289236</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Add Builder Base">
+      <option name="closed" value="true" />
+      <created>1714937466647</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1714937466648</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Refactor Producer StockManger">
+      <option name="closed" value="true" />
+      <created>1714938725754</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1714938725754</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Refactor Producer StockManger">
+      <option name="closed" value="true" />
+      <created>1714938732274</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1714938732274</updated>
+    </task>
+    <task id="LOCAL-00063" summary="fix product builder">
+      <option name="closed" value="true" />
+      <created>1714940471794</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1714940471795</updated>
+    </task>
+    <task id="LOCAL-00064" summary="change name">
+      <option name="closed" value="true" />
+      <created>1714940560774</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1714940560774</updated>
+    </task>
+    <task id="LOCAL-00065" summary="teesting the new producer">
+      <option name="closed" value="true" />
+      <created>1714944274212</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1714944274212</updated>
+    </task>
+    <task id="LOCAL-00066" summary="makng main.py">
+      <option name="closed" value="true" />
+      <created>1714947143623</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1714947143623</updated>
+    </task>
+    <task id="LOCAL-00067" summary="start testing with new matrix">
+      <option name="closed" value="true" />
+      <created>1714948435540</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1714948435540</updated>
+    </task>
+    <task id="LOCAL-00068" summary="fix bugs">
+      <option name="closed" value="true" />
+      <created>1714964283971</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1714964283971</updated>
+    </task>
+    <task id="LOCAL-00069" summary="fix_ bugs in ware_house">
+      <option name="closed" value="true" />
+      <created>1714964605031</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1714964605031</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Add in the companys the point in the map add create Builder_map">
+      <option name="closed" value="true" />
+      <created>1714969902130</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1714969902131</updated>
+    </task>
+    <task id="LOCAL-00071" summary="to change methaeurists">
+      <option name="closed" value="true" />
+      <created>1715018208232</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1715018208232</updated>
+    </task>
+    <task id="LOCAL-00072" summary="add methaeuristics">
+      <option name="closed" value="true" />
+      <created>1715021490208</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715021490209</updated>
+    </task>
+    <task id="LOCAL-00073" summary="add changes to experiments">
+      <option name="closed" value="true" />
+      <created>1715050722473</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1715050722473</updated>
+    </task>
+    <task id="LOCAL-00074" summary="finish store bug">
+      <option name="closed" value="true" />
+      <created>1715055042906</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1715055042927</updated>
+    </task>
+    <task id="LOCAL-00075" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1715056352632</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1715056352632</updated>
+    </task>
+    <task id="LOCAL-00076" summary="new changes">
+      <option name="closed" value="true" />
+      <created>1715078541083</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1715078541083</updated>
+    </task>
+    <task id="LOCAL-00077" summary="cliente event: OK">
+      <option name="closed" value="true" />
+      <created>1715082596937</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1715082596937</updated>
+    </task>
+    <task id="LOCAL-00078" summary="update the shop register">
+      <option name="closed" value="true" />
+      <created>1715083743827</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1715083743827</updated>
+    </task>
+    <task id="LOCAL-00079" summary="update register to the data">
+      <option name="closed" value="true" />
+      <created>1715084143756</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1715084143756</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="446c54c1-0d05-4cce-a31d-6eed3e8ea016" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="446c54c1-0d05-4cce-a31d-6eed3e8ea016">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/dev_Paco" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="da" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add producer _agent" />
+    <MESSAGE value="add new thinks" />
+    <MESSAGE value="add changes" />
+    <MESSAGE value="last changes" />
+    <MESSAGE value="add random ware_house_stock_manager" />
+    <MESSAGE value="merge to new genetic alg" />
+    <MESSAGE value="Add Builder Base" />
+    <MESSAGE value="Refactor Producer StockManger" />
+    <MESSAGE value="fix product builder" />
+    <MESSAGE value="change name" />
+    <MESSAGE value="teesting the new producer" />
+    <MESSAGE value="makng main.py" />
+    <MESSAGE value="start testing with new matrix" />
+    <MESSAGE value="fix bugs" />
+    <MESSAGE value="fix_ bugs in ware_house" />
+    <MESSAGE value="Add in the companys the point in the map add create Builder_map" />
+    <MESSAGE value="to change methaeurists" />
+    <MESSAGE value="add methaeuristics" />
+    <MESSAGE value="add changes to experiments" />
+    <MESSAGE value="finish store bug" />
+    <MESSAGE value="refactor" />
+    <MESSAGE value="new changes" />
+    <MESSAGE value="cliente event: OK" />
+    <MESSAGE value="update the shop register" />
+    <MESSAGE value="update register to the data" />
+    <option name="LAST_COMMIT_MESSAGE" value="update register to the data" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>49</line>
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="181" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/Producer_Company.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/simulation.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/supply_chain/Company/companies_types/shop_company.py</url>
+          <line>165</line>
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+          <url>notebook://C:/Users/paco2/Documents/GitHub/AI_SIM-Final-Proyect/supply_chain/sim_ai/metaheuristics/genetic_algorithms/Genetic Algorithms explained.ipynb</url>
+          <line>458</line>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kaka.coverage" NAME="kaka Coverage Results" MODIFIED="1714708655834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testttt.coverage" NAME="testttt Coverage Results" MODIFIED="1714576316931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$kk.coverage" NAME="kk Coverage Results" MODIFIED="1715097146856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias__1_.coverage" NAME="inferencias (1) Coverage Results" MODIFIED="1714971165289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$testtt.coverage" NAME="inferencias Coverage Results" MODIFIED="1714603211261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$create_planner.coverage" NAME="create_planner Coverage Results" MODIFIED="1714754441415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/Building" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$inferencias.coverage" NAME="inferencias Coverage Results" MODIFIED="1714659544664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$lambda.coverage" NAME="lambda Coverage Results" MODIFIED="1714940331860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/Building" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$lll.coverage" NAME="lll Coverage Results" MODIFIED="1714603215802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$Comunicator.coverage" NAME="Comunicator Coverage Results" MODIFIED="1714714985762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$fkfkf.coverage" NAME="fkfkf Coverage Results" MODIFIED="1714576472063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$planificar.coverage" NAME="planificar Coverage Results" MODIFIED="1714618802870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$planificar__1_.coverage" NAME="planificar (1) Coverage Results" MODIFIED="1714869875885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents/new/Testeo" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$utils.coverage" NAME="utils Coverage Results" MODIFIED="1714703298289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain/agents" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1714948335575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+    <SUITE FILE_PATH="coverage/AI_SIM_Final_Proyect$main.coverage" NAME="main Coverage Results" MODIFIED="1715097064762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supply_chain" />
+  </component>
+</project>

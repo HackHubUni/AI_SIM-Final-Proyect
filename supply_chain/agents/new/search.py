@@ -3,7 +3,7 @@ from collections import deque
 from typing import Self
 
 
-from utils import *
+from supply_chain.agents.new.utils import *
 
 
 class Problem:

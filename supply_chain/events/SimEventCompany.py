@@ -11,7 +11,7 @@ class CompanyRestockSimEvent(SimEvent):
 
         super().__init__(time, priority)
 
-    def execute(self, environment: SimEnvironment):
+    def execute(self):
         self._execute()
 
 

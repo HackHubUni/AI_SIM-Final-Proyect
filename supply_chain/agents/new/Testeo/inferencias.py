@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 
 from supply_chain.agents.new.logic import *
-
-from enum import Enum
 
 
 def float_to_string(float_number):
@@ -242,9 +241,10 @@ def main2():
 
            ,# f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
            ]
-
+    print(lis)
     for item in lis:
         kb0.tell(item)
+
 
     print(kb0.ask(expr(pedir_precio_))[x])
     query=Valoracion('Juan', 'x').show()
@@ -258,5 +258,64 @@ def main2():
     print(s)
 
 
+def main3():
+
+
+
+
+
+
+
+        kb0 = FolKB()
+
+        lis = [expr("Product(Water)"), expr("Valoracion_(Matrix_1, Bien)"), expr("Client(Matrix_1)"),
+               expr(
+                   f'( Client(x) &   Valoracion_(x,Bien) &   Product(y) )   ==>  Pedir_precio(x,y,Float_1)')
+
+               ,# f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
+               ]
+        print(lis)
+        for item in lis:
+            kb0.tell(item)
+        print(kb0.ask(expr("Pedir_precio(Matrix_1, Water, x)")))
+
+
+def main4():
+    kb0 = FolKB()
+
+    lis = [expr("Product(Water)"), expr("Valoracion_(Matrix_1, Bien)"), expr("Client(Matrix_1)"),expr("Cosa(Matrix_1,Water)"),
+           expr(
+               f'( Client(x) &   Valoracion_(x,Bien) &   Product(y) )   ==>  Pedir_precio(x,y,Float_1) '),
+           expr(" Pedir_precio(x,y,Float_1) ==> Cosa(x,")
+
+        ,  # f'{Valoracion('x',ValoracionTag.Bien).show()} ==> {Valoracion('Juan',ValoracionTag.Bien).show()}'
+           ]
+    print(lis)
+    for item in lis:
+        kb0.tell(item)
+    print(kb0.ask(expr("Pedir_precio(Matrix_1, Water, x)")))
+
+
+def main5():
+    lis = ["Client(Matrix_1)",
+           "Product(Cheese)",
+           "Product(TomatoSauce)",
+           "Product(Salt)",
+           "Product(PizzaDough)",
+           "Valoracion_(Matrix_1, Bien)",
+           "(Client(x) & Valoracion_(x, Bien) & Product(y)) ==> Pedir_precio(x, y, Float_1)",
+           "(Client(x) & Valoracion_(x, Bien) & Product(y)) ==> Pedir_cantidad(x, y, Float_1)", ]
+
+    lis_exp = [expr(item) for item in lis]
+
+    kb0 = FolKB(lis_exp)
+
+    print(kb0.ask(expr('Pedir_precio(Matrix_1, Cheese, z)')))
+    print("Hola")
+
+
+
+
+
 if __name__ == "__main__":
-    main2()
+    main5()

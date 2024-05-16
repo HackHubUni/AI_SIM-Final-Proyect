@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import *
-from sim_environment import SimEnvironment
 
 
-class SimEvent:
+
+class SimEvent(ABC):
     """This is the base class for all the events in the simulation"""
 
     def __init__(self, time: int, priority: int) -> None:
@@ -23,7 +23,7 @@ class SimEvent:
         return False
 
     @abstractmethod
-    def execute(self, environment: SimEnvironment):
+    def execute(self):
         pass
 
 

@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from ingredient import Ingredient, Product
-from product import *
+from supply_chain.products.ingredient import Ingredient
+from supply_chain.products.product import *
 import numpy as np
+from supply_chain.products.flavor import *
+
 
 class Recipe:
     """This represents a recipe"""
@@ -25,8 +27,16 @@ class Recipe:
         # TODO: Implement this
         pass
 
-    
+def get_flavor(a:list[float], b:list[float]):
+    A1 =np.median(a[0],b[0])
+    A2=np.median(a[1],b[1])
+    A3=np.median(a[2],b[2])
+    A4=np.median(a[3],b[3])
+    A5=np.median(a[4],b[4])
+    return Flavor(A1,A2,A3,A4,A5)
 
+def get_nutrities(a:list[float],b:list[float]):
+    return NutritiveProperties(np.median(a[0],b[0], np.median(a[1],b[1]),np.median(a[2],b[2])))
 class PizzaRecipe(Recipe):
     def __init__(self, name: str, ingredients: set[Ingredient]) -> None:
         super().__init__("pizza", set([Ingredient("dough", 1), Ingredient("tomato_sauce", 1), Ingredient("cheese", 1)]))
@@ -43,12 +53,16 @@ class PizzaRecipe(Recipe):
                 cheese = ingredient
             else:
                 raise ValueError("The ingredients are not enough to create the pizza")
-        
-        return Pizza("pizza", np.median([dough.get_flavor(), tomato_sauce.get_flavor(), cheese.get_flavor()]),np.median([dough.get_nutritive_properties(), tomato_sauce.get_nutritive_properties(), cheese.get_nutritive_properties()]), 100)
+
+        return Pizza("pizza", get_flavor(dough.get_flavor(), tomato_sauce.get_flavor()),
+                    NutritiveProperties( tomato_sauce.get_nutritive_properties(),
+                                cheese.get_nutritive_properties()), 100)
+
 
 class DoughRecipe(Recipe):
     def __init__(self, name: str, ingredients: set[Ingredient]) -> None:
-        super().__init__("dough", set([Ingredient("flour", 2), Ingredient("water", 1), Ingredient("salt", 1),Ingredient("yeast", 1), Ingredient("olive_oil", 2)]))  
+        super().__init__("dough", set([Ingredient("flour", 2), Ingredient("water", 1), Ingredient("salt", 1),
+                                       Ingredient("yeast", 1), Ingredient("olive_oil", 2)]))
 
     def create(self, ingredients: list[Product]) -> Product:
         if len(ingredients) != 7:
@@ -66,12 +80,16 @@ class DoughRecipe(Recipe):
                 olive_oil = ingredient
             else:
                 raise ValueError("The ingredients are not enough to create the dough")
-        
-        return Dough("dough", np.median([flour.get_flavor(), water.get_flavor(), salt.get_flavor(),yeast.get_flavor(),olive_oil.get_flavor()]),np.median([flour.get_nutritive_properties(), water.get_nutritive_properties(), salt.get_nutritive_properties(),yeast.get_nutritive_properties(),olive_oil.get_nutritive_properties()]), 100)
-    
+
+        return Dough("dough", get_flavor(flour.get_flavor(), water.get_flavor()),get_nutrities(flour.get_nutritive_properties(), water.get_nutritive_properties(),
+                                salt.get_nutritive_properties()), 100)
+
+
 class TomatoSauceRecipe(Recipe):
     def __init__(self, name: str, ingredients: set[Ingredient]) -> None:
-        super().__init__("tomato_sauce", set([Ingredient("tomato", 2), Ingredient("olive_oil", 1), Ingredient("salt", 1),Ingredient("pepper", 1), Ingredient("onion", 1)]))
+        super().__init__("tomato_sauce",
+                         set([Ingredient("tomato", 2), Ingredient("olive_oil", 1), Ingredient("salt", 1),
+                              Ingredient("pepper", 1), Ingredient("onion", 1)]))
 
     def create(self, ingredients: list[Product]) -> Product:
         if len(ingredients) != 5:
@@ -89,9 +107,11 @@ class TomatoSauceRecipe(Recipe):
                 onion = ingredient
             else:
                 raise ValueError("The ingredients are not enough to create the tomato sauce")
-        
-        return TomatoSauce("tomato_sauce", np.median([tomato.get_flavor(), olive_oil.get_flavor(), salt.get_flavor(),pepper.get_flavor(),onion.get_flavor()]),np.median([tomato.get_nutritive_properties(), olive_oil.get_nutritive_properties(), salt.get_nutritive_properties(),pepper.get_nutritive_properties(),onion.get_nutritive_properties()]), 100)
-    
+
+        return TomatoSauce("tomato_sauce", get_flavor(tomato.get_flavor(), olive_oil.get_flavor()),get_nutrities(pepper.get_nutritive_properties(),
+                                      onion.get_nutritive_properties()), 100)
+
+
 class CheeseRecipe(Recipe):
     def __init__(self, name: str, ingredients: set[Ingredient]) -> None:
         super().__init__("cheese", set([Ingredient("milk", 2), Ingredient("salt", 1), Ingredient("rennet", 1)]))
@@ -108,10 +128,8 @@ class CheeseRecipe(Recipe):
                 rennet = ingredient
             else:
                 raise ValueError("The ingredients are not enough to create the cheese")
-        
-        return Cheese("cheese", np.median([milk.get_flavor(), salt.get_flavor(), rennet.get_flavor()]),np.median([milk.get_nutritive_properties(), salt.get_nutritive_properties(), rennet.get_nutritive_properties()]), 100)
-    
+
+        return Cheese("cheese",get_flavor(milk.get_flavor(), salt.get_flavor()), get_nutrities(
+        milk.get_nutritive_properties(), salt.get_nutritive_properties()), 100)
 
 
-
-    

@@ -1,4 +1,6 @@
-from productor_stock_manager import *
+from supply_chain.Company.stock_manager.productor_stock_manager import *
+from supply_chain.products.ingredient import Ingredient
+from supply_chain.products.recipe import Recipe
 
 
 class ManufacturingStock(ProductorCompanyStock):

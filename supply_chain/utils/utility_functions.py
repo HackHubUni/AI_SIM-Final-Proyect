@@ -5,6 +5,7 @@ def percentage_normalization(values: list[float]) -> list[float]:
     """Returns a normalization in percentage of the values.
     The sum of all elements in the returned list is 1"""
     total_sum = sum(values)
+    total_sum = total_sum if total_sum > 0 else 1
     return list(value / total_sum for value in values)
 
 
@@ -58,4 +59,5 @@ def vector_similarity(vector_one: list[float], vector_two: list[float]) -> float
     product = list(one * two for one, two in zip(vector_one, vector_two))
     norm_one = norm(vector_one)
     norm_two = norm(vector_two)
-    return sum(product) / (norm_one * norm_two)
+    res = sum(product) / (norm_one * norm_two)
+    return res * 0.5 + 0.5  # To have the result between 0 and 1

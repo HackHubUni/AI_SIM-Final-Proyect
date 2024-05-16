@@ -1,4 +1,3 @@
-from product import Product
 
 
 class Ingredient:

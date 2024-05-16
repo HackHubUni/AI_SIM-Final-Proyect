@@ -1,4 +1,14 @@
-from stock_manager import *
+import copy
+
+import numpy as np
+
+from supply_chain.events.SimEventCompany import CompanyRestockSimEvent
+from supply_chain.products.product import Product
+
+try:
+    from .stock_manager import *
+except:
+    from supply_chain.Company.stock_manager.stock_manager import *
 
 
 class ProductorCompanyStock(CompanyStockBase):
@@ -10,13 +20,12 @@ class ProductorCompanyStock(CompanyStockBase):
                  supply_distribution: Dict[str, Callable[[], int]],
                  sale_price_distribution: dict[str, Callable[[], float]],
                  time_restock_distribution: Callable[[], int],
-                 quality_distribution: dict[str, Callable[[], float]],
                  add_event: Callable[[SimEvent], None],
                  get_time: Callable[[], int]
                  ):
 
         super().__init__(add_event=add_event, get_time=get_time)
-        self.quality_distribution: dict[str, Callable[[], float]] = quality_distribution
+
         """
 
         """
@@ -139,6 +148,9 @@ class ProductorCompanyStock(CompanyStockBase):
         # Actualizar los costos
         self._actualizar_costos(product_name)
 
+        if len(self._stock)<1:
+            raise Exception("El len del stock no puede ser cero despues de abastecer ")
+
         return True
 
     def _restock_with_exists(self, product_name: str) -> bool:
@@ -148,6 +160,8 @@ class ProductorCompanyStock(CompanyStockBase):
         :param product_name:
         :return: True:Si se reabasteció, False: Si no se reabasteció
         """
+        if product_name is None:
+            raise Exception("El no nombre del producto no puede ser None")
         count_in_stock = len(self._stock[product_name])
 
         # Si todavía no hay que reabastecer
@@ -285,7 +299,9 @@ class ProductorCompanyStock(CompanyStockBase):
         return lis
 
     def is_product_in_stock(self, product_name: str):
+
         if not product_name in self._stock:
             return False
         lis = self._stock[product_name]
+
         return len(lis) > 0

@@ -1,4 +1,11 @@
-from stock_manager import *
+import copy
+import random
+
+import numpy as np
+
+from supply_chain.Company.stock_manager.stock_manager import *
+from supply_chain.events.SimEventCompany import WarehouseRestockSimEvent
+from supply_chain.products.product import Product
 
 
 class WarehouseStockManager(CompanyStockBase):
@@ -46,6 +53,8 @@ class WarehouseStockManager(CompanyStockBase):
         # Locales
         self._stock_by_company: dict[str, dict[str, list[Product]]] = {}
         """Diccionario que por cada matrix que tenga algo guardado algo aca"""
+
+        self._product_price_stock: dict[str, float] = {}
 
     def _check_names(self):
         set_company_product_time_count_supply_magic_distribution = set(
@@ -157,6 +166,7 @@ class WarehouseStockManager(CompanyStockBase):
         # Quitar del inicio los count peores productos
         new_list = temp_list[count:]
         # Reorganizar random los productos restantes
+
         random.shuffle(new_list)
 
         return new_list
@@ -173,6 +183,13 @@ class WarehouseStockManager(CompanyStockBase):
                                          product_name=product_name,
                                          company_name=company_name)
         self.add_event(event)
+
+    def get_cost_by_product_and_unit_time(self,product_name:str):
+
+        if product_name not in self._product_price_stock:
+            return -1
+
+        return self._product_price_stock[product_name]
 
     def _restock_product_in_a_company(self, company_name: str, product_name: str):
         """
@@ -240,11 +257,16 @@ class WarehouseStockManager(CompanyStockBase):
         # Reordenar la lista
         random.shuffle(lis_product_stock)
 
-        # Ver el cosot
+        # Ver el costo
         # TODO:Añadir a las estadísticas
         cost_lambda = company_cost_product_distribution[product_name]
         # Coste en este reabastecimiento
-        cost_price = cost_lambda() * count_want
+        cost_now = cost_lambda()
+
+        self._product_price_stock[product_name]=cost_now
+
+        # TODO: ACAAAAAAAAAAAAAAAAAAA
+        cost_price = cost_now * count_want
 
         # Añadir la nueva lista
         company_stock[product_name] = lis_product_stock
@@ -292,6 +314,8 @@ class WarehouseStockManager(CompanyStockBase):
         :return:
         """
 
+
+
         if matrix_name in self._stock_by_company:
 
             return self._stock_by_company[matrix_name]
@@ -301,10 +325,9 @@ class WarehouseStockManager(CompanyStockBase):
             self._stock_by_company[matrix_name] = new_dicc
             return new_dicc
 
-
-
     def _add_product_to_and_check_balance_it_s_ok(self
-                                                  ,product_instance:Product,dicc:dict[str,list[Product]])-> dict[str, list[Product]]:
+                                                  , product_instance: Product, dicc: dict[str, list[Product]]) -> dict[
+        str, list[Product]]:
         """
         Toma la instancia de un producto y tiene completa la lógica
         de añadir ese producto al stock de esa tienda
@@ -313,50 +336,94 @@ class WarehouseStockManager(CompanyStockBase):
         :return:
         """
 
-        product_name=product_instance.name
-        #Si el producto no esta contemplado dentro de lo que se puede guardar en la tienda
+        product_name = product_instance.name
+        # Si el producto no esta contemplado dentro de lo que se puede guardar en la tienda
         if not product_name in self.product_max_stock:
             raise Exception(f'El producto {product_name} no está en el dicc de max_stock')
 
-        #Stock maximo que se puede tener de este producto
-        max_stock=self.product_max_stock[product_name]
+        # Stock maximo que se puede tener de este producto
+        max_stock = self.product_max_stock[product_name]
 
-        #Si no hay un producto en específico
+        # Si no hay un producto en específico
 
         if not product_name in dicc:
-            dicc[product_name]=[]
+            dicc[product_name] = []
 
-        #Darme la lista de productos
-        produc_list=dicc[product_name]
+        # Darme la lista de productos
+        produc_list = dicc[product_name]
 
-        #Cant de productos en el stock de ese tipo ahora
+        # Cant de productos en el stock de ese tipo ahora
 
-        count_stock_now=len(produc_list)
+        count_stock_now = len(produc_list)
 
-        assert count_stock_now<=max_stock,f'La cant de productos en la lista {count_stock_now} es mayor que el max_stock{max_stock}'
+        assert count_stock_now <= max_stock, f'La cant de productos en la lista {count_stock_now} es mayor que el max_stock{max_stock}'
 
-
-
-        if count_stock_now==max_stock:
-            produc_list=self.delete_firts_n_worts_products_in_quality(produc_list,1)
+        if count_stock_now == max_stock:
+            produc_list = self.delete_firts_n_worts_products_in_quality(produc_list, 1)
 
         produc_list.append(product_instance)
 
-        #Reordear la lista random
+        # Reordear la lista random
         random.shuffle(produc_list)
 
-
-        dicc[product_name]=produc_list
+        dicc[product_name] = produc_list
 
         return dicc
-
-
 
     def add_products(self, matrix_name: str, list_Products: list[Product]):
         # Tomar el stock de esa compañia
         company_stock_dicc = self._get_dicc_stock_by_company(matrix_name)
 
-        #Por cada producto guardarlos en sus stock
+        # Por cada producto guardarlos en sus stock
         for product in list_Products:
+            self._add_product_to_and_check_balance_it_s_ok(product, company_stock_dicc)
+
+    def is_product_in_this_company_subStorage(self, matrix_name: str, product_name: str) -> bool:
+
+        if not matrix_name in self._stock_by_company:
+            return False
+
+        dict_company = self._stock_by_company[matrix_name]
+        if not product_name in dict_company:
+            return False
+
+        lis_product = dict_company[product_name]
+
+        if len(lis_product) < 1:
+            return False
+
+        return True
 
 
+    def get_how_can_storage_a_company(self,matrix_name:str,product_name:str)->int:
+        """
+        Devuelve 0 Si no hay en stock
+        :param matrix_name:
+        :param product_name:
+        :return:
+        """
+
+        dict_company=self._get_dicc_stock_by_company(matrix_name)
+
+        if not product_name in dict_company:
+            return 0
+
+        return len(dict_company[product_name])
+
+    def get_list_products_by_company(self, matrix_name: str, product_name: str):
+        """
+        Devuelve una copia de la lista de productos de una compañia
+        :param matrix_name:
+        :param product_name:
+        :return:
+        """
+        if not matrix_name in self._stock_by_company:
+            return []
+
+        dict_company = self._stock_by_company[matrix_name]
+        if not product_name in dict_company:
+            return []
+
+        lis_product = dict_company[product_name]
+
+        return copy.deepcopy(lis_product)
